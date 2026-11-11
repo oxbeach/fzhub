@@ -1,0 +1,41 @@
+
+
+
+.fz-matrix-container {
+  width: 100%;
+  overflow-x: auto;
+  display:none;
+  
+  font-size: 0.75rem;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-variant-numeric: tabular-nums;
+
+  border: 30px solid red !important; /* Force a visual flag */
+
+  padding: 30px;
+}
+
+/* Companion class for visibility */
+.fz-matrix-container.is-visible {
+    display: flex;              /* Overrides the 'none' when active */
+    justify-content: center;
+
+    border: 30px solid red !important; /* Force a visual flag */
+    padding: 30px;
+}
+
+.OLDxxx-matrix-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-x: auto;
+  /*font-family: 'Arial', 'Consolas', 'Monaco', 'Courier New', monospace;*/
+  font-size: 0.75rem;
+  display: block;
+
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Clean, no slash zeros */
+  font-variant-numeric: tabular-nums; /* Forces perfect column alignment */
+  border-collapse: collapse;
+
+
+}

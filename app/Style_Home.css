@@ -1,0 +1,296 @@
+/* Style_Home.css */
+
+html {
+  scrollbar-gutter: stable;
+  background-color: #D9D9D9;
+}
+
+.home-root-container {
+    background-color: #D9D9D9;  /* controls ENTIRE library page */
+    /*background-color: #fffde7;               seems to bright */
+    min-height: 100vh;    /* Fills the screen minimum, but grows with content */
+    height: auto;         /* Allows expansion */
+    /*padding-top: 15px;*/
+    box-sizing: border-box;
+    overflow: visible;    /* Allows browser scrollbar to work */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    display: flex;
+    flex-direction: column;
+
+    /* RESERVES SCROLLBAR SPACE TO PREVENT LAYOUT JUMPING */
+    /*scrollbar-gutter: stable;*/
+}
+
+.top-banner {
+  width: 100%;
+  max-width: 1200px; /* Aligns visually with your content area */
+  margin: 0 auto 30px auto; /* Centers the banner and adds space below */
+  padding: 12px 24px;
+  
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  
+  background-color: #122b59; /* Matching dark navy theme */
+  color: #ffffff;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.banner-badge {
+  background-color: #2563eb; /* Distinct badge color */
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0; /* Prevents badge from shrinking */
+}
+
+.banner-info {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  color: #e2e8f0;
+}
+
+
+
+
+
+
+
+/* Workspace Wrapper allows full content expansion */
+.home-library-wrapper {
+    width: 100%;
+    overflow: visible;
+    box-sizing: border-box;
+    margin-top: 10px;           /* gives a little space at the top of the panel.  i.e. exposes home-root-container.  */
+}
+
+
+/* Base wrapper styles */
+/* Dashboard and Settings maintain hidden overflow for slide animations */
+
+.aaahome-settings-wrapper {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    margin-top: 0px;
+}
+
+
+
+
+
+
+
+.home-dashboard-wrapper-WITHBORDER {
+    background-color: #fffde7;
+    padding: 30px 20px 20px 20px;
+    border-radius: 10px;
+    border: 10px solid darkgray;
+    box-sizing: border-box;
+
+    /* Switch to column so future elements (banners, intro text) stack vertically */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;   /*center;*/
+    align-items: center;
+
+    margin-top: 0;
+    position: relative;
+}
+
+.home-dashboard-wrapper {
+    background-color: #fffde7;
+    padding: 30px 20px 20px 20px;
+    /*border-radius: 10px;*/
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    margin-top: 0;
+    position: relative;
+
+ 
+}
+
+/* Settings & Dashboard Animation Profile */
+.aaahome-settings-wrapper,
+.home-dashboard-wrapper {
+    transition: max-height 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.2s ease-in-out, 
+                margin-bottom 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Open / Visible State */
+.aaahome-settings-wrapper.is-visible,
+.home-dashboard-wrapper.is-visible {
+    opacity: 1;
+    margin-bottom: 0px;
+    overflow: visible;
+    flex: 1;
+
+    animation: dashboardFadeIn 0.35s ease-in-out forwards;
+}
+
+/* Closed / Hidden State */
+.aaahome-settings-wrapper.is-hidden,
+.home-dashboard-wrapper.is-hidden {
+    flex: 0 0 0px;
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Fade-In Keyframe Definition */
+@keyframes dashboardFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+
+
+
+
+/* Position Logout cleanly in top right corner */
+.home-logout-container {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 10;
+}
+
+/* Panel Row Wrapper */
+.xxxxxxxxxxxxxhome-panels-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    margin-top: 100px;
+}
+
+.xxxxxxxxxxxxxhome-intro-container {
+    margin-top: 100px;
+    padding: 30px 40px; /* Reduced vertical padding slightly for better content fit */
+    width: 50%;
+    height: 200px;
+    overflow-y: auto;   /* Enables vertical scrollbar when content exceeds 200px */
+    background-color: lightslategray; /* #122b59; */
+    color: white;
+    border-radius: 10px;
+    box-sizing: border-box; /* Ensures padding stays inside the 200px height */
+}
+
+/* Open / Visible State - Settings & Dashboard */
+
+
+.home-debug-area {
+    margin-bottom: 20px;
+}
+
+/* Toolbar Container */
+.home-toolbar {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Automatically handles breathing room between .basic-3d-button elements */
+}
+
+/* Base floating notification box for modals */
+.modal-feedback-box {
+    position: absolute;
+    left: 150px;
+    /*top: 192px;*/
+    bottom: 90px;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-weight: bold;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Error / Warning Variant */
+.modal-feedback-box.error {
+    background-color: #ffebee;
+    border: 1px solid #f44336;
+    color: #d32f2f;
+}
+
+/* Success Confirmation Variant */
+.modal-feedback-box.success {
+    background-color: #e8f5e9;
+    border: 1px solid #4caf50;
+    color: #2e7d32;
+}
+
+/* Password input container wrapper */
+.password-input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 340px; /* Expanded from 260px */
+}
+
+/* Standardize password input sizing to match email input */
+.password-input-wrapper input {
+    width: 100%;
+    height: 32px;
+    padding: 4px 56px 4px 8px; /* Slightly more right padding for the HIDE badge */
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Shared sizing for standalone inputs */
+.globals-row input[type="email"] {
+    width: 340px; /* Expanded from 260px */
+    height: 32px;
+    padding: 4px 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Text-based Show/Hide toggle button */
+.password-toggle-text {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #004080;
+    text-transform: uppercase;
+    padding: 3px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    user-select: none;
+}
+
+.password-toggle-text:hover {
+    text-decoration: underline;
+}
+
+
+

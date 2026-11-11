@@ -1,0 +1,190 @@
+
+
+/* Container Panel */
+.define-globals-panel {
+  background-color: #fffde7;
+  border-color: black;
+  border-width: 5px;
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: #000;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Shared base styles for form controls within the panel */
+.define-globals-panel select,
+.define-globals-panel input[type="number"],
+.define-globals-panel input[type="text"] {
+  box-sizing: border-box; /* Fixes right-border clipping */
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+.define-globals-panel select,
+.define-globals-panel input[type="number"] {
+  height: 25px;
+  padding: 2px 6px;
+}
+
+/* Specific min-width targeting only select elements */
+.define-globals-panel select {
+  min-width: 75px; /* new 20260911: widened for Start/End Year selects */
+}
+
+/* Text inputs inside the define-globals panel */
+.define-globals-panel input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #ffffff;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Specific styling for disabled state (Current Name) */
+.define-globals-panel input[type="text"]:disabled {
+  background-color: #f1f5f9;
+  color: #475569;
+  padding: 6px; /* preserves your slightly tighter padding on disabled state */
+}
+
+/* List items inside the portfolio scrollbox */
+.define-globals-panel ul li {
+  display: block;        /* Ensures element behaves as a block for truncation */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  width: 100%;           /* Constrains width to the parent container */
+}
+
+
+/* Container for panel section titles */
+.panel-section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #2b2b2b;          /* High contrast text color */
+  margin-bottom: 0.75rem;
+  text-align: left;        /* Positioned cleanly on the left */
+  letter-spacing: 0.01em;
+}
+
+
+/* Shared base styles for all form controls within the panel */
+.xxxdefine-globals-panel select,
+.xxxdefine-globals-panel input[type="number"] {
+  height: 25px;
+  padding: 2px 6px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
+
+
+
+.portfolio-define-label {
+    color: #000; 
+    background: #fffde7;
+    font-weight: 500;
+    font-size: 18px;
+  
+    padding: 2px 8px; /* Balanced horizontal padding for the pill */
+    border-radius: 5px;
+
+    display: inline-block;
+    width: 260px; /* Expanded width to accommodate longer portfolio names */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center; /* Centers short and long portfolio names cleanly inside the pill */
+    
+    vertical-align: middle;
+    margin-top: 18px;
+    margin-left: 125px; /* Slightly adjusted to accommodate the wider pill width */
+}
+
+/* Shared Row Layout */
+.globals-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Lock Row 4 height so toggling filler rate doesn't resize the parent container */
+.globals-row-filler {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-height: 28px; /* Holds height constant whether conditional input is open or closed */
+}
+
+
+
+
+
+
+.define-assets-panel {
+  background-color: #fffde7; /* Matches top panel light yellow */
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+
+
+
+
+/* Specific Utilities */
+.input-narrow {
+  width: 60px;
+}
+
+.period-label {
+  margin-left: 5px;
+}
+
+.checkbox-label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inline-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Footer row layout */
+.fz-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    width: 100%;
+}
+
+/* Left controls group */
+.button-group-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Right triggers group (Cancel/Accept) */
+.button-group-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}

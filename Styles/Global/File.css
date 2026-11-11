@@ -1,0 +1,23 @@
+
+
+.file-nudge-message {
+  font-size: 1.20rem;         /* Slightly larger than body for clear focus */
+  font-weight: 500;           /* Medium weight so it stands out cleanly */
+  /*color: #1a1a1a;*/            /* Dark, high-contrast readable text */
+  color: red;
+  background-color: #DCDCDC;
+  text-align: center;
+  padding: 0.5rem 0;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  line-height: 1.4;
+  user-select: none;          /* Keeps UI feedback feeling like UI, not editable text */
+}
+
+
+.file-label {
+    display: block;
+    font-size: 16;
+    font-weight: bold;
+    margin-bottom: 5px;
+}

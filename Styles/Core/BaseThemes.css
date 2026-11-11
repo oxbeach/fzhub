@@ -1,0 +1,27 @@
+/* Styles/Core/BaseTheme.css */
+:root {
+    --fz-bg-dark: #1e1e1e;
+    --fz-text-white: #ffffff;
+    --fz-border: #444444;
+}
+
+.xxxxxxxfz-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.rank-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+

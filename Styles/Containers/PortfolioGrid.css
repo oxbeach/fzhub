@@ -1,0 +1,89 @@
+.portfolio-container {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #333;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.portfolio-identity-bar {
+  display: flex;
+  justify-content: space-between;
+  background: #333;
+  padding: 5px 10px;
+  color: #eee;
+}
+
+.portfolio-action-stage {
+  display: flex; /* Side-by-side layout */
+  padding: 15px;
+  gap: 20px;
+  align-items: center;
+}
+
+.control-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 120px; /* Fixed width prevents overlap */
+  flex-shrink: 0;
+}
+
+.content-column {
+  flex-grow: 1; /* Takes up the rest of the space */
+}
+
+/* Status Boxes */
+.status-msg-box {
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 4px;
+}
+.status-msg-box.empty { background: #e6b800; color: #000; }
+.status-msg-box.ready { background: #2e7d32; color: #fff; }
+
+/* Research Grid */
+.research-grid {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.button-matrix { display: flex; flex-direction: column; gap: 5px; }
+.matrix-row { display: flex; gap: 5px; }
+
+/* Scorecard */
+.scorecard-zone {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: #333;
+  padding: 2px;
+  flex-grow: 1;
+}
+.score-cell {
+  background: #000;
+  color: #fff;
+  border: 1px solid #444;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+}
+.s-label { font-size: 10px; color: #888; }
+
+/* THE PUSH BUTTONS */
+.fz-push-btn {
+  border: none;
+  border-radius: 3px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 8px;
+  box-shadow: 0 3px #000;
+}
+.fz-push-btn:active { transform: translateY(2px); box-shadow: 0 1px #000; }
+.fz-push-btn.slate { background: #455a64; color: white; }
+.fz-push-btn.blue { background: #1976d2; color: white; }
+.fz-push-btn.util { background: #cfd8dc; color: #222; font-size: 10px; width: 65px; }

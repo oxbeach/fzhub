@@ -1,0 +1,154 @@
+
+
+.header-region-title-2 {
+    /*display:inline;*/
+    display: inline-block;
+    flex: 0 1 auto;                               /* Keep it content-sized inside flex layouts */
+    /*width: auto;  */                      
+    width:max-content;                      
+    /*background-color: rgba(255, 255, 255, 0.5);*/ /* Clean subtle tint frame */
+
+    background-color: #e0e0e0;  /* or #e8e8e8 */
+
+    border-left: 5px solid #ff7300;               /* Stronger accent indicator anchor */
+    border-right: 5px solid #ff7300;              /* Stronger accent indicator anchor */
+    padding: 5px 12px;                            /* Balanced padding: top/bottom and left/right for the endcaps */
+
+    border-radius: 14px;
+    font-size: 18px;                              /* Increased size for prominent reading */
+    font-weight: 500;                             /* Slightly bolder weighting */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+    line-height: 1.4;
+
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/*********************************  Fancy user instruction: e.g. DEFINE portfolio and Ready to Compute  */
+
+.step-prompt-banner-simple {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background-color: #d8f3dc;
+  color: #1b4332;
+  font-weight: bold;
+  font-size: 14px;
+  border: 1px solid #52b788;
+  border-radius: 6px;
+  box-shadow: 0 3px 0 #40916c, 0 0 10px rgba(183, 228, 199, 0.6);
+}
+
+/* Modern Step Prompt Banner */
+.step-prompt-banner-1 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: linear-gradient(135deg, #d8f3dc 0%, #b7e4c7 100%);
+  color: #1b4332;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  border-radius: 20px;
+  border: 1px solid #74c69d;
+  
+  /* Subtle drop shadow + active pulse halo */
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.15),
+    0 0 12px rgba(116, 198, 157, 0.4);
+  
+  animation: promptPulse 2s infinite alternate;
+}
+
+.step-prompt-icon-1 {
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* Gentle pulse to attract the eye without being distracting */
+@keyframes promptPulse {
+  0% {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 0 6px rgba(116, 198, 157, 0.3);
+  }
+  100% {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 0 16px rgba(116, 198, 157, 0.8);
+  }
+}
+
+/* Vivid Action Prompt Pill */
+.step-prompt-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  
+  /* Luminous Amber Gradient for high contrast against blue */
+  background: linear-gradient(180deg, #fff3b0 0%, #ffc107 100%);
+  color: #1a1a1a;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  border-radius: 20px;
+  border: 1px solid #ffe082;
+  
+  /* Prominent initial drop shadow + halo */
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    0 0 12px rgba(255, 193, 7, 0.8);
+  
+  /* Pulsating animation loop */
+  /*animation: promptGlowPulse 1.5s infinite alternate ease-in-out;*/
+}
+
+/* 1. Animated Hand (Pointing Left & Bouncing) */
+.step-prompt-icon {
+  font-size: 14px;
+  display: inline-block;
+
+  /* Shifts emoji to a dark/bold silhouette with a subtle highlight edge */
+  filter: brightness(0.4) drop-shadow(2px 2px 2px rgba(255, 0, 0, 0.8));
+  
+  /*animation: handBounceLeft 0.8s infinite alternate ease-in-out;*/
+}
+
+/* 2. Keyframe: Hand Bounces Left toward the buttons */
+/*
+@keyframes handBounceLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-6px);
+  }
+}
+  /*
+
+/* 3. Keyframe: Strong Halo & Subtle Scale Expansion */
+/*
+@keyframes promptGlowPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 
+      0 2px 4px rgba(0, 0, 0, 0.2),
+      0 0 8px rgba(255, 193, 7, 0.6);
+  }
+  100% {
+    transform: scale(1.03); 
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.4),
+      0 0 22px rgba(255, 235, 59, 1);
+  }
+}
+*/
+
+/**************************************************************************************************/
+
+
+
+
+
+
+

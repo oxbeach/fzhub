@@ -1,0 +1,474 @@
+:root {
+  /* Change this one value to update the entire matrix highlight system */
+  /*--matrix-highlight: rgb(255, 255, 0); */
+  /*--highlight-thickness: 4px;  */
+  --matrix-highlight: #0066cc;                /*  Color for row highlight on BuySell and Rolling Matrices  */
+  --highlight-thickness: 6px;  
+}
+
+/* Base state for all view containers: In the DOM, but closed */
+/*.matrix-view-container,*/
+.view-placeholder {
+  display: flex;       
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  /* The "Closed" state */
+  max-height: 0;       
+  opacity: 0;
+  overflow: hidden;    
+  
+  /* Keep border layout stable so it doesn't snap */
+  border-bottom: 1px solid transparent; 
+
+  padding: 0;
+  margin: 0px;
+}
+
+/* The "Open" state */
+.view-placeholder.is-visible {
+  max-height: 2500px;  
+  opacity: 1;
+
+  animation: viewFadeIn 100ms ease-in-out forwards;
+  will-change: opacity; /* Hints GPU for smoother render */
+
+  background-color: transparent; 
+  border-bottom-color: blue;
+  
+  margin-top: 0px;     
+}
+
+@keyframes viewFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.matrix-content-layout {
+  display: block;
+  width: max-content;
+  max-width: 100%;    /* Clips tightly to screen width to catch horizontal spill */
+  
+  overflow-x: auto;   /* Simple, clean horizontal track ONLY when screen constraints demand it */
+  overflow-y: hidden; /* Zero vertical scrolling or tracking interference inside the box */
+
+  box-sizing: border-box;
+
+  zoom: 0.80;
+}
+
+.tombstone-header {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: lightslategray; 
+  padding: 10px 15px;
+  color: black;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  margin-top: 10px;
+}
+
+
+/* The container wrapping your RR Table */
+.matrix-reveal-wrapper {
+  overflow: hidden; /* Clips the table as it slides */
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.1s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.6s ease-in-out;
+}
+
+/* When views.rrTable is true, React adds this class */
+.matrix-reveal-wrapper.is-open {
+  max-height: 2500px; 
+  opacity: 1;
+}
+
+
+
+
+
+
+
+
+
+.matrix-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-x: auto;
+  /*font-family: 'Arial', 'Consolas', 'Monaco', 'Courier New', monospace;*/
+  font-size: 0.75rem;
+  display: block;
+
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Clean, no slash zeros */
+  font-variant-numeric: tabular-nums; /* Forces perfect column alignment */
+  border-collapse: collapse;
+
+
+}
+
+/* 1. Force the table to obey fixed widths */
+.rm-table {
+  border-collapse: collapse;
+  table-layout: fixed; /* CRITICAL: This stops the browser from 'guessing' widths */
+  width: auto;
+}
+
+.rm-table tr {
+  height: 32px;
+}
+
+
+/* 2. Set the rigid width for every cell */
+
+/*
+
+.rm-table td {
+  width: 75px; 
+  min-width: 75px; 
+  max-width: 75px; 
+  height: 32px; 
+  padding: 0;   
+  line-height: 32px; 
+  
+  border: 1px solid #444;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
+}
+*/
+
+/*
+.rm-table td.header-cell, 
+.rm-table td.label-cell {
+  background-color: #ffed8a;
+  color: #000;
+  font-weight: bold;
+  font-size: 0.85rem;
+  cursor: pointer;
+  
+  width: 75px; 
+  min-width: 75px;
+  max-width: 75px;
+}
+*/
+
+
+
+
+
+
+
+/*********************************************************  this controls the matrix cell size, font, weight */
+/* 1. Reset cell dimensions to be compact */
+.rm-table td {
+  width: 45px;          /* Reduced from 75px */
+  min-width: 45px; 
+  max-width: 45px; 
+  height: 24px;         /* Reduced from 32px */
+  padding: 0; 
+  line-height: 24px;    /* Match height to center text */
+
+  
+  border: 1px solid #444;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.70rem;   /* Smaller font to match smaller cells */
+  font-weight: bold;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Clean, no slash zeros */
+
+  transition: box-shadow 0.4s ease-out, background-size 0.2s ease-out;     /* halo will fade in/out */
+
+  
+}
+
+.rm-table td.header-cell, 
+.rm-table td.label-cell {
+  width: 45px; 
+  min-width: 45px;
+  max-width: 45px;
+  font-size: 0.75rem;
+  background-color: #ffed8a;
+  font-weight: bold;
+
+  transition: box-shadow 0.4s ease-out, background-size 0.2s ease-out;      /* halo will fade in/out */
+}
+
+/* Creates a bold, crisp yellow separation line right above the statistical block */
+.rm-table td.stat-floor-delimiter {
+    border-top: 4px solid #ffed8a;
+}
+
+
+/* --- NEW COMPACT BUY/SELL AXIS COLOR OVERRIDES --- */
+
+/* Color 1: Vertical Buy Axis Column (e.g., a distinct soft blue or green) */
+.rm-table td.axis-buy-cell {
+  background-color: #a7c6f8; /* Adjust hex code to fit your palette */
+}
+
+/* Color 2: Horizontal Sell Axis Row (e.g., a distinct soft teal or orange) */
+.rm-table td.axis-sell-cell {
+  background-color: #66f3d7; /* Adjust hex code to fit your palette */
+}
+
+/********************************************************************************************************************/
+
+
+
+/* --- THE SINGLE TARGETS --- */
+/*
+.rm-table td.is-bold {
+  box-shadow: inset 0 0 0 var(--highlight-thickness) var(--matrix-highlight);
+}
+*/
+
+
+/* Unified interaction styles */                 /*   color for td hover on BuySell and Rolling Matrices  */
+.rm-table td.is-bold,
+.is-halo { 
+  box-shadow: inset 0 0 0 3px #0066cc;
+  transition: box-shadow 0.2s ease-out;
+}
+
+
+
+
+/* Ensure the gradient highlights also transition uniformly */
+.rm-table td[class*="is-highlight-"] {
+  transition: background-size 0.2s ease-out;
+}
+
+
+
+
+
+
+.matrix-data-cell {
+  /*font-family: monospace;
+  font-size: 0.75rem; 
+  */
+  color: black;
+  font-weight: normal;
+
+  cursor: pointer;
+
+}
+
+/*
+.matrix-data-cell:hover {
+  transition-delay: 0.1s; 
+}
+*/
+
+.empty-cell {
+  background-color: #D3D3D3;
+}
+
+/* 4. INTERACTION STATES (High Specificity) */
+
+/* The Additive Bold highlight */
+
+/* Category 4: The Inset Halo for focus */
+
+
+/* --- ROW CAPSULES --- */
+.aaa { /*.rm-table td.is-highlight-row-left {*/
+  background-image: 
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight)), 
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight)),
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight));
+  background-repeat: no-repeat;
+  background-size: 100% var(--highlight-thickness), 100% var(--highlight-thickness), var(--highlight-thickness) 100%;
+  background-position: top, bottom, left;
+
+}
+
+.bbb { /*.rm-table td.is-highlight-row-interior { */
+  background-image: 
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight)), 
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight));
+  background-repeat: no-repeat;
+  background-size: 100% var(--highlight-thickness), 100% var(--highlight-thickness);
+  background-position: top, bottom;
+
+}
+
+.ccc {  /*.rm-table td.is-highlight-row-right {*/
+  background-image: 
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight)), 
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight)),
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight));
+  background-repeat: no-repeat;
+  background-size: 100% var(--highlight-thickness), 100% var(--highlight-thickness), var(--highlight-thickness) 100%;
+  background-position: top, bottom, right;
+
+}
+
+/* --- COLUMN CAPSULES --- */
+.xxx { /*.rm-table td.is-highlight-col-top {*/
+  background-image: 
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight)), 
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight)),
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight));
+  background-repeat: no-repeat;
+  background-size: 100% var(--highlight-thickness), var(--highlight-thickness) 100%, var(--highlight-thickness) 100%;
+  background-position: top, left, right;
+
+}
+
+.yyy { /*.rm-table td.is-highlight-col-interior {*/
+  background-image: 
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight)), 
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight));
+  background-repeat: no-repeat;
+  background-size: var(--highlight-thickness) 100%, var(--highlight-thickness) 100%;
+  background-position: left, right;
+
+}
+
+.zzz { /*.rm-table td.is-highlight-col-bottom {*/
+  background-image: 
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight)), 
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight)),
+    linear-gradient(var(--matrix-highlight), var(--matrix-highlight));
+  background-repeat: no-repeat;
+  background-size: 100% var(--highlight-thickness), var(--highlight-thickness) 100%, var(--highlight-thickness) 100%;
+  background-position: bottom, left, right;
+
+}
+
+/* --- BLENDED ROW CAPSULES --- */
+.rm-table td.is-highlight-row-left {
+  background-image: 
+    linear-gradient(to bottom, var(--matrix-highlight), transparent), /* Top edge fades down */
+    linear-gradient(to top, var(--matrix-highlight), transparent),    /* Bottom edge fades up */
+    linear-gradient(to right, var(--matrix-highlight), transparent);  /* Left flank fades right */
+  background-repeat: no-repeat;
+  background-size: 100% var(--highlight-thickness), 100% var(--highlight-thickness), var(--highlight-thickness) 100%;
+  background-position: top, bottom, left;
+}
+
+.rm-table td.is-highlight-row-interior {
+  background-image: 
+    linear-gradient(to bottom, var(--matrix-highlight), transparent), 
+    linear-gradient(to top, var(--matrix-highlight), transparent);
+  background-repeat: no-repeat;
+  background-size: 100% var(--highlight-thickness), 100% var(--highlight-thickness);
+  background-position: top, bottom;
+
+}
+
+.rm-table td.is-highlight-row-right {
+  background-image: 
+    linear-gradient(to bottom, var(--matrix-highlight), transparent), 
+    linear-gradient(to top, var(--matrix-highlight), transparent),    
+    linear-gradient(to left, var(--matrix-highlight), transparent);   /* Right flank fades left */
+  background-repeat: no-repeat;
+  background-size: 100% var(--highlight-thickness), 100% var(--highlight-thickness), var(--highlight-thickness) 100%;
+  background-position: top, bottom, right;
+}
+
+/* --- BLENDED COLUMN CAPSULES --- */
+.rm-table td.is-highlight-col-top {
+  background-image: 
+    linear-gradient(to bottom, var(--matrix-highlight), transparent), /* Top cap fades down */
+    linear-gradient(to right, var(--matrix-highlight), transparent),  /* Left flank fades right */
+    linear-gradient(to left, var(--matrix-highlight), transparent);   /* Right flank fades left */
+  background-repeat: no-repeat;
+  background-size: 100% var(--highlight-thickness), var(--highlight-thickness) 100%, var(--highlight-thickness) 100%;
+  background-position: top, left, right;
+}
+
+.rm-table td.is-highlight-col-interior {
+  background-image: 
+    linear-gradient(to right, var(--matrix-highlight), transparent),  /* Left flank fades right */
+    linear-gradient(to left, var(--matrix-highlight), transparent);   /* Right flank fades left */
+  background-repeat: no-repeat;
+  background-size: var(--highlight-thickness) 100%, var(--highlight-thickness) 100%;
+  background-position: left, right;
+}
+
+.rm-table td.is-highlight-col-bottom {
+  background-image: 
+    linear-gradient(to top, var(--matrix-highlight), transparent),    /* Bottom cap fades up */
+    linear-gradient(to right, var(--matrix-highlight), transparent),  /* Left flank fades right */
+    linear-gradient(to left, var(--matrix-highlight), transparent);   /* Right flank fades left */
+  background-repeat: no-repeat;
+  background-size: 100% var(--highlight-thickness), var(--highlight-thickness) 100%, var(--highlight-thickness) 100%;
+  background-position: bottom, left, right;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Triggered Axis States (White background for coordinates) */
+.axis-active {
+  background-color: #FFFFFF;
+  color: #000000 ;
+}
+
+
+.xxxxreturnSummary {
+  position: absolute;
+  top: 0%;
+  right:50%;
+  z-index: 999;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s linear 0.2s, visibility 0.2s linear 0.2s;
+  pointer-events: none;
+
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 5px 5px 5px 5px rgba(0,0,0, 5.0);
+}
+
+/* Centralized Floating Tooltip */
+.chart-tooltip-summary {
+  display: block; /* Forces visibility when React renders it */
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 15px;
+  line-height: 1.5;
+  border: 3px solid yellow;
+  background-color: darkgray;
+
+  box-shadow: 5px 5px 5px 5px rgba(0,0,0, .5);
+  /*transition: opacity 0.2s linear 0.2s, visibility 0.2s linear 0.2s;*/
+  
+  /* Critical for performance and execution */
+  pointer-events: none; 
+  white-space: nowrap; /* Prevents text from wrapping into a weird narrow box */
+
+  display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 16px; 
+    row-gap: 4px;
+}
+
+.rm-table td:hover .chart-tooltip-summary {
+  opacity: 1;
+  visibility: visible;
+}

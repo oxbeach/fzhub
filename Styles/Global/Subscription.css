@@ -1,0 +1,102 @@
+
+
+/* Container Panel */
+.subscription-panel {
+  background-color: #fffdef;
+  border-color: 122b59;
+  border-width: 5px;
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: #000;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+
+
+.subscription-panel-item {
+    background-color: #fcfcfc;
+    border: 1px solid #d0d7de;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    text-align: justify; /* Aligns all internal content to the left */
+    text-justify: inter-word;
+}
+
+.subscription-panel-item .subscription-highlight-label {
+    display: block; /* Forces the label onto its own line at the top-left */
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #003366; /* High-contrast dark navy for clear visual hierarchy */
+    margin-bottom: 4px;
+    text-align: left;
+}
+
+.subscription-panel-item p {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #333333;
+    line-height: 1.4;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.subscription-panel-item.featured {
+    border: 2px solid #2e7d32;
+    background-color: #f4fbf5;
+}
+
+.pass-option-card {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #b0bec5;
+    border-radius: 4px;
+    background-color: #ddf7e1;
+}
+
+.pass-option-title {
+    font-weight: bold;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+}
+
+.pass-option-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #003366;
+    margin: 4px 0;
+}
+
+
+.pass-option-price s {
+    color: #767676;       /* Soft gray for original price */
+    font-size: 0.95em;     /* Slightly smaller font */
+    margin-right: 6px;   /* Space between original & discounted price */
+}
+
+.pass-option-details {
+    font-size: 0.75rem;
+    color: #555555;
+    line-height: 1.4;
+}
+
+.pass-option-check {
+    color: #2e7d32;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.terms-review-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 8px;
+  margin-left: 25px;
+  font-weight: bold;
+}

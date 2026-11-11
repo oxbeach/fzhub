@@ -1,0 +1,38 @@
+/* 1. THE BASE: Controls size, shape, and animation for ALL buttons */
+
+
+/*************************************
+
+Delete has been moved to Styles/Style_PortfolioUI.css
+
+
+*********************************************/
+
+.btn-utility, .btn-delete {
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: transform 0.1s ease, filter 0.2s ease;
+}
+
+/* 2. THE COLORS: Default background colors */
+.btn-utility { background-color: #9e9e9e; } /* Gray */
+.btn-delete  { background-color: #d32f2f; } /* Red */
+
+/* 3. THE MODIFIERS: Specific colors for different states */
+.btn-utility.slate  { background-color: #607d8b; }
+.btn-utility.active { background-color: #4CAF50 !important; }
+
+/* 4. THE EFFECTS: Hover and Click behavior */
+.btn-utility:hover, .btn-delete:hover {
+    filter: brightness(1.1); /* Lightens the color */
+    transform: scale(1.05);  /* Grows 5% */
+}
+
+.btn-utility:active, .btn-delete:active {
+    transform: scale(0.98);  /* Sinks slightly when clicked */
+}

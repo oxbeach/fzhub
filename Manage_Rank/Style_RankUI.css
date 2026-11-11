@@ -1,0 +1,474 @@
+/* Style_RankUI.css */
+
+/* ================================================================= */
+/* MODAL BACKDROPS & CONTAINERS                                      */
+/* ================================================================= */
+
+.rank-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    /*background-color: #122b59;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.rank-modal-content {
+    background-color: #cfd8dc;  
+    border-radius: 8px;
+    width: fit-content;        /* Hugs inner content horizontally */
+    max-width: 95vw;          /* Prevents expanding past screen boundaries */
+    height: fit-content;       /* Hugs inner content vertically */
+    max-height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 25px;
+    overflow: auto;           /* Adds scrollbars if content exceeds max screen limits */
+    
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 1px 5px rgba(0, 0, 0, 0.3);
+}
+/* ================================================================= */
+/* TOP CONTROLS & BUTTONS                                           */
+/* ================================================================= */
+
+.rank-top-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #122B59;
+}
+
+.btn-rank-ctrl {
+    padding: 10px 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.2s ease;
+}
+
+.btn-toggle-list { background-color: #4682B4; }
+.btn-toggle-list:hover { background-color: #36648B; }
+
+.btn-clear { background-color: #f0ad4e; }
+.btn-clear:hover { background-color: #eea236; }
+
+
+
+
+.xbtn-exit {
+    background-color: #d9534f;
+    margin-left: auto;
+}
+
+.xbtn-exit:hover { background-color: #c9302c; }
+
+/*  Same as .basic-exit which the other modals use */
+
+.btn-exit {
+    margin-left: auto;
+    background-color: #d9534f;
+    color: #ffffff;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    border: 1px solid #d43f3a;
+    border-radius: 4px;
+    /*padding: 6px 16px;*/
+    padding: 4px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10; /* Ensures it sits above other header elements */
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover State */
+.btn-exit:hover {
+    background-color: #c9302c;
+    border-color: #ac2925;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ================================================================= */
+/* BODY LAYOUT & SIDEBAR                                             */
+/* ================================================================= */
+
+.rank-body-layout {
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+}
+
+.rank-sidebar {
+    width: 250px;
+    background-color: #fffde7;
+    border: 1px solid #78909c;
+    padding: 15px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: width 0.35s ease, margin-left 0.35s ease, padding 0.35s ease;
+}
+
+.rank-sidebar.collapsed {
+    width: 0;
+    margin-left: -20px;
+    padding: 0;
+    border-width: 0;
+    pointer-events: none;
+}
+
+.rank-sidebar h3 {
+    margin-top: 0;
+    font-size: 16px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+    min-width: 218px;
+}
+
+.rank-portfolio-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    min-width: 218px;
+}
+
+.portfolio-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #444;
+    cursor: pointer;
+}
+
+.rank-main-content {
+    flex: 1 1 0%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* ================================================================= */
+/* METRICS INPUT TABLE (FIXED GEOMETRY)                              */
+/* ================================================================= */
+
+.rank-horizontal-tables-container {
+    display: flex;
+    gap: 20px;
+    width: fit-content;
+    width: 100%;
+}
+
+.rank-metric-allocation-panel {
+    background-color: #fffde7;
+    border: 1px solid #78909c;
+    padding: 15px;
+    border-radius: 6px;
+    width: fit-content;
+    box-sizing: border-box;
+}
+
+.rank-metric-allocation-panel h3 {
+    margin-top: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Metric Table Sizing Rules */
+.rank-input-table {
+    table-layout: fixed;
+    width: max-content;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.rank-input-table th, 
+.rank-input-table td {
+    border: 1px solid #b0c4de;
+    padding: 6px 4px;
+    font-size: 12px;
+}
+
+.rank-input-table th {
+    background-color: #1a237e;
+    color: white;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.rank-input-table td {
+    text-align: center;
+    background-color: #ffffff;
+}
+
+/* Lock Metric First Column (Label) */
+.rank-input-table th:first-child,
+.rank-input-table td:first-child {
+    width: 140px;
+    min-width: 140px;
+    max-width: 140px;
+    text-align: left;
+
+}
+
+/* Lock Metric Input Value Columns */
+.rank-input-table th:not(:first-child),
+.rank-input-table td:not(:first-child) {
+    width: 85px;
+    min-width: 85px;
+    max-width: 85px;
+    text-align: center;
+
+}
+
+/* Metric weight input - always bold */
+.metric-weight-input {
+    width: 65px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700; /* Forces bold rendering regardless of value */
+    color: #000000;
+}
+
+/* Background highlight for cells with non-zero weights */
+.rank-input-table td.cell-active-weight {
+    background-color: #e6f2ff;
+    transition: background-color 0.2s ease;
+}
+
+.xxxxxrank-input-table td:has(.metric-weight-input:not([value="0"]):not([value=""])) {
+    background-color: #e6f2ff;
+    transition: background-color 0.2s ease;
+}
+
+/* ================================================================= */
+/* FOOTER ACTIONS & MESSAGES                                         */
+/* ================================================================= */
+
+.allocation-action-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #eceff1;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.allocation-message-area {
+    flex-grow: 1;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.4;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border-left: 4px solid transparent;
+}
+
+.allocation-message-area.status-initial {
+    background-color: #fff9c4;
+    color: #5d4037;
+    border-left-color: #fbc02d;
+}
+
+.allocation-message-area.status-invalid {
+    background-color: #ffebee;
+    color: #c62828;
+    border-left-color: #e53935;
+}
+
+.allocation-message-area.status-valid {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-left-color: #4caf50;
+}
+
+.bttn-compute-action {
+    flex-shrink: 0;
+    min-width: 180px;
+    padding: 10px 24px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.bttn-compute-action.btn-locked {
+    background-color: #cfd8dc;
+    color: #78909c;
+    cursor: not-allowed;
+}
+
+.bttn-compute-action.btn-ready {
+    background-color: #0e9f6e;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.bttn-compute-action.btn-ready:hover {
+    background-color: #057a55;
+}
+
+/*
+.dormant-arrow {
+    color: #ccc;
+    font-size: 0.85em;
+    margin-left: 4px;
+}
+*/
+
+.dormant-arrow {            /* takes up room in the header and too small to be useful */
+    display: none;
+}
+
+
+
+/* ================================================================= */
+/* DISPLAY RANKINGS TABLE                                            */
+/* ================================================================= */
+
+.rank-table-display-area {
+    background-color: #fffde7;
+    border: 1px solid #78909c;
+    padding: 20px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;      /* Hugs the table size exactly */
+    max-width: 100%;        /* Prevents overflow past screen bounds */
+    box-sizing: border-box;
+}
+
+.rank-table-display-area h3 {
+    margin-top: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    margin-bottom: 10px;
+}
+
+.rank-display-table {
+    table-layout: fixed;     /* Forces rigid column width rendering */
+    width: max-content;      /* Grows/shrinks dynamically as columns get added/removed */
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.rank-display-table th, 
+.rank-display-table td {
+    border: 1px solid #b0c4de;
+    padding: 6px 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.rank-display-table th {
+    background-color: #1a237e;
+    color: white;
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.rank-display-table td {
+    text-align: left;
+    background-color: #ffffff;
+}
+
+.rank-display-table tbody td:not(:first-child) {
+    text-align: center;
+}
+
+.rank-display-table tbody td:first-child {
+    user-select: none;
+    cursor: pointer;
+    background-color: #e6f2ff;
+}
+
+/* ================================================================= */
+/* RANKINGS GRID FIXED COLUMN GEOMETRY                              */
+/* ================================================================= */
+
+/* Lock First Column (Portfolio Labels) */
+.rank-display-table th:first-child,
+.rank-display-table td:first-child {
+    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
+}
+
+/* Lock Metric Data Columns (Dynamic add/remove) */
+.rank-display-table th:not(:first-child):not(.fz-factor-header),
+.rank-display-table td:not(:first-child):not(.fz-factor-value) {
+    width:     62px; /*70px;*/
+    min-width: 62px;
+    max-width: 62px;
+}
+
+/* Lock FZ Factor Summary Column */
+.rank-display-table th.fz-factor-header,
+.rank-display-table td.fz-factor-value {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+    color: #333;
+    background-color: #fff2cc;
+    font-weight: 800;
+}
+
+
+
+/* Row Selection Halo */
+.rank-display-table tbody tr {
+    cursor: pointer;
+}
+
+.rank-display-table tbody tr.rank-row-selected td {
+    position: relative;
+    box-shadow: inset 0 2px 0 #0066cc, inset 0 -2px 0 #0066cc;
+}
+
+.rank-display-table tbody tr.rank-row-selected td:first-child {
+    box-shadow: inset 2px 2px 0 #0066cc, inset 0 -2px 0 #0066cc;
+}
+
+.rank-display-table tbody tr.rank-row-selected td:last-child {
+    box-shadow: inset -2px 2px 0 #0066cc, inset 0 -2px 0 #0066cc;
+}

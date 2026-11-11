@@ -1,0 +1,201 @@
+
+
+/* ==========================================
+   Custom Hover Hint / Tooltip System
+   ========================================== */
+
+[data-hint] {
+  position: relative;
+  cursor: help;
+}
+
+/* Base Tooltip Body */
+[data-hint]::after {
+  content: attr(data-hint);
+  position: absolute;
+  
+  /* Width & Text Wrapping Fix */
+  width: max-content;
+  max-width: 300px; /* Adjust max width as needed */
+  white-space: normal;
+  word-wrap: break-word;
+
+  padding: 6px 10px;
+  background-color: #122B59;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: center;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  /*border: 1px solid rgba(255, 255, 255, 0.1);*/
+ 
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease-in-out, transform 0.35s ease-in-out, visibility 0.15s;
+  transition-delay: 0s;
+  z-index: 9999;
+
+  /* border:  2px solid #ff7300;  */
+  border: none;
+
+  box-shadow: 
+    inset 0 0 0 1px #ff7300, 0 4px 12px rgba(0, 0, 0, 0.2);
+
+  
+}
+
+/* Base Arrow */
+[data-hint]::before {
+  content: '';
+  position: absolute;
+  border-width: 5px;
+  border-style: solid;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease-in-out, transform 0.35s ease-in-out, visibility 0.15s;
+  transition-delay: 0s;
+  z-index: 9999;
+}
+
+/* ==========================================
+   POSITION 1: BOTTOM (Default - Best for Top Controls)
+   ========================================== */
+[data-hint]::after,
+[data-hint-pos="bottom"]::after {
+  top: calc(100% + 18px);           /*  the +XXpx will move the positoin up or down  */
+  bottom: auto;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+[data-hint]::before,
+[data-hint-pos="bottom"]::before {
+  top: calc(100% + 2px);              /* positions little arrow at top of hint box  */
+  bottom: auto;
+  left: 50%;
+  right: auto;
+  border-color: transparent transparent #1e293b transparent;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+
+
+/* ==========================================
+   POSITION 2: RIGHT (Side)
+   ========================================== */
+[data-hint-pos="right"]::after {
+  top: 50%;
+  bottom: auto;
+  left: calc(100% + 12px);   /*  the +XXpx will move the positoin side to side  */
+  right: auto;
+  transform: translateY(-50%) translateX(-4px);
+}
+
+[data-hint-pos="right"]::before {
+  top: 50%;
+  bottom: auto;
+  left: calc(100% + 2px);
+  right: auto;
+  border-color: transparent #1e293b transparent transparent;
+  transform: translateY(-50%) translateX(-4px);
+}
+
+
+/* ==========================================
+   POSITION 3: LEFT (Side)
+   ========================================== */
+[data-hint-pos="left"]::after {
+  top: 50%;
+  bottom: auto;
+  right: calc(100% + 12px);      /*  the +XXpx will move the positoin side to side  */
+  left: auto;
+  transform: translateY(-50%) translateX(4px);
+}
+
+[data-hint-pos="left"]::before {
+  top: 50%;
+  bottom: auto;
+  right: calc(100% + 2px);
+  left: auto;
+  border-color: transparent transparent transparent #1e293b;
+  transform: translateY(-50%) translateX(4px);
+}
+
+
+
+
+/* Active Visibility State */
+#global-hint-root.is-active::after,
+#global-hint-root.is-active::before {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: opacity 0.2s ease-in-out;
+}
+
+
+
+/* ==========================================
+   GLOBAL HINT ROOT OVERRIDES
+   ========================================== */
+
+/* Prevent position: relative override from breaking fixed positioning */
+#global-hint-root[data-hint] {
+  position: fixed !important;
+  z-index: 99999;
+  pointer-events: none;
+}
+
+/* Reset pseudo-element relative offsets so JS coordinates dictate placement */
+#global-hint-root[data-hint]::after,
+#global-hint-root[data-hint]::before {
+  position: absolute;
+}
+
+/* POSITION: RIGHT */
+#global-hint-root[data-hint-pos="right"]::after {
+  top: 50%;
+  left: 12px;
+  right: auto;
+  bottom: auto;
+  transform: translateY(-50%);
+}
+
+#global-hint-root[data-hint-pos="right"]::before {
+  top: 50%;
+  left: 2px;
+  right: auto;
+  bottom: auto;
+  border-color: transparent #1e293b transparent transparent;
+  transform: translateY(-50%);
+}
+
+/* POSITION: BOTTOM */
+#global-hint-root[data-hint-pos="bottom"]::after {
+  top: 18px;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translateX(-50%);
+}
+
+#global-hint-root[data-hint-pos="bottom"]::before {
+  top: 2px;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  border-color: transparent transparent #1e293b transparent;
+  transform: translateX(-50%);
+}
+
+/* ACTIVE VISIBILITY STATE */
+#global-hint-root.is-active::after,
+#global-hint-root.is-active::before {
+  opacity: 1 !important;
+  visibility: visible !important;
+}

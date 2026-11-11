@@ -1,0 +1,31 @@
+
+.portfolio-name-label-2 {
+    color: #000; 
+    /*background: whitesmoke;*/
+    background: #E6F2FF;
+    font-weight:500;
+    font-size: 16px;
+    padding-left: 2px;
+    border-radius: 5px;
+
+    display: inline-block;
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+.quad-selector-2 {
+    color: #000; 
+    background: #ffffff;
+    font-weight: bold;
+    font-size: .8rem;
+
+    display: inline-block;
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}

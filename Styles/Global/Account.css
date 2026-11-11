@@ -1,0 +1,133 @@
+
+
+
+ /*<div style={{ fontSize: '0.85rem', fontWeight: 'bold', marginBottom: '4px', color: '#555' }}>*/
+
+
+ .account-subtitle {
+     font-size:   0.85rem; 
+     font-weight: 'bold'; 
+     color: #555;
+     margin-bottom: '4px'; 
+}
+
+
+/* Container holding all 3 rows */
+.xxxaccount-form-credentials-group {
+    width: 480px; /* Adjust container width as needed */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+/* Individual row using flex end-alignment */
+.xxxcredentials-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Label styling: no fixed width needed, auto-spaces before input */
+.xxxcredentials-row label {
+    font-weight: bold;
+    margin-right: 12px; /* Uniform space between ':' and input box */
+    white-space: nowrap;
+}
+
+.account-form-credentials-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center; /* Centers the whole block horizontally */
+    margin-top: 10px;
+}
+
+.credentials-row {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Consistent spacing between columns */
+}
+
+/* Column 1: Fixed Label Width (Right-aligned text so colons line up vertically) */
+.cred-col-label {
+    width: 180px;
+    text-align: right;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* Column 2: Fixed Input Width */
+.cred-col-input {
+    width: 310px;
+}
+
+/* Column 3: Fixed Action Button / Placeholder Width */
+.cred-col-action,
+.cred-col-action-placeholder {
+    width: 90px; /* Adjust this to match your "Update" / "Show" button width */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.details-summary-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px; /* Adjust padding to match your border inset */
+    border: 1px solid #ccc; /* Or your current border style */
+    border-radius: 6px;
+    margin: 12px 0;
+}
+
+.details-summary-text {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Adds clean spacing around each bullet point */
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+.account-type-toggle {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+
+.account-type-toggle .radio-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    min-width: 0; /* Prevents flex children from overriding text truncation */
+}
+
+.account-type-toggle .radio-text {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.account-login-name {
+    display: inline-block;
+    max-width: 180px; /* Adjust width as desired */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+}

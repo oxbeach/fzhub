@@ -1,0 +1,98 @@
+/* Styles/Modals/PortfolioModals.css */
+
+
+.fz-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4); /* This is your dimming color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* worked for a long time, but children (beige) sub panels ran out the bottom when sizing */
+
+.xxxxxxxxxxxxxxxfz-modal-container-wide {
+    position: relative; /* Anchor point for .basic-exit */
+    background: #cfd8dc;
+    padding: 2rem;
+    border-radius: 8px;
+    
+    /* THE FIX: Stop it from filling the screen */
+    width: 600px;         /* Fixed width */
+    max-height: 80vh;    /* Don't let it touch top/bottom */
+    /*overflow-y: auto;     Scroll if the asset list gets long */
+    overflow: visible;
+    
+    /* Keep it centered if the overlay doesn't do it */
+    margin: auto; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.fz-modal-container-wide {
+    position: relative; /* Anchor point for .basic-exit */
+    background: #cfd8dc;
+    padding: 1rem 1.5rem; /* Reduced top/bottom padding to give children internal room */
+    border-radius: 8px;
+    
+    width: 600px;
+    max-height: 95vh;     /* Increased limit so the 3 panels fit on shorter viewports */
+    box-sizing: border-box; /* Ensures padding is included inside max-height */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;    /* Clips anything extending past rounded corners */
+    
+    margin: auto; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+
+.fz-grid-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 40px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--fz-border);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.fz-asset-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 40px;
+    gap: 15px;
+    margin-bottom: 12px;
+
+    /*  trying to prevent last ticker entry from being clipped */
+    /*position: relative;  Establishes a positioning context */
+    /*overflow: visible;   Ensures children can overflow the grid cell bounds */
+
+}
+
+/* Highlights the Ticker area whenever any internal element holds focus */
+.fz-asset-row input:focus {
+    outline: 2px solid #ff7300;
+    background-color: #eff6ff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+}
+
+
+.weight-display {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.xxxweight-display.valid { color: #3ed83e; }
+
+.weight-display.valid { color: #2E7D32; }
+
+
+
+
+.weight-display.invalid { color: #ff4444; }

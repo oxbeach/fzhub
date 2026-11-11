@@ -1,0 +1,304 @@
+
+
+/* Debugging: High-visibility yellow boundaries */
+/*
+.compare-quad-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background-color: lightgray;
+  border: 2px solid yellow; 
+}
+
+.quad-cell {
+  width: 50%;
+  padding: 10px;
+  vertical-align: top;
+  border: 2px solid yellow; 
+}
+
+.quad-canvas-wrapper {
+  width: 100%;
+  height: 280px; 
+  position: relative;
+  background-color: #141618;
+  border: 1px solid #ff00ff; 
+  border-radius: 3px;
+}
+*/
+
+
+
+
+.compare-quad-table {
+  width: 1140px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background-color: lightgray;
+  border: 2px solid yellow; 
+}
+
+
+.quad-cell {
+  width:   550px;
+  height:  350px;
+  padding: 10px;
+  vertical-align: top;
+  border: 2px solid white; /* Cell outline */
+  background-color: lightslategray;
+}
+
+
+.quad-canvas-wrapper {
+  width:  550px;
+  height: 350px; 
+  position: relative;
+  background-color: black;
+  /*border: 1px solid #ff00ff; */
+  border-radius: 8px;
+}
+
+.cell-border-right {
+  border-right: 1px solid #23272a;
+}
+
+.cell-border-bottom {
+  border-bottom: 1px solid #23272a;
+}
+
+/* Interior Stack Layout */
+
+  .quad-stack-container {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  gap: 8px;
+  color: #ffffff;
+  font-family: monospace;
+}
+  
+/* Container 1: Selector Bar */
+.quad-control-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.label-dim {
+  color: #888888;
+}
+
+.divider-space {
+  margin: 0 8px;
+}
+
+.text-bright {
+  color: #ffffff;
+}
+
+.quad-selector {
+  background-color: #1c1f22;
+  color: #ffffff;
+  border: 1px solid #3a3f44;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-family: monospace;
+  outline: none;
+}
+
+.quad-instruction-tag {
+  color: #ffffff;
+  font-size: 10px;
+}
+
+/* Container 2: Scoreboard Badges */
+
+.quad-ledger-row {
+  display: flex;
+  width: 100%;
+  gap: 4px;
+  height: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  flex-wrap: wrap; 
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Clean, no slash zeros */
+}
+  
+
+
+
+
+.metric-badge {
+  flex: 1;
+  border-radius: 10px;
+  padding: 0 8px;
+
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Clean, no slash zeros */
+  
+  /* Standard Block Truncation */
+  display: block;
+  text-align: center;      /* Replaces justify-content: center */
+  line-height: 24px;       /* Replaces align-items: center (adjust height to match your badge) */
+  
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Already looks great, just locking it in */
+.xxxxbadge-success {
+  background-color: #1b4322;
+  color: #4ec54e;
+  border: 1px solid #23572c;
+}
+
+.badge-success {
+  background-color: #1b4322;
+  color: #ddf7dd;
+}
+
+/* Deep maroon background, crisp coral/red text */
+.badge-failure {
+  background-color: #4a1d1d;
+  color: #f1cccc;
+}
+
+/* Muted deep amber/gold instead of solid bright yellow */
+.badge-extreme {
+  background-color: #42370a;
+  color: #ffd43b;
+}
+
+/* Deep charcoal/slate with crisp off-white text instead of solid stark white */
+.badge-neutral {
+  background-color: #D3D3D3;  /* cccccc is a little darker */
+  color: black;
+  height: 23px;   /* all the other badges use 24px; but that makes it look too big...just an optical allusion per the bg color */
+}
+
+.badge-year {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  background-color: white;
+  color: #000000;
+  border: 1px solid orange;
+  border-radius: 4px;
+  
+  font-weight: bold;
+  font-size: 12px;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Clean, no slash zeros */
+  
+  padding: 2px 8px;
+  margin-left: 17px;
+  height: 20px; /* Adjust this value to match the exact pixel height of your Y-axis input box */
+  box-sizing: border-box;
+}
+
+.canvas-placeholder-hint {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10; /* Forces it to sit on top of the ResponsiveContainer */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: red;
+  font-size: 14px;
+  pointer-events: none;
+  text-align: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5); /* Optional: darkens the area to make text pop */
+}
+
+
+/*  the "tombstone" for the quad wrapper **************/
+
+
+
+.compare-section-wrapper {
+  width: 1200px; /* Set this to match the exact total pixel width of your bottom panel */
+  margin: 0 auto; /* Centers the workspace if needed */
+  padding: 0px 0px 15px 0px; /* Added 15px bottom padding to match the bottom border gap */
+  background-color: lightslategray; /* Dark background framing the contents */
+  box-sizing: border-box;
+
+  border-radius: 20px 20px 0px 0px;
+  margin-top: 10px;
+
+  /* Forces all children to stack vertically and center horizontally */
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 15px; /* Creates a clean, uniform gap between the header and the table */
+}
+
+
+.compare-section-header {
+  background: #3a3f44;
+  padding: 10px;
+  border-radius: 20px 20px 0px 0px;
+  margin-bottom: 2px; /* Slight gap between header and table */
+}
+
+.compare-section-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.compare-section-description {
+  color: #bdc3c7; /* A slightly lighter grey than white */
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Ensure labels are bold and consistent */
+.label-bold {
+  font-weight: bold;
+  color: #000000; /* Or your preferred text color */
+  margin-right: 8px;
+
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Clean, no slash zeros */
+}
+
+/* Ensure selector matches the display width of the Y-axis label container */
+.quad-selector-original {
+  width: 175px; /* Adjust to match your expected label width */
+  /*flex: 1;*/
+}
+
+/* Force container alignment */
+.quad-control-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+
+.quad-selector {
+    color: #000; 
+    background: #ffffff;
+    font-weight: bold;
+    font-size: .8rem;
+
+    display: inline-block;
+    width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+
+/********************************* end of quad wrapper

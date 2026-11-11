@@ -1,0 +1,42 @@
+
+
+.ellipsis-label {
+    color:          #000; 
+    background:     #E6F2FF;
+    font-weight:    500;
+    font-size:      .9rem;
+    padding-left:   2px;
+    border-radius:  4px;
+    border:         1px solid darkgray;
+
+    width:          150px;
+    white-space:    nowrap;
+    overflow:       hidden;
+    text-overflow:  ellipsis;
+    
+    box-sizing:     border-box;   
+}
+
+.ellipsis-select-name {
+    color:          #000;
+    background:     #E6F2FF;
+    font-weight:     500;
+    font-size:       .9rem;
+
+    border-radius:  4px;
+    border:         1px solid darkgray;
+    
+    padding-left:    2px;
+    padding-right:   24px; /* Essential! Leaves breathing room for the native down arrow */
+
+    width:           150px;
+    height:          26px;        /* Keeps the button height consistent */
+    cursor:          pointer;
+    box-sizing:      border-box;
+
+    white-space:     nowrap;
+    overflow:        hidden;
+    text-overflow:   ellipsis;
+    text-align-last: center;      /* Alignment rules for text inside the closed face */
+}
+

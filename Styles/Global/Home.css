@@ -1,0 +1,199 @@
+
+
+/* ==========================================
+   HOMEPAGE LAYOUT & ROW 1 (ACTION PANELS)
+   ========================================== */
+
+.home-panels-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch; /* Forces all 3 cards to take identical height */
+    gap: 20px;
+    width: 100%;
+    margin-top: 10px; /* Moves Row 1 snug under banner */
+}
+
+/* Individual Card Styling */
+.home-action-card {
+    flex: 1 1 0px; /* Guarantees exact equal width across all 3 cards */
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* Button Group Wrapper Inside Cards */
+.home-card-button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Base Full-Width Button Overrides */
+.home-card-btn {
+    width: 100%;
+    padding: 10px 0;
+    font-weight: bold;
+}
+
+/* Button Variants */
+.home-card-btn.logout {
+    background-color: #d9534f;
+}
+
+.home-card-btn.enter {
+    background-color: green;
+}
+
+.home-card-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.processing-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color:  rgba(0, 0, 0, 0.0); 
+    /*backdrop-filter: blur(2px);*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+}
+
+.processing-modal {
+    background-color: white;
+    padding: 24px 32px;
+    border-radius: 12px;
+    border: 10px solid #ff7300; 
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    color: #1f2937;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+/* Add the smooth fade-in animation here */
+    animation: modalFadeIn 2.0s ease-in-out forwards;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+
+
+.processing-modal .dot-container {
+    display: inline-block;
+    letter-spacing: -1px; /* Optional: tightens spacing if 10 dots look too wide */
+}
+
+.processing-modal .dot {
+    display: inline-block;
+    animation: dotPulse 1.6s infinite ease-in-out both;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+@keyframes dotPulse {
+    0%, 80%, 100% { 
+        transform: scale(0);
+        opacity: 0.2;
+    }
+    40% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.fz-contact-button {
+  text-decoration: none;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-style: italic;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.fz-contact-label {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  transform: translateY(2px);
+}
+
+.fz-contact-brand {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ff7300;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.xxxenter-btn-text-normal {
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+.xxxenter-btn-text-accent {
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 800;
+  color: #ff7300;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 4px;
+}
+
+.enter-btn-text-normal {
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+.enter-btn-text-accent {
+  font-style: italic;
+  text-transform: uppercase;
+  font-size: 20px; /* Kept large so it pops nicely */
+  font-weight: 800;
+  color: #ff7300;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 5px;
+}

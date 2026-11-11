@@ -1,0 +1,22 @@
+
+
+.tooltip-chart-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 16px; 
+  row-gap: 4px;
+  
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 15px;
+  line-height: 1.5;
+  border: 3px solid rgb(248, 248, 118);
+  background-color: darkgray;
+  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.5);
+  
+  /* Critical for performance and execution */
+  pointer-events: none; 
+  white-space: nowrap; /* Prevents text from wrapping into a weird narrow box */
+}
+
+

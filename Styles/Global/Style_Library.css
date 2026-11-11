@@ -1,0 +1,332 @@
+.library-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  /* Smooth sliding and fade transition with cubic-bezier */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+/* Macro State: Active / Visible Workspace */
+.library-wrapper.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Macro State: Inactive / Hidden Workspace */
+.library-wrapper.is-hidden {
+  opacity: 0;
+  transform: translateY(20px); /* Subtle downward slide out */
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
+}
+
+.library-dock {
+    background-color: #fffde7;
+    padding: 20px;
+    border-radius: 10px;
+    border: 10px solid darkgray;
+    margin-bottom: 30px;
+    font-size: 14px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+
+    /* Enable clipping for horizontal collapse */
+    overflow: hidden;
+
+    /* Set origin to top-left so horizontal shrink pulls left toward Show button */
+    transform-origin: left top;
+
+    /* Increased transition durations to 0.8s */
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                max-height 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 0.6s ease-in-out, 
+                margin-bottom 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Expanded State */
+.library-dock.dock-visible {
+    display: flex;
+    max-height: 200px;
+    transform: scaleX(1);
+    opacity: 1;
+}
+
+/* Collapsed Horizontal State (Retracts Right-to-Left) */
+.library-dock.dock-hidden {
+    display: flex;
+    max-height: 0;
+    transform: scaleX(0);
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;   
+    padding-right: 0;  
+    margin-bottom: 0;
+    border: none;
+    opacity: 0;
+}                       
+
+.centered-dock-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    max-width: 100%; /* Keeps it responsive if pills grow very wide */
+}
+
+.dock-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.dock-controls {
+    display: flex;
+    gap: 15px;       /*  20px  */
+    align-items: center;
+}
+
+.dock-title {
+    color: black;
+    font-size: 16px;
+}
+
+.btn-compute {
+    padding: 6px 12px;
+    cursor: pointer;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.btn-action {
+    background-color: #673ab7;
+}
+
+.btn-action:hover {
+    background-color: #5e33a6;
+}
+
+.portfolio-pills-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    justify-content: center; /* Ensures wrapped pill rows stay centered */
+}
+
+.pill-wrapper {
+    position: relative;
+}
+
+.pill-btn {
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.pill-stale {
+    background-color: #FF8C00;
+}
+
+.pill-visible {
+    background-color: #4CAF50;
+}
+
+.pill-hidden {
+    background-color: #f44336;
+}
+
+.stale-dismiss-icon {
+    position: absolute; 
+    top: -8px; 
+    right: -8px;
+    background-color: white; 
+    color: red; 
+    border: 2px solid red;
+    border-radius: 50%; 
+    width: 18px; 
+    height: 18px;
+    font-size: 12px; 
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    cursor: pointer; 
+    font-weight: bold;
+    z-index: 10;
+}
+
+/* Base Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #cfd8dc; /* Deep slate */
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    box-sizing: border-box; /* Ensures padding stays within the 400px width */
+    
+    /* Subtle 3D edge */
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+
+    /* Shadow depth */
+    box-shadow: 
+        0 0 0 1px rgba(0, 0, 0, 0.2),
+        0 10px 30px rgba(0, 0, 0, 0.5), 
+        0 1px 5px rgba(0, 0, 0, 0.4);
+}
+
+.modal-header {
+    margin-top: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.modal-select {
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-actions button {
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+}
+
+.modal-actions button:first-child {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.modal-actions button:last-child {
+    background-color: #d9534f;
+    color: white;
+    border-color: #d43f3a;
+}
+
+.modal-actions button:last-child:hover {
+    background-color: #c9302c;
+}
+
+.modal-text {
+    margin: 15px 0;
+    color: #555;
+    font-size: 14px;
+}
+
+.rank-modal-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.rank-modal-title {
+    color: #0066CC;
+}
+
+.btn-close {
+    background-color: #6c757d;
+}
+
+.btn-close:hover {
+    background-color: #5a6268;
+}
+
+.rank-payload-badge {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+.rank-table-placeholder {
+    background-color: #FFF;
+    border: 1px dashed #0066CC;
+    padding: 40px 20px;
+    text-align: center;
+    color: #0066CC;
+    font-weight: bold;
+    margin: 20px 0;
+    border-radius: 6px;
+}
+
+.rank-actions-container {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-compute-action {
+    background-color: #28A745;
+    padding: 12px 30px;
+    font-size: 15px;
+    width: 100%;
+}
+
+.btn-compute-action:hover {
+    background-color: #218838;
+}
+
+.workspace-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    /*background-color: #fffde7;*/
+}
+
+

@@ -1,0 +1,28 @@
+
+
+/* Dark Navy Rounded Header Badge Container */
+.fz-badge-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background-color: #0d233a;
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* Optional subtle hover shift */
+.fz-badge-container:hover {
+  background-color: #112c4a;
+  transition: background-color 0.2s ease;
+}
+
+.fz-logo-svg {
+  display: block;
+  flex-shrink: 0;
+}

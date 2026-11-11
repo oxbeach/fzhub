@@ -1,0 +1,62 @@
+
+
+/* Dark semi-transparent background overlay */
+.fz-alert-warning-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Float above all charting layers and navigation panels */
+  backdrop-filter: blur(2px); /* Premium, modern glass blur effect */
+}
+
+/* Elegant, compact warning box */
+.fz-alert-warning-box {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  border-top: 4px solid #d9534f; /* Direct visual indicator of a system warning */
+}
+
+.fz-alert-warning-title {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #d9534f; /* System warning red */
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fz-alert-warning-text {
+  color: #2b2b2b;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  margin: 0 0 20px 0;
+}
+
+/* Polished action button */
+.fz-alert-warning-button {
+  background-color: #2b2b2b; /* Sleek dark theme button to contrast warning red */
+  color: #ffffff;
+  border: none;
+  padding: 8px 32px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.fz-alert-warning-button:hover {
+  background-color: #111111;
+}

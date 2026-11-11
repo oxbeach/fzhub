@@ -1,0 +1,692 @@
+/* Style_ChartUI.css */
+
+.chart-ui-main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1200px;
+    /*border: 1px solid #ccc;*/
+    margin: 0px;
+    overflow: hidden;
+    padding-top: 10px;
+}
+
+
+/* Keep only background, border, and padding constraints */
+.chart-ui-header {
+    padding: 12px 15px 15px 15px; 
+    background-color: lightslategray;
+    /*border-bottom: 1px solid #ddd; */
+    border-radius: 20px 20px 0px 0px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+/* Push the entire control/scorecard row down from the title */
+/************************* NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO 
+.chart-ui-header > div:last-child {
+    margin-top: 12px;
+}
+************************************************************************************/
+
+/* Elevated Region Title Style */
+.xxxxxxxxxxxxxxxxxxxheader-region-title {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.12); /* Clean subtle tint frame */
+    border-left: 5px solid #ff7300;               /* Stronger accent indicator anchor */
+    border-right: 5px solid #ff7300;               /* Stronger accent indicator anchor */
+    padding: 5px 1px 5px 5px;/*8px 1px;*/
+
+    border-radius: 14px;
+    font-size: 18px;                              /* Increased size for prominent reading */
+    font-weight: 500;                             /* Slightly bolder weighting */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    line-height: 1.4;
+
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Elevated Region Title Style */
+.header-region-title {
+    display:inline;
+    flex: 0 1 auto;                               /* Keep it content-sized inside flex layouts */
+    /*width: auto;  */                      
+    width:max-content;                      
+    background-color: rgba(255, 255, 255, 0.5); /* Clean subtle tint frame */
+    border-left: 5px solid #ff7300;               /* Stronger accent indicator anchor */
+    border-right: 5px solid #ff7300;              /* Stronger accent indicator anchor */
+    padding: 5px 12px;                            /* Balanced padding: top/bottom and left/right for the endcaps */
+
+    border-radius: 14px;
+    font-size: 18px;                              /* Increased size for prominent reading */
+    font-weight: 500;                             /* Slightly bolder weighting */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+    line-height: 1.4;
+
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.header-region-hint {
+  margin-top: 12px;
+  margin-bottom: 0px;
+  padding: 0 4px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+  opacity: 0.85;
+}
+
+
+.chart-button-block {
+    display: flex;
+    gap: 5px;
+    width: max-content;
+    flex-shrink:0;
+    background-color: #cbd5e1; /* A solid slate gray that sits distinctively on top of lightslategray */
+    padding: 4px 8px;          /* Frame space around the buttons */
+    border-radius: 6px;        /* Smooth anchored corners */
+    margin-top:    10px;
+    margin-bottom: 10px;
+}
+
+
+
+.header-slider-input {
+    flex: 1;
+    cursor: pointer;
+    min-width: 100px;
+    accent-color: #ff7300;
+    
+}
+
+/* Precision Step Arrow Buttons */
+.btn-slider-step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    font-size: 11px;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-slider-step:hover:not(:disabled) {
+    background-color: #f1f5f9;
+    border-color: #94a3b8;
+    color: #ff7300;             /* Subtle color pop on hover */
+}
+
+.btn-slider-step:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+
+.header-slider-label {
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #334155;
+}
+
+.header-slider-year {
+    color: #ff7300;
+}
+
+
+.header-slider-bounds {
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black;
+}
+
+
+
+/*  this blends the background color 
+.chart-button-block {
+    border-radius: 10px 10px 0 0;
+    
+    background-image: linear-gradient(
+         #cbd5e1 0%,   
+        blue 100%   
+    );
+
+    border-top: 1px solid #666;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+    
+    padding: 10px 15px;
+    display: flex;
+    gap: 12px;
+}
+*/
+
+/* THE SCORECARD REGION - Consolidated from the old ID */
+.chart-score-block {
+    display: flex;
+    width:max-content;
+    flex-shrink: 0;
+    flex-direction: row;      /* From old ID */
+    align-items: flex-end; /*center;*/      /* From old ID */
+    gap: 15px;                /* From old ID */
+    white-space: nowrap;      /* From old ID */
+    justify-content: flex-end; 
+    margin-left: auto;        /* Pushes block to the right */
+    padding: 0px 12px;
+    border-radius: 4px; 
+    background-color: transparent;
+}
+
+.header-controls-row {
+  display: flex;
+  justify-content: space-between; /* Pins buttons left, scorecard right */
+  align-items: center;            /* Centers all row items vertically */
+  width: 100%;
+  box-sizing: border-box;
+  gap: 15px;                      /* Maintains minimum structural breathing room */
+}
+
+
+
+/************************************  20260507 ***************************/
+
+/* 1. Force all layouts to include padding inside their width totals, stopping the bleed */
+.chart-stage-container,
+.chart-stage {
+    box-sizing: border-box; /* ◄── Tells the browser that padding belongs INSIDE the 100% width calculation */
+}
+
+.chart-stage-container {
+    background-color: yellow;      
+    height: 400px;        /* ◄── CHANGE min-height to an explicit structural height */
+    width: 100%;
+    position: relative;   /* ◄── Establishes an absolute bounding box context */
+
+    overflow-x: auto; /* ◄── Acts as an architectural backup anchor so charts don't crash browsers when rendering margins */
+
+    /*border: 5px solid red !important;*/
+}
+
+
+
+.chart-stage {
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px 10px 10px; /* ◄── Add a 25px safe-zone buffer to the right edge */
+    background-color: red;      
+    box-sizing: border-box; /* ◄── Prevents padding from breaking layout limits */
+    
+    display: none; 
+}
+
+.chart-stage.is-visible {
+    display: flex;             /* ◄── Enforces direct flex alignment pass instantly */
+    flex-direction: column;    /* ◄── Stack components cleanly inside the panel */
+    align-items: stretch;      /* ◄── Guarantees width remains 100% across browsers */
+
+    /*background-color: purple !important; */ /* ◄── Turns the active workspace background solid purple */
+    /*border: 3px dashed lime !important;  */ 
+}
+
+
+/* this is the parent div for recharts in other types such as Distribution */
+.chart-panel-wrapper {
+    background-color: black;
+    opacity: 1 !important;
+    display: block;
+    width: 100%;
+    height: 100%;         /* ◄── Forces the wrapper to safely match the parent bounds */
+
+     box-sizing: border-box;
+
+   /* border: 3px dotted fuchsia !important;*/
+}
+
+.chart-stage-container-2 {
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+    overflow: hidden; 
+    background-color: lightslategray;
+    
+    /* Direct flex centering engine */
+    display: flex;        
+    justify-content: center; 
+    align-items: center;     
+    padding-bottom: 10px;
+}
+
+
+/************************************  20260507 ***************************/
+
+
+/* Individual Stat Rows */
+.score-stat-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.85rem;
+}
+
+.stat-label {
+    font-weight: bold;
+    color: #555;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
+
+.stat-value {
+    font-weight: bold;
+}
+
+
+/* --- Distribution Grid Architecture --- */
+.distribution-view-grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    background-color: yellow /*biggest row container */
+}
+
+/* 3x3 Row Structure */
+.dist-sandwich-row {
+    display: grid;
+    grid-template-columns: 450px 180px 450px;
+    justify-content: center;
+    align-items: center;
+    min-height: 50px;
+    border-bottom: 10px solid #ddd;
+    background-color: #0d0d0e;
+    padding: 10px;
+}
+
+/* --- The Spine (Central Anchor) --- */
+.spine-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    background-color: #ffffff;
+    height: 100%;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    text-align: center;
+}
+
+.spine-name-holder {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+    padding: 5px;
+}
+
+
+.spine-cell select {
+    width: 100%;
+    padding: 4px;
+    font-family: inherit;
+    text-overflow: ellipsis; /* Handle long portfolio names */
+}
+
+
+.column-title {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+/* --- Base Grid Cell Constraints --- */
+.chart-cell {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Hard wall to stop internal elements from bleeding out */
+}
+
+.left-col {
+    /* Ensures content aligns nicely toward the central spine if needed */
+    justify-content: center; 
+}
+
+.right-col {
+    /* Ensures content aligns nicely toward the central spine if needed */
+    justify-content: center;
+}
+
+
+
+
+
+
+
+/* --- The Column Halo Illusion --- */
+.left-halo-active .left-col,
+.right-halo-active .right-col {
+    position: relative;
+}
+
+/* This creates the visual 'frame' descending from the X-Axis hover */
+.column-halo-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 0, 0.1); /* Subtle Yellow Halo */
+    pointer-events: none; /* Allows clicks/hovers to pass through to bars */
+    border-left: 1px dashed rgba(0,0,0,0.2);
+    border-right: 1px dashed rgba(0,0,0,0.2);
+}
+
+/* --- Ghost Cloud (SD Visualization) --- */
+.sd-ghost-cloud {
+    pointer-events: all; /* Required for the Cloud Hover tooltip */
+}
+
+/* Pale White for -SD and Pale Grey for +SD */
+.cloud-negative {
+    fill: rgba(255, 255, 255, 0.5); 
+}
+
+.cloud-positive {
+    fill: rgba(220, 220, 220, 0.5);
+}
+
+/* --- Bar Styling & FZ Colors --- */
+.dist-bar-label {
+    font-size: 10px;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.dist-bar-label.internal {
+    fill: #ffffff; /* Contrast for inside-bar labels */
+}
+
+.dist-bar-label.external {
+    fill: #333333; /* Contrast for on-top labels */
+}
+
+
+/* FZ Red Zone: Structural/Auxiliary Styles Only */
+.fz-red-bar {
+    stroke: rgba(0, 0, 0, 0.1); /* Subtle border if needed */
+    transition: opacity 0.2s;
+}
+
+/* FZ Green Zone: Structural/Auxiliary Styles Only */
+.fz-green-bar {
+    stroke: rgba(0, 0, 0, 0.1);
+    transition: opacity 0.2s;
+}
+
+/* Hover state remains consistent regardless of color */
+.fz-red-bar:hover, 
+.fz-green-bar:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+
+
+
+
+/* --- Average Marker (Triangle) --- */
+.avg-marker-triangle {
+    fill: #000;
+    stroke: #fff;
+    stroke-width: 1;
+}
+
+
+/* --- Master Distribution Table Architecture --- */
+
+/******************************* OLD **************************************/
+
+.xxxxxxxxxxxxxxxxmaster-distribution-table {
+    width: auto;                  
+    margin: 0 auto;               
+    border-collapse: separate;    /* Changed to separate to allow row spacing */
+    border-spacing: 0;           /* 0 no gap... 10px dark gap BETWEEN the rows */
+
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    overflow: hidden;
+
+    position: relative;
+
+
+}
+
+/* Base properties for all cells in the row */
+.xxxxxxxxxxxxxxxxxxmaster-distribution-table td,
+.xxxxxxxxxxxxxxxxxxxxxmaster-distribution-table th {
+    padding: 6px 8px;           /* Generates the solid color padding framing the charts */
+    vertical-align: middle;
+    position: relative;
+}
+
+.xxxxxxxxxxxxxxxxxxxxcell-left-chart {
+    width: 380px;                 
+    text-align: center;
+}
+
+.xxxxxxxxxxxxxxxxxxxcell-center-spine {
+    width: 160px;                 
+    text-align: center;
+}
+
+.xxxxxxxxxxxxxxxxxxxxxxxcell-right-chart {
+    width: 380px;                 
+    text-align: center;
+}
+/******************************************************************************************/
+
+.master-distribution-table {
+    table-layout: fixed;          /* ADDED: Forces the browser to strictly honor column widths */
+    width: 1120px;                  
+    margin: 0 auto;               
+    border-collapse: separate;    
+    border-spacing: 0;           
+
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    overflow: hidden;
+    position: relative;
+
+    /*outline: 3px solid #ff0055;*/
+}
+
+/* Base properties for all cells in the row */
+.master-distribution-table td,
+.master-distribution-table th {
+    padding: 6px 8px;           
+    vertical-align: middle;
+    position: relative;
+    /*outline: 2px solid red;  just for test */
+}
+
+.cell-left-chart {
+    width: 460;                 /* CHANGED from 380px to match your 420px chart wrapper */
+    text-align: center;
+    padding: 6px 0px;
+    /*background-color: orange;   testing   */
+}
+
+.cell-center-spine {
+    width: 200px;                 /* Stays locked exactly as you designed it */
+    text-align: center;
+}
+
+.cell-right-chart {
+    width: 460px;                 /* CHANGED from 380px to match your 420px chart wrapper */
+    text-align: center;
+    padding: 6px 0px;
+}
+
+/* Force the block-level chart containers to sit dead-center in their columns */
+.cell-left-chart .chart-panel-wrapper,
+.cell-right-chart .chart-panel-wrapper {
+    margin: 0 auto;
+}
+
+
+
+/* Ensure dropdown blends cleanly if needed or stands out */
+.spine-select {
+    width: 100%;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+/* Force the child SVG to follow the cell width walls */
+.fzone-svg-chart {
+    background-color: lightslategray;
+    display: block;
+    width: 100%;                  
+    height: auto;                 
+    box-sizing: border-box;
+}
+
+/* Make the header row stick to the top of its parent container */
+.dist-sub-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #f1f1f1; 
+    font-weight: bold;
+}
+
+/* Ensure the header row's table cells match the dimensions exactly */
+.dist-sub-header td {
+    padding: 8px 10px;
+    border-bottom: 2px solid #999;
+    vertical-align: bottom;
+}
+
+/* Flex layout inside the cell to spread the X-ticks perfectly across the 380px chart space */
+.x-axis-row {
+    display: flex;
+    justify-content: space-between; 
+    /* Add internal padding to shift the end ticks inward so they line up over the outer bars */
+    padding-left: 10px;   /* Adjust these pixel values to align perfectly with your chart's edge margins */
+    padding-right: 10px;  
+    padding-top: 4px;
+    box-sizing: border-box;
+}
+
+
+.x-tick-label {
+    font-size: 0.85rem;
+    letter-spacing: 0px;
+    text-align: center;
+    flex: 1; /* Gives each tick equal tracking width for the hover halo sync */
+}
+
+.spine-title {
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+/* --- Spine Legend Mini Table --- */
+.spine-legend-table {
+    margin: 6px auto 0 auto;
+    border-collapse: separate;
+    border-spacing: 4px 3px; /* Extra tight spacing to keep it compact */
+}
+
+.spine-lbl {
+    font-family: monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: left;
+    color: #333333;
+    padding-right: 4px;
+}
+
+/* --- Base Badge Sizing --- */
+.spine-num-box {
+    width: 38px;          /* Compressed horizontally */
+    height: 15px;         /* Shortened vertically */
+    line-height: 5px;    /* Vertically centers the text within the shorter box */
+    background-color: #ffffff;
+    font-family: monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* --- Reference Line Line-Style Syncing --- */
+.box-avg {
+    border: 1.5px solid #0000ff;
+    border-radius: 2px;
+    color: #0000ff;
+}
+
+.box-med {
+    border: 1.5px dashed #eab308;
+    border-radius: 2px;
+    color: #c2410c;
+}
+
+
+
+/* Layout Wrapper Table */
+.header-layout-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 5px;
+}
+
+/* Force each column to take up exactly 50% of the screen */
+.header-layout-table td {
+    width: 50%;
+    vertical-align: middle;
+    padding: 6px 0; /* Vertical spacing between Row 1 and Row 2 */
+}
+
+/* Clean up spacing between cells */
+.header-layout-table td:first-child {
+    padding-right: 10px; /* Space between Left and Right columns */
+}
+.header-layout-table td:last-child {
+    padding-left: 10px;
+}
+
+/* Symmetrical Slider Track Wrapper */
+.header-slider-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #e2e8f0;
+    padding: 6px 16px;
+    border-radius: 6px;
+    flex-grow: 1;
+    width: 50%; /* Sits perfectly within the 50% td cell */
+}
+
+.header-slider-input {
+    flex: 1;
+    cursor: pointer;
+    accent-color: #ff7300;
+}

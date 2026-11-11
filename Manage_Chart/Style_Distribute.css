@@ -1,0 +1,126 @@
+
+
+/* Master 3D container card within the spine column */
+.spine-summary-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+    font-weight: 600;
+    
+    width: 176px;
+    padding: 10px 8px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    
+    /* Elegant 3D structural glass background */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(244, 245, 247, 0.85) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    
+    /* Multi-layered shadows for authentic 3D desktop depth */
+    box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 1),
+        0 1px 2px rgba(0, 0, 0, 0.08),
+        0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Minimalist context tracking header text */
+.spine-card-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b; /* Muted corporate slate blue */
+    margin-bottom: 4px;
+}
+
+/* Middle core interaction area */
+.spine-card-target {
+    width: 100%;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Anchor Portfolio Name Box text formatting */
+.spine-anchor-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f172a;
+    text-align: center;
+    line-height: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* Hard cap the size and force alignment layout rules */
+    width: 155px;
+    height: 26px;
+    background-color: darkgray;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin: 0 auto; /* Centers the anchor box within the card if needed */
+}
+
+/* Custom spine select dropdown formatting */
+.spine-card-select {
+    height: 26px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+    background-color: darkgray;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 2px 24px 2px 4px; 
+    box-sizing: border-box;
+    cursor: pointer;
+    text-align-last: center;
+
+    /* Hard cap the size and prevent menu blowout */
+    width: 155px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Performance metrics inner dashboard box split */
+.spine-card-stats-grid {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+}
+
+/* Micro stat pill elements within the layout card */
+.spine-stat-item {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    height: 22px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+/* Labels ("Avg:", "Med:") */
+.spine-stat-item .stat-lbl {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+/* Outputs ("32.3%", "17.7%") */
+.spine-stat-item .stat-val {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0f172a;
+    font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+}
+
+

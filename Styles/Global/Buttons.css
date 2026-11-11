@@ -1,0 +1,191 @@
+
+
+
+/* 1. The Base Button - Creating the "Depth" */
+.btn-push-utility-2 {
+  position: relative;
+  background-color: #e0e0e0; 
+  
+  border: 1px solid #999;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  min-width: 50px;
+  max-width: 200px;
+  padding: 4px 8px;
+
+  /* Ellipsis essentials */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* Ensures warning icon + text align nicely inside overflow clip */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+
+  transition: all 0.1s ease; /* Makes the push feel smooth */
+
+  /* The "Side Wall" of the button */
+  box-shadow: 0 4px 0 #999; 
+  margin-bottom: 4px; /* Space for the shadow so it doesn't clip */
+}
+
+
+
+/* Base hover state for INACTIVE buttons (Gray) -> RED Halo */
+.btn-push-utility-2:hover {
+  background-color: #f5f5f5;
+  /* 0 4px 0 #999 = side wall depth | 0 0 10px 2px #ff4d4d = red glowing halo */
+  box-shadow: 0 4px 0 #999, 0 0 10px 2px #f79393; 
+}
+
+/* Hover state for ACTIVE buttons (Green) -> GREEN Halo */
+.btn-push-utility-2.active:hover {
+  background-color: #c8e6c9;
+  border-color: #2e7d32;
+  /* 0 4px 0 #2e7d32 = side wall depth | 0 0 10px 2px #4caf50 = green glowing halo */
+  box-shadow: 0 4px 0 #2e7d32, 0 0 10px 2px #9bf59e; 
+}
+
+/* 3. The "Push" - Active or Pressed State */
+.btn-push-utility-2.active, 
+.btn-push-utility-2:active {
+  background-color: #c8e6c9; /* Subtle green for active */
+  border-color: #2e7d32;
+  
+  /* Move the button DOWN */
+  transform: translateY(3px);
+  
+  /* Collapse the "Side Wall" to simulate depth compression */
+  box-shadow: 0 1px 0 #999; 
+}
+
+/* Text Element (Truncation Engine) */
+.button-text-truncate {
+  display: block;          /* Allows width constraints to apply */
+  white-space: nowrap;     /* Prevents line breaks */
+  overflow: hidden;        /* Clips overflowing text */
+  text-overflow: ellipsis; /* Forces the '...' to render */
+  min-width: 0;            /* CRITICAL: Overrides flexbox child expansion */
+
+  font-size: 12px;
+}
+
+/*******************************  Basic 3d button with hover *********************************/
+.basic-3d-button {
+  position: relative;
+  background-color: #122B59; /* #142846; */    /* black #121826; */ /* gray #e0e0e0; */
+  color: white;
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  
+  border: 1px solid white; /*#999;*/
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 11px;  /*  12px  */
+  min-width: 50px;
+  /*max-width: 200px;*/
+  padding: 4px 8px;
+
+  /* Ellipsis & Alignment Essentials */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Smooth transition for hover effects */
+  transition: all 0.2s ease; 
+
+  /* The 3D "Bottom Edge / Side Wall" */
+  box-shadow: 0 2px 0 black; /* #999; */
+  margin-bottom: 4px; /* Prevents shadow clipping in layout */
+}
+
+/* 2. Hover State - Lifts slightly & adds 3D Glow Halo */
+/*.basic-3d-button:hover {*/
+.basic-3d-button:not(:disabled):hover {
+  background-color: #f5f5f5;
+  color: black;
+  /*background-color: #53575e;*/
+  /*color: black;*/
+  transform: translateY(-1px);   /* Lifts button 1px to enhance 3D feel on hover */
+  box-shadow: 0 5px 0 #999, 0 0 10px 2px rgb(183, 248, 183);   /* 0 5px 0 #999 = dynamic wall growth | 0 0 10px 2px #ff4d4d = glowing halo */
+}
+
+.basic-3d-button:disabled {         /* 3. Disabled State - Clean, muted resting state */
+  /*opacity: .9;*/
+  cursor: not-allowed;
+}
+
+.basic-3d-button.btn-cancel-3d:not(:disabled):hover {   /* Modifier for Cancel / Destructive buttons */
+   box-shadow: 0 5px 0 #999, 0 0 10px 2px #fa7575;    /* 0 5px 0 #999 = side wall depth | red/coral halo glow */
+}
+
+
+/* Container handles absolute placement & subtle red accent frame */
+.home-logout-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+
+    background-color: rgba(217, 83, 79, 0.12); /* Subtle muted red backdrop */
+    border: 1px solid #d9534f;                 /* Crimson accent border */
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+
+
+
+
+/* Text Element (Truncation Engine) */
+.button-text-truncate {
+  display: block;          /* Allows width constraints to apply */
+  white-space: nowrap;     /* Prevents line breaks */
+  overflow: hidden;        /* Clips overflowing text */
+  text-overflow: ellipsis; /* Forces '...' */
+  min-width: 0;            /* Overrides flexbox child expansion */
+}
+/********************************************************************************************/
+
+/* --- Self-Positioning Basic Exit Button --- */
+.basic-exit {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background-color: #d9534f;
+    color: #ffffff;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    border: 1px solid #d43f3a;
+    border-radius: 4px;
+    /*padding: 6px 16px;*/
+    padding: 4px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10; /* Ensures it sits above other header elements */
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover State */
+.basic-exit:hover {
+    background-color: #c9302c;
+    border-color: #ac2925;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Active / Clicked State */
+.basic-exit:active {
+    background-color: #ac2925;
+    border-color: #761c19;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    transform: translateY(1px);
+}

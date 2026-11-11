@@ -1,0 +1,384 @@
+/* Base Floating Card Frame */
+.help-card {
+  position: fixed;
+  max-width: 90vw;
+  max-height: 85vh;
+  background-color: #122B59;
+  border: 1px solid #fffde7;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #e2e8f0;
+  user-select: none;
+  pointer-events: auto;
+}
+
+/* NEW: Image Wrapper Container */
+.help-card-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Base Image Styles (Preserving your theme settings) */
+.help-card-image {
+  background-color: #122B59;
+  display: block;
+  object-fit: contain;
+  box-sizing: border-box;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* 1. FORMULAS: Fixed 1:1 pixel size (No scaling, no distortion, zero vertical gap) */
+.help-card-image-formula {
+  width: auto;
+  height: auto;
+  max-width: none;
+}
+
+/* 2. TABLES / PLOTS: Fluid scaling (This replaces max-width: 100% for wide assets) */
+.help-card-image-table,
+.help-card-image-plot,
+.help-card-image-graph,
+.help-card-image-matrix {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* Header Drag Anchor Bar */
+.help-card-header {
+  background-color: #fffde7;
+  border: 2px solid #122B59;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: grab;
+}
+
+.help-card-header:active {
+  cursor: grabbing;
+}
+
+.help-card-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: black;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Header Action Buttons */
+.help-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.help-card-btn {
+  background: transparent;
+  border: 1px solid #122B59;
+  border-radius: 4px;
+  color: black;
+  background-color: #f8dfae;
+  font-size: 0.72rem;
+  padding: 0 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.help-card-btn:hover {
+  background-color: #334155;
+  color: #f8fafc;
+  border-color: #64748b;
+}
+
+.help-card-btn-close {
+  padding: 2px 5px;
+  font-weight: bold;
+  color: black;
+}
+
+.help-card-btn-close-fixed {
+  background-color: #dc2626;
+  padding: 0 20 0 20;
+  color: #ffffff;
+}
+
+.help-card-btn-close-fixed:hover {
+  background-color: #b91c1c;
+}
+
+.help-card-btn-close:hover {
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+
+
+/* Scrollable Body Content Area */
+.help-card-body {
+  padding: 12px 35px; /* Increased left/right padding from 12px to 18px */
+  font-size: 0.85rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.45;
+  overflow-y: auto;
+  user-select: text;
+  color: white;
+  pointer-events: auto;
+  background-color: #122B59;
+  /*border: 1px solid #334155;*/
+  border-radius: 3px;
+  margin-top:    20px;
+  margin-bottom: 20px;
+}
+
+.help-card-body p {
+  margin: 0 0 20px 0;
+  text-align: justify;       /* Creates clean, square block margins */
+  text-justify: inter-word;  /* Keeps word spacing natural across justified lines */
+}
+
+.help-card-body p.help-text {
+  margin-left: 20px;
+}
+
+/* Remove bottom margin on the very last paragraph so it matches the top */
+.help-card-body p:last-child {
+  margin-bottom: 0;
+}
+
+.help-card-body.help-card-error {
+  background-color: #D32F2F; /* Dark Red */
+  color: #fef2f2;            /* Light text for contrast */
+  border: 1px solid #ef4444; /* Subtle red border accent */
+  font-weight: 600;
+}
+
+.helpCardHighlight {
+  background-color: lightgray;
+  color: black;
+  border-left: 4px solid #ff7300;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border-radius: 4px;
+}
+
+.help-item-title {
+  font-weight: 600;
+  color: #ffffff
+}
+
+.help-card-body p[id^="anchor-"] {
+  scroll-margin-top: 8px;
+}
+
+.help-card-body p:last-child {
+  margin-bottom: 0;
+}
+
+.help-card-body ul {
+  margin: 0 0 10px 0;
+  padding-left: 20px;
+}
+
+/* Standalone & Body Button Links */
+.help-link-btn,
+.help-card-body button[data-help-key] {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: bold;
+  color: yellow;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline;
+  pointer-events: auto;
+}
+
+.help-link-btn:hover,
+.help-card-body button[data-help-key]:hover {
+  color: #7dd3fc;
+}
+
+.help-glossary-title {
+  color: #ff7300;
+  font-weight: bold;
+  font-size: 0.85rem;
+  /* Optional extra styling if you want a subtle background pill or underline later: */
+  /* text-decoration: underline; */
+   /*background-color: rgba(248, 248, 118, 0.9); */
+   /*padding: 1px 4px; */
+   /*border-radius: 3px; */
+}
+
+.xxxxxhelp-glossary-term {
+  color: #ff7300;
+  font-size: 0.85rem;
+}
+
+.help-glossary-term {
+  /* color: #ff7300; */
+  color: white;
+  font-style: italic;
+  font-size: 0.95rem;  /*  original .85  */
+}
+
+.help-glossary-term-highlight {
+  /* color: #ff7300; */
+  color: black;
+  font-style: italic;
+  font-size: 0.95rem;  /*  original .85  */
+}
+
+
+/* Base Circle Trigger */
+.help-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff7300; /* Badge Orange */
+  color: black;            /* Dark Blue background contrast */
+  border: 1px solid #ff7300;
+  border-radius: 50%;
+  font-weight: bold;
+  font-family: inherit;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  margin-left: 10px;
+  /*vertical-align: middle;*/
+  vertical-align: 1px;        /* makes orange cirle look more vertically aligned. */
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  user-select: none;
+}
+
+/* Hover & Active States */
+.help-trigger:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 6px rgba(255, 159, 28, 0.6);
+}
+
+.help-trigger:active {
+  transform: scale(0.95);
+}
+
+/* Micro Size (Sub-sections / scorecard labels) */
+.help-trigger-sm {
+  width: 16px;
+  height: 16px;
+  font-size: 13px;
+}
+
+/* Medium Size (Standard section headers, inner badges) */
+.help-trigger-md {
+  width: 18px;
+  height: 18px;
+  font-size: 15px;
+}
+
+/* Macro Size (Main Section Headers) */
+.help-trigger-lg {
+  width: 20px;
+  height: 20px;
+  font-size: 18px;
+}
+
+.help-trigger-inert {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff7300;
+  color: white;
+  border: 1px solid #ff7300;
+  border-radius: 50%;
+  font-weight: bold;
+  font-family: inherit;
+  font-size: 0.75rem;       /* Small badge size */
+  width: 1.1rem;           /* Fixed dimensions for a clean circle */
+  height: 1.1rem;
+  line-height: 1;
+  padding: 0;
+  margin: 0 3px;           /* Tight spacing for inline sentences */
+  vertical-align: 1px;     /* Matches your vertical alignment */
+  user-select: none;
+  cursor: default;
+  pointer-events: none;    /* Ensures no click/hover reactions */
+}
+
+
+
+
+.help-card-nav-strip {
+  width: 100%;
+  height: 28px;
+  background-color: #f8dfae; /* Matches light cream header background */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #dcdcdc;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* Base Letter Slot */
+.help-card-nav-letter {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
+  padding: 2px 0;
+  border-radius: 50%;
+  transition: all 0.15s ease-in-out;
+}
+
+/* Hover State: Green Halo */
+.help-card-nav-letter:not(.help-card-nav-letter-dead):not(.help-card-nav-letter-selected):hover {
+  color: #064e3b;
+  background-color: rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+}
+
+/* Selected State: Highlighted lock-in without halo */
+.help-card-nav-letter-selected {
+  background-color: #10b981;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+/* Unused / Dead Letters */
+.help-card-nav-letter-dead {
+  color: #a1a1aa;
+  background-color: #f1f5f9;
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Backdrop dimming for fixed compliance cards */
+.help-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, .75);
+  z-index: 9998; /* Ensures it sits over the app/checkout modal, right under the card */
+}
