@@ -26,7 +26,7 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onResetPassword }) => {
     if (!isOpen) return null;
 
     // Handles the Login or Action button click depending on mode
-    const handleLoginClick = async (e) => {
+    const handleLogin = async (e) => {
         if (e) e.preventDefault();
         setAuthError('');
         setSuccessMessage('');
@@ -252,6 +252,12 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onResetPassword }) => {
                                         clearMessages();
                                         setEmail(e.target.value);
                                     }}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            handleLogin();
+                                        }
+                                    }}
                                     style={{ 
                                         width: '100%', 
                                         height: '32px', 
@@ -277,8 +283,6 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onResetPassword }) => {
                                         boxSizing: 'border-box',
                                         backgroundColor: '#ffffff'
                                     }}
-
-
                                     type={showPassword || mode === 'forgot_code_sent' ? 'text' : 'password'}
                                     value={passwordOrCode}
                                     onChange={(e) => {
@@ -286,6 +290,12 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onResetPassword }) => {
                                         setPasswordOrCode(e.target.value);
                                     }}
                                     onFocus={clearMessages}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            handleLogin();
+                                        }
+                                    }}
                                     placeholder={getPasswordPlaceholder()}
                                 />
                             </div>
@@ -305,7 +315,6 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onResetPassword }) => {
 
                         {/* CONFIRM PASSWORD ROW (Only active during update_password) */}
                         {mode === 'update_password' && (
-
                             <div className="credentials-row">
                                 <label className="cred-col-label">
                                     Confirm Password:
@@ -314,13 +323,18 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onResetPassword }) => {
                                     <input 
                                         maxLength={128}
                                         placeholder="••••••••"
-                                        
                                         onFocus={clearMessages}
                                         type={showPassword ? 'text' : 'password'}
                                         value={confirmPassword}
                                         onChange={(e) => {
                                             clearMessages();
                                             setConfirmPassword(e.target.value);
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault();
+                                                handleLogin();
+                                            }
                                         }}
                                         style={{ 
                                             width: '100%', 
@@ -330,37 +344,13 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onResetPassword }) => {
                                         }}
                                     />
                                 </div>
-
                                 {/* Empty dummy placeholder div matching button column width */}
                                 <div className="cred-col-action-placeholder" />
-
                             </div>
-
-                             
-
-
-
-
-
-
-
-
                         )}
-
                     </div>
 
                 </div>
-
-
-
-
-
-
-
-
-
-
-
 
                 {/* ERROR & SUCCESS MESSAGES */}
                 {authError && (
@@ -416,7 +406,7 @@ export const LoginModal = ({ isOpen, onClose, onSuccess, onResetPassword }) => {
                             <button 
                                 type="button"
                                 className="basic-3d-button" 
-                                onClick={handleLoginClick}
+                                onClick={handleLogin}
                                 onKeyDown={(e) => { if (e.key === 'Tab') { e.preventDefault(); } }}
                             >
                                 {getPrimaryButtonLabel()}
