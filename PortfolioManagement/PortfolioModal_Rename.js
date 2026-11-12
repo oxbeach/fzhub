@@ -62,7 +62,7 @@ export function PortfolioModal_Rename({ portfolios = [], onClose, onRename }) {
                 {/* MAIN CONTENT AREA */}
                 
                 <div className="define-globals-panel">
-                    <p style={{ margin: '0 0 15px 0', fontWeight: '500', fontSize: '16px', textAlign: 'center' }}>
+                    <p style={{ margin: '0 0 15px 0', fontWeight: '500', fontSize: '18px', textAlign: 'center' }}>
                         {message}
                     </p>
 
@@ -70,7 +70,7 @@ export function PortfolioModal_Rename({ portfolios = [], onClose, onRename }) {
     
                         {/* Left Side: Portfolio List Box (Added minWidth: 0) */}
                         <div style={{ flex: '1', minWidth: 0 }}>
-                            <label style={{ display: 'block', fontSize: '13px', fontWeight: 'bold', marginBottom: '5px' }}>
+                            <label style={{ display: 'block', fontSize: '14px', fontWeight: 'bold', marginBottom: '5px' }}>
                                 Select Portfolio to Rename:
                             </label>
                             <div 
@@ -79,7 +79,8 @@ export function PortfolioModal_Rename({ portfolios = [], onClose, onRename }) {
                                     overflowY: 'auto', 
                                     border: '1px solid #ccc', 
                                     borderRadius: '4px', 
-                                    backgroundColor: '#ffffff'
+                                    backgroundColor: '#ffffff',
+                                    fontWeight: '500'
                                 }}
                             >
                                 {portfolios.length === 0 ? (
@@ -87,7 +88,8 @@ export function PortfolioModal_Rename({ portfolios = [], onClose, onRename }) {
                                         (No active portfolios)
                                     </div>
                                 ) : (
-                                    <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+                                    
+                                   <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
                                         {portfolios.map((portfolio, idx) => {
                                             const name = typeof portfolio === 'string' ? portfolio : portfolio.name || portfolio.portfolio_name;
                                             const isSelected = selectedPortfolio === name;
@@ -101,12 +103,35 @@ export function PortfolioModal_Rename({ portfolios = [], onClose, onRename }) {
                                                     }}
                                                     className={isSelected ? 'portfolio-list-item selected' : 'portfolio-list-item'}
                                                     title={name}
+                                                    style={{
+                                                        padding: '6px 8px',
+                                                        marginBottom: '4px',
+                                                        cursor: 'pointer',
+                                                        borderRadius: '4px',
+                                                        backgroundColor: isSelected ? '#0066CC' : 'transparent',
+                                                        color: isSelected ? '#FFFFFF' : 'inherit',
+                                                        transition: 'background-color 0.15s ease, color 0.15s ease',
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        if (!isSelected) {
+                                                            e.currentTarget.style.backgroundColor = '#0067CC';
+                                                            e.currentTarget.style.color = '#FFFFFF';
+                                                        }
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        if (!isSelected) {
+                                                            e.currentTarget.style.backgroundColor = 'transparent';
+                                                            e.currentTarget.style.color = 'inherit';
+                                                        }
+                                                    }}
                                                 >
                                                     {name}
                                                 </li>
                                             );
                                         })}
                                     </ul>
+
+
                                 )}
                             </div>
                         </div>

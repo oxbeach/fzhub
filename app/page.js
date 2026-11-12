@@ -106,7 +106,7 @@ export default function Home() {
 
     const handlePasscodeSubmit = (e) => {
         e.preventDefault();
-        if (passcode === 'canyouhearmenow') { // Change to your password
+        if (passcode === 'canyouhearmenow') { 
         setIsUnlocked(true);
         }
     };
@@ -123,10 +123,10 @@ export default function Home() {
       }}>
         <form onSubmit={handlePasscodeSubmit} style={{ display: 'flex', gap: '8px' }}>
           <input
-            type="password"
+            type="text"
             value={passcode}
             onChange={(e) => setPasscode(e.target.value)}
-            placeholder="Passcode"
+            placeholder=""
             autoFocus
             style={{
               backgroundColor: '#111827',
