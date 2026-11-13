@@ -654,18 +654,9 @@ export function IntroductionRow_16() {
 }
 
 
+/*
 
-
-
-
-
-export function IntroductionRow_17() {
-  const emailSubject = encodeURIComponent("Financial Zone Feedback / Inquiry");
-  const emailBody = encodeURIComponent(
-    "Hello Financial Zone Team,\n\nI would like to share the following feedback/issue:\n\n"
-  );
-
-  return (
+ return (
     <div className="home-intro-card">
       <h2 className="home-intro-title">Contact & Accuracy</h2>
       
@@ -676,13 +667,46 @@ export function IntroductionRow_17() {
 
       <div style={{ marginTop: "12px", textAlign: "center" }}>
         <a 
-          href={`mailto:fzhubsupport@gmail.com?subject=${emailSubject}&body=${emailBody}`}
+          href={`mailto:fzhubsupport@gmail.com?subject=${emailSubject}&body=${emailBody}`} 
           className="basic-3d-button fz-contact-button"
         >
           <span className="fz-contact-label">Contact</span>
           <span className="fz-contact-brand">FZ</span>
         </a>
       </div>
+
+
+      <div className="home-contact-static-container">
+        <div className="basic-3d-button fz-contact-button home-contact-inert">
+          <div className="fz-contact-label">CONTACT</div>
+          <div className="fz-contact-brand">FZ</div>
+          <div className="fz-contact-label">at: fzsupport@gmail.com</div>
+        </div>
+      </div>
+    </div>
+*/
+
+
+export function IntroductionRow_17() {
+  const emailSubject = encodeURIComponent("Financial Zone Feedback / Inquiry");
+  const emailBody = encodeURIComponent(
+    "Hello Financial Zone Team,\n\nI would like to share the following feedback/issue:\n\n"
+  );
+
+
+  return (
+    <div className="home-intro-card">
+      <h2 className="home-intro-title">Contact & Accuracy</h2>
+      
+      <p className="home-intro-text">
+        We strive to ensure every calculation is accurate and error-free. If you spot an error, inconsistency,
+         or have ideas for improvement, we encourage your feedback.
+      </p>
+
+      <div style={{ textAlign: "center", width: "100%", fontSize: "20px", fontWeight: "500" }}>
+        fzhubsupport@gmail.com
+      </div>
+
 
     </div>
   );
