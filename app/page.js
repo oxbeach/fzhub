@@ -204,7 +204,15 @@ export default function Home() {
             simulateSuccess = true
         } = checkoutParams;
 
-        setIsProcessing(true);
+
+        //const checkoutUrl = 'https://www.google.com';
+        //window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
+
+        //setIsProcessing(true);  // this will show the progress bar
+
+        //setIsProcessing(false);     // turn off progress bar, turn on Pending card
+
+        openHelp("payment-processing");
 
         try {
             const { data: { session } } = await supabase.auth.getSession();

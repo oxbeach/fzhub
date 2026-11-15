@@ -233,7 +233,7 @@ function PortfolioUI({
       {/* HEADER PANEL */}
       <div className="rbl-header">
         <div className="fz-rbl-id">
-          <strong className="portfolio-name-label" title={name}>
+          <strong className="portfolio-name-label" title={name} style={{ width: '200px' }}>
             {name}
           </strong>
         </div>
