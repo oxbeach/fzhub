@@ -84,6 +84,10 @@ export default function LibraryUI({
 
         initializeGuestSession();
     }, [showLibrary, isGuest, isFirstTimeGuest]); // <--- Added showLibrary here too
+
+
+
+
     const guestViews = {
         rrTable:      true,
         plot:         true,        
@@ -559,7 +563,7 @@ const handleConfirmCreate = (submittedName) => {
                 {portfolios.map((portfolio, index) => {
                     // Dynamically targets the very last portfolio in the current array
                     const isLastPortfolio  = index === portfolios.length - 1;
-                    const isGuestPortfolio = false;// isFirstTimeGuest && isLastPortfolio; 
+                    const isGuestPortfolio = isFirstTimeGuest && isLastPortfolio; 
 
                     return (
                         <PortfolioUI
