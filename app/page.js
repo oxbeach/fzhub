@@ -196,6 +196,7 @@ export default function Home() {
         setDbPassType            (subscriptionType || 'guest');
            
         setIsLoggedIn(true);
+        //setIsFirstTimeGuest(false);
 
         if (numRemaining === -1) {
             openHelp('ERR_SUBSCRIPTION_DATES', false, false, true);

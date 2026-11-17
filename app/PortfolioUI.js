@@ -22,6 +22,8 @@ import '../Styles/RollingReturnMatrix/RollingMatrix.css';
 import '../Styles/Style_RollingMatrix.css';
 import '../Styles/Style_PortfolioUI.css';
 
+
+
 function PortfolioUI({ 
   name, 
   color, 
@@ -31,7 +33,8 @@ function PortfolioUI({
   repository, 
   updateRepository, 
   handleComputeCleanup,
-  setPortfolios
+  setPortfolios,
+  initialViews // <-- Added to props
 }) {
   const { openHelp } = useHelp();
   const [assetCount, setAssetCount]     = useState(portfolioLogic?.assets?.length || 0);
@@ -39,16 +42,15 @@ function PortfolioUI({
   const [refreshTick, setRefreshTick]   = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const [views, setViews] = useState({
-    rrTable: false,
-    plot: false,
+  // Seed with initialViews if provided, otherwise default everything to false
+  const [views, setViews] = useState(initialViews || {
+    rrTable:      false,
+    plot:         false,
     distribution: false,
-    compare: false,
-    buysell: false,
-    analyze: false
+    compare:      false,
+    buysell:      false,
+    analyze:      false
   });
-
-
 
   const cleanUpPortfolios = (targetName) => {
     if (allPortfolios && allPortfolios.length > 0) {

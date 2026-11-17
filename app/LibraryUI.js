@@ -54,37 +54,44 @@ export default function LibraryUI({
 
     useEffect(() => {
         const initializeGuestSession = async () => {
+            // Guard: Only run if library is visible, we are a guest, and it's the first time
+            if (!showLibrary || !isGuest || !isFirstTimeGuest) return;
 
-            alert(' isGuest ' + isGuest + "  first time " + isFirstTimeGuest);
-            
-            if (isGuest && isFirstTimeGuest) {
-                try {
-                    // Call your dedicated server-side endpoint for the guest session
-                    const response = await fetch('/api/guest-session', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-                    const result = await response.json();
+            try {
+                // Call your dedicated server-side endpoint for the guest session
+                const response = await fetch('/api/guest-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const result = await response.json();
 
-                    if (result.success && Array.isArray(result.data)) {
-                        // Feed the admin guest portfolio array directly into your file loader
-                        handleLoad(result.data);
-                        
-                        // Lock the gate so this never runs again during the current browser visit
-                        setIsFirstTimeGuest(false);
-                    }
-                } catch (err) {
-                    alert(' error ');
-                    openHelp('ERR_LOAD_FAILURE', false, false, true);
+                //console.log('🔍 [DEBUG] Raw API Response:', result);
+                //console.log('🔍 [DEBUG] Extracted Portfolios Array:', result.portfolios || result.data);
+                //console.log('🔍 [DEBUG] First Portfolio Object Structure:', (result.portfolios || result.data)?.[0]);
+
+                if (result.success && Array.isArray(result.data)) {
+                    // Feed the admin guest portfolio array directly into your file loader
+                    handleLoad(result.data);
+                    
+                    // Lock the gate so this never runs again during the current browser visit
+                    setIsFirstTimeGuest(false);
                 }
+            } catch (err) {
+                alert(' error in guestSession ');
+                openHelp('ERR_LOAD_FAILURE', false, false, true);
             }
         };
 
         initializeGuestSession();
-    }, [isGuest, isFirstTimeGuest]);
-
-
-
+    }, [showLibrary, isGuest, isFirstTimeGuest]); // <--- Added showLibrary here too
+    const guestViews = {
+        rrTable:      true,
+        plot:         true,        
+        distribution: true,
+        compare:      true,
+        buysell:      true,
+        analyze:      true
+    };
 
 
 
@@ -286,6 +293,8 @@ const handleConfirmCreate = (submittedName) => {
      */
     const handleLoad = (archiveData) => {
         if (!archiveData) return;
+
+        console.log("🚨 [handleLoad ENTRANCE] raw archiveData received:", archiveData);
         
         const archiveList = Array.isArray(archiveData) ? archiveData : [archiveData];
         const newEntries = [];
@@ -307,13 +316,11 @@ const handleConfirmCreate = (submittedName) => {
                     isStale: false
                 });
             } else {
-                //console.error(`[handleLoad] Failed to rebuild portfolio instance:`, data?.name);
+                console.error(`[handleLoad] Failed to rebuild portfolio instance:`, data?.name);
 
                 openHelp('ERR_LOAD_FAILURE', false, false, true);
             }
         });
-
-        //alert("  in handleLoad with length " + newEntries.length);
 
         if (newEntries.length === 0) return;
 
@@ -548,23 +555,29 @@ const handleConfirmCreate = (submittedName) => {
 
             {/* Active Workspace Portfolios */}
             <div className="workspace-container">
-                {portfolios.map(p => (
-                    p.visible && (
-                        <PortfolioUI 
-                            key={p.id} 
-                            name={p.name} 
-                            color={p.color}
-                            settings={p.settings} 
-                            portfolioLogic={p.instance}
-                            allPortfolios={portfolios}
-                            symbolList={symbolList}
-                            repository={repository}
-                            updateRepository={updateRepository}
-                            handleComputeCleanup={handleComputeCleanup}
-                            setPortfolios={setPortfolios}
+
+                {portfolios.map((portfolio, index) => {
+                    // Dynamically targets the very last portfolio in the current array
+                    const isLastPortfolio  = index === portfolios.length - 1;
+                    const isGuestPortfolio = false;// isFirstTimeGuest && isLastPortfolio; 
+
+                    return (
+                        <PortfolioUI
+                        key={portfolio.id || index}
+                        name={portfolio.name}
+                        color={portfolio.color}
+                        portfolioLogic={portfolio}
+                        allPortfolios={portfolios}
+                        symbolList={symbolList}
+                        repository={repository}
+                        updateRepository={updateRepository}
+                        handleComputeCleanup={handleComputeCleanup}
+                        setPortfolios={setPortfolios}
+                        initialViews={isGuestPortfolio ? guestViews : undefined}
                         />
-                    )
-                ))}
+                    );
+                })}
+
             </div>
         </div>
     );

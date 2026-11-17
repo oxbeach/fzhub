@@ -986,10 +986,14 @@ export default class Portfolio {
      * @returns {boolean} Success status of the rebuild operation
      */
     RebuildArchive(archiveData) {
+
+        alert(' inside rebuildArchive ');
         if (!archiveData || !archiveData.topRowReturns || archiveData.topRowReturns.length === 0) {
             //if (this.DEBUG) console.error(`[RebuildArchive] Invalid archive payload for portfolio:`, archiveData?.name);
             return false;
         }
+
+        alert("  start to build portfolio ");
 
         // 1. Restore core primitive members
         this.id            = archiveData.id;
