@@ -34,7 +34,6 @@ function PortfolioUI({
   updateRepository, 
   handleComputeCleanup,
   setPortfolios,
-  initialViews // <-- Added to props
 }) {
   const { openHelp } = useHelp();
   const [assetCount, setAssetCount]     = useState(portfolioLogic?.assets?.length || 0);
@@ -42,8 +41,7 @@ function PortfolioUI({
   const [refreshTick, setRefreshTick]   = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Seed with initialViews if provided, otherwise default everything to false
-  const [views, setViews] = useState(initialViews || {
+  const [views, setViews] = useState( {
     rrTable:      false,
     plot:         false,
     distribution: false,

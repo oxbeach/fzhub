@@ -97,7 +97,7 @@ export default function Home() {
     const [loginPassword, setLoginPassword] = useState('');
     const [loginDaysRemaining, setLoginDaysRemaining] = useState('unlimited');
 
-    const [isFirstTimeGuest, setIsFirstTimeGuest] = useState(true);
+    //const [isFirstTimeGuest, setIsFirstTimeGuest] = useState(true);
 
     const [subUseExistingAccount, setSubUseExistingAccount] = useState(false);
     const [subNewEmail, setSubNewEmail] = useState('');
@@ -311,8 +311,6 @@ export default function Home() {
             isLoggedIn                 ={isLoggedIn}
             loginEmail                 ={loginEmail}
             loginDaysRemaining         ={loginDaysRemaining}
-            isFirstTimeGuest           ={isFirstTimeGuest}
-            setIsFirstTimeGuest        ={setIsFirstTimeGuest}
             subUseExistingAccount      ={subUseExistingAccount}
             subNewEmail                ={subNewEmail}
             subNewPassword             ={subNewPassword}
@@ -333,8 +331,6 @@ function HomeContent({
     isLoggedIn, 
     loginEmail, 
     loginDaysRemaining, 
-    isFirstTimeGuest,
-    setIsFirstTimeGuest,
     subUseExistingAccount, 
     subNewEmail, 
     subNewPassword, 
@@ -498,8 +494,6 @@ function HomeContent({
                     updateRepository    ={updateRepository}
                     symbolList          ={symbolList}
                     isGuest             ={isGuest}
-                    isFirstTimeGuest    ={isFirstTimeGuest}
-                    setIsFirstTimeGuest ={setIsFirstTimeGuest}
                 />
             </div>
 

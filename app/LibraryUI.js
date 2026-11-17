@@ -23,9 +23,7 @@ export default function LibraryUI({
         repository, 
         updateRepository, 
         symbolList, 
-        isGuest, 
-        isFirstTimeGuest, 
-        setIsFirstTimeGuest
+        isGuest 
      }) {
 
     const [portfolios, setPortfolios] = useState([]);
@@ -51,6 +49,7 @@ export default function LibraryUI({
     }, []);
 
 
+    /*
 
     useEffect(() => {
         const initializeGuestSession = async () => {
@@ -85,7 +84,7 @@ export default function LibraryUI({
         initializeGuestSession();
     }, [showLibrary, isGuest, isFirstTimeGuest]); // <--- Added showLibrary here too
 
-
+    */
 
 
     const guestViews = {
@@ -561,10 +560,6 @@ const handleConfirmCreate = (submittedName) => {
             <div className="workspace-container">
 
                 {portfolios.map((portfolio, index) => {
-                    // Dynamically targets the very last portfolio in the current array
-                    const isLastPortfolio  = index === portfolios.length - 1;
-                    const isGuestPortfolio = false;//showLibrary && isFirstTimeGuest && isLastPortfolio; 
-
                     return (
                         <PortfolioUI
                         key={portfolio.id || index}
@@ -577,7 +572,6 @@ const handleConfirmCreate = (submittedName) => {
                         updateRepository={updateRepository}
                         handleComputeCleanup={handleComputeCleanup}
                         setPortfolios={setPortfolios}
-                       
                         />
                     );
                 })}
