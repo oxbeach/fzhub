@@ -16,7 +16,18 @@ import { initialSettings, subscribeToSettingsChange } from './GlobalSettings';
 
 import '../Styles/Global/Help.css';
 
-export default function LibraryUI({ showLibrary, setShowLibrary, onGoHome, repository, updateRepository, symbolList, isGuest }) {
+export default function LibraryUI({
+        showLibrary,
+        setShowLibrary, 
+        onGoHome, 
+        repository, 
+        updateRepository, 
+        symbolList, 
+        isGuest, 
+        isFirstTimeGuest, 
+        setIsFirstTimeGuest
+     }) {
+
     const [portfolios, setPortfolios] = useState([]);
     //const [refreshTick, setRefreshTick] = useState(0);
 
@@ -38,6 +49,45 @@ export default function LibraryUI({ showLibrary, setShowLibrary, onGoHome, repos
             //setPortfolios(currentPortfolios => currentPortfolios.map(p => ({ ...p, isStale: true })) );
         });
     }, []);
+
+
+
+    useEffect(() => {
+        const initializeGuestSession = async () => {
+
+            alert(' isGuest ' + isGuest + "  first time " + isFirstTimeGuest);
+            
+            if (isGuest && isFirstTimeGuest) {
+                try {
+                    // Call your dedicated server-side endpoint for the guest session
+                    const response = await fetch('/api/guest-session', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    const result = await response.json();
+
+                    if (result.success && Array.isArray(result.data)) {
+                        // Feed the admin guest portfolio array directly into your file loader
+                        handleLoad(result.data);
+                        
+                        // Lock the gate so this never runs again during the current browser visit
+                        setIsFirstTimeGuest(false);
+                    }
+                } catch (err) {
+                    alert(' error ');
+                    openHelp('ERR_LOAD_FAILURE', false, false, true);
+                }
+            }
+        };
+
+        initializeGuestSession();
+    }, [isGuest, isFirstTimeGuest]);
+
+
+
+
+
+
 
     const { openHelp } = useHelp();
 
@@ -259,7 +309,7 @@ const handleConfirmCreate = (submittedName) => {
             } else {
                 //console.error(`[handleLoad] Failed to rebuild portfolio instance:`, data?.name);
 
-                 openHelp('ERR_LOAD_FAILURE', false, false, true);
+                openHelp('ERR_LOAD_FAILURE', false, false, true);
             }
         });
 

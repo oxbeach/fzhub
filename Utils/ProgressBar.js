@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
  * Custom hook to manage the 15-second safety timeout countdown.
  */
 export function ProgressCountdown(isProcessing) {
-    const TIMEOUT_SECONDS = 15;
+    const TIMEOUT_SECONDS = 10;
     const [countdown, setCountdown] = useState(TIMEOUT_SECONDS);
 
     useEffect(() => {

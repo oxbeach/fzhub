@@ -908,4 +908,18 @@ export function QuoteFooterRow() {
 }
 
 
-// ROW 3: QUOTE ROW
+ export function IntroductionRow_short_1() {
+  return (
+    <div className="home-intro-card">
+      <h2 className="home-intro-title">Introduction</h2>
+      
+      <p className="home-intro-text space-below">
+
+        this will be a very short intro
+        
+      </p>
+
+    </div>
+  );
+}
+

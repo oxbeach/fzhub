@@ -31,6 +31,15 @@ import { IntroductionRow_1, IntroductionRow_2, IntroductionRow_3, IntroductionRo
          IntroductionRow_10, IntroductionRow_11, IntroductionRow_12, IntroductionRow_13,
          IntroductionRow_14, IntroductionRow_15, IntroductionRow_16, IntroductionRow_17 } from '../Home/HomeRows';
 
+
+
+         
+import { IntroductionRow_short_1  } from '../Home/HomeRows';
+
+
+
+
+
 // Help System Hook (provider is now in layout.js)
 import { useHelp } from '../Help/HelpContext';
 
@@ -88,6 +97,8 @@ export default function Home() {
     const [loginPassword, setLoginPassword] = useState('');
     const [loginDaysRemaining, setLoginDaysRemaining] = useState('unlimited');
 
+    const [isFirstTimeGuest, setIsFirstTimeGuest] = useState(true);
+
     const [subUseExistingAccount, setSubUseExistingAccount] = useState(false);
     const [subNewEmail, setSubNewEmail] = useState('');
     const [subNewPassword, setSubNewPassword] = useState('');
@@ -110,56 +121,56 @@ export default function Home() {
         setIsUnlocked(true);
         }
     };
-    // UC GATE
-  if (!isUnlocked) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        backgroundColor: '#090d16',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'sans-serif'
-      }}>
-        <form onSubmit={handlePasscodeSubmit} style={{ display: 'flex', gap: '8px' }}>
-          <input
-            type="text"
-            value={passcode}
-            onChange={(e) => setPasscode(e.target.value)}
-            placeholder=""
-            autoFocus
-            style={{
-              backgroundColor: '#111827',
-              border: '1px solid #374151',
-              color: '#f9fafb',
-              borderRadius: '6px',
-              padding: '8px 12px',
-              fontSize: '14px',
-              outline: 'none'
-            }}
-          />
+                                            // UC GATE
+                                        if (!isUnlocked) {
+                                            return (
+                                            <div style={{
+                                                minHeight: '100vh',
+                                                backgroundColor: '#090d16',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                fontFamily: 'sans-serif'
+                                            }}>
+                                                <form onSubmit={handlePasscodeSubmit} style={{ display: 'flex', gap: '8px' }}>
+                                                <input
+                                                    type="text"
+                                                    value={passcode}
+                                                    onChange={(e) => setPasscode(e.target.value)}
+                                                    placeholder=""
+                                                    autoFocus
+                                                    style={{
+                                                    backgroundColor: '#111827',
+                                                    border: '1px solid #374151',
+                                                    color: '#f9fafb',
+                                                    borderRadius: '6px',
+                                                    padding: '8px 12px',
+                                                    fontSize: '14px',
+                                                    outline: 'none'
+                                                    }}
+                                                />
 
-          {/*
-          <button
-            type="submit"
-            style={{
-              backgroundColor: '#f9fafb',
-              color: '#111827',
-              fontWeight: '600',
-              fontSize: '14px',
-              padding: '8px 16px',
-              borderRadius: '6px',
-              border: 'none',
-              cursor: 'pointer'
-            }}
-          >
-            Enter
-          </button>
-          */}
-        </form>
-      </div>
-    );
-  }
+                                                {/*
+                                                <button
+                                                    type="submit"
+                                                    style={{
+                                                    backgroundColor: '#f9fafb',
+                                                    color: '#111827',
+                                                    fontWeight: '600',
+                                                    fontSize: '14px',
+                                                    padding: '8px 16px',
+                                                    borderRadius: '6px',
+                                                    border: 'none',
+                                                    cursor: 'pointer'
+                                                    }}
+                                                >
+                                                    Enter
+                                                </button>
+                                                */}
+                                                </form>
+                                            </div>
+                                            );
+                                        }
 
 
 
@@ -204,21 +215,17 @@ export default function Home() {
             simulateSuccess = true
         } = checkoutParams;
 
-
-        //const checkoutUrl = 'https://www.google.com';
-        //window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
-
         //setIsProcessing(true);  // this will show the progress bar
 
-        //setIsProcessing(false);     // turn off progress bar, turn on Pending card
+        //setIsProcessing(false);     // turn on/off progress bar, turn on Pending card
 
-        openHelp("payment-processing");
+        //openHelp("payment-processing");
 
         try {
             const { data: { session } } = await supabase.auth.getSession();
             const accessToken = session?.access_token || '';
 
-            const res = await fetch('/api/checkout', {
+            const res = await fetch('/api/payment', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -241,11 +248,31 @@ export default function Home() {
                 return;
             }
 
+            /********************************************************************************
             if (data.isSelfRenewal) {
                 setDbStartDate(data.newStart);
                 setDbEndDate(data.newEnd);
                 setDbPassType(subNewPassType);
                 setLoginDaysRemaining(data.updatedDaysRemaining);
+            }
+            ****************************************************************************************/
+
+
+            if (data.checkoutUrl) {
+                window.open(data.checkoutUrl, '_blank', 'noopener,noreferrer');
+
+                // Pause execution right here until the user brings focus back to this FZ tab
+                await new Promise((resolve) => {
+                    const handleFocus = () => {
+                        window.removeEventListener('focus', handleFocus);
+                        resolve();
+                    };
+                    window.addEventListener('focus', handleFocus);
+                });
+
+                // Now start the progress bar and 10-second countdown
+                setIsProcessing(true);
+                await new Promise(resolve => setTimeout(resolve, 10000));
             }
 
             openHelp(data.code, false, false, false);
@@ -283,6 +310,8 @@ export default function Home() {
             isLoggedIn                 ={isLoggedIn}
             loginEmail                 ={loginEmail}
             loginDaysRemaining         ={loginDaysRemaining}
+            isFirstTimeGuest           ={isFirstTimeGuest}
+            setIsFirstTimeGuest        ={setIsFirstTimeGuest}
             subUseExistingAccount      ={subUseExistingAccount}
             subNewEmail                ={subNewEmail}
             subNewPassword             ={subNewPassword}
@@ -303,6 +332,8 @@ function HomeContent({
     isLoggedIn, 
     loginEmail, 
     loginDaysRemaining, 
+    isFirstTimeGuest,
+    setIsFirstTimeGuest,
     subUseExistingAccount, 
     subNewEmail, 
     subNewPassword, 
@@ -402,7 +433,7 @@ function HomeContent({
 
 
         // Inspect the global singleton state in console
-        console.log("Home - initialSettings snapshot:", { ...initialSettings });
+        //console.log("Home - initialSettings snapshot:", { ...initialSettings });
     };
  
     const handleCreateAccount = () => setIsCreateModalOpen(true);
@@ -434,6 +465,7 @@ function HomeContent({
                     helpTopics={helpTopics}
                     setActiveShowcaseKey={setActiveShowcaseKey}
                 />
+                 <IntroductionRow_short_1 /> 
 
                 <IntroductionRow_10 />   
                 <IntroductionRow_7 />   
@@ -458,13 +490,15 @@ function HomeContent({
 
             <div className={`library-wrapper ${!isHomeActive ? 'is-visible' : 'is-hidden'}`}>
                 <LibraryUI 
-                    showLibrary={showLibrary}
-                    setShowLibrary={setShowLibrary}
-                    onGoHome={() => setIsHomeActive(true)}
-                    repository={repository}
-                    updateRepository={updateRepository}
-                    symbolList={symbolList}
-                    isGuest={isGuest}
+                    showLibrary         ={showLibrary}
+                    setShowLibrary      ={setShowLibrary}
+                    onGoHome            ={() => setIsHomeActive(true)}
+                    repository          ={repository}
+                    updateRepository    ={updateRepository}
+                    symbolList          ={symbolList}
+                    isGuest             ={isGuest}
+                    isFirstTimeGuest    ={isFirstTimeGuest}
+                    setIsFirstTimeGuest ={setIsFirstTimeGuest}
                 />
             </div>
 
