@@ -563,7 +563,7 @@ const handleConfirmCreate = (submittedName) => {
                 {portfolios.map((portfolio, index) => {
                     // Dynamically targets the very last portfolio in the current array
                     const isLastPortfolio  = index === portfolios.length - 1;
-                    const isGuestPortfolio = showLibrary && isFirstTimeGuest && isLastPortfolio; 
+                    const isGuestPortfolio = false;//showLibrary && isFirstTimeGuest && isLastPortfolio; 
 
                     return (
                         <PortfolioUI

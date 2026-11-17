@@ -44,12 +44,12 @@ function PortfolioUI({
 
   // Seed with initialViews if provided, otherwise default everything to false
   const [views, setViews] = useState(initialViews || {
-    rrTable:      false,
-    plot:         false,
-    distribution: false,
-    compare:      false,
-    buysell:      false,
-    analyze:      false
+    rrTable:      true,
+    plot:         true,
+    distribution: true,
+    compare:      true,
+    buysell:      true,
+    analyze:      true
   });
 
   const cleanUpPortfolios = (targetName) => {
