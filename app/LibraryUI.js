@@ -89,12 +89,12 @@ export default function LibraryUI({
 
 
     const guestViews = {
-        rrTable:      true,
-        plot:         true,        
-        distribution: true,
-        compare:      true,
-        buysell:      true,
-        analyze:      true
+        rrTable:      false,
+        plot:         false,        
+        distribution: false,
+        compare:      false,
+        buysell:      false,
+        analyze:      false
     };
 
 
