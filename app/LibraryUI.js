@@ -577,7 +577,7 @@ const handleConfirmCreate = (submittedName) => {
                         updateRepository={updateRepository}
                         handleComputeCleanup={handleComputeCleanup}
                         setPortfolios={setPortfolios}
-                        initialViews={isGuestPortfolio ? guestViews : undefined}
+                       
                         />
                     );
                 })}
