@@ -1,14 +1,12 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize a dedicated Supabase admin client using the service role key
-// to bypass RLS and securely fetch the system guest template.
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-export async function GET(request) {
+export async function POST(request) {
   try {
     const sessionName = '_admin_guest_session_';
 
