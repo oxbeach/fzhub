@@ -100,8 +100,8 @@ export const SubscriptionModal = ({
                     <div className="subscription-panel-item">
                         <span className="subscription-highlight-label">Explore as a Free Guest </span>
                         <p>
-                        Guests have free access to all FZ tools and analytics using historical data up to 2020. Investigate 
-                        historical market behavior, including the 2000 dot-com bubble, 2008 financial crisis, and 2020 Covid shock.
+                            Guests have free access to all FZ tools and analytics across historical data excluding the most recent 5 years.
+                             Investigate historical market behavior, including the 2000 dot-com bubble, 2008 financial crisis, and 2020 Covid shock.
                         </p>
                     </div>
 
@@ -117,8 +117,8 @@ export const SubscriptionModal = ({
                     <div className="subscription-panel-item">
                         <span className="subscription-highlight-label">Secure Payment Processing</span>
                         <p>
-                        Financial Zone never stores or handles your payment credentials or personal data.
-                        All transactions are processed by an independent unaffiliated third party.
+                        Payments are processed by an independent third-party processor.
+                        FZ stores your billing address solely for tax reporting. Your email address is never sold or shared, and no promotional emails will be sent to you.
                         </p>
                     </div>
 

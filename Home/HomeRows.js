@@ -121,7 +121,7 @@ export function ActionPanelsRow({
           <Hint text="Overview of FZ and navigation tips" position="bottom">
             <button 
               className="basic-3d-button home-card-btn"
-              onClick={() => openHelp('get-started')}
+              onClick={() => openHelp('overview')}
             >
               Overview
             </button>

@@ -28,6 +28,7 @@ import {
 export const DistributeUI = ({ portfolio, allPortfolios = [] }) => {
 
     const portfolioName = portfolio?.name ?? "Unknown";
+    const portfolioNames = allPortfolios.map(p => p.name);
     const [renderTrigger, setRenderTrigger] = useState(0);
 
     const currentSubtype = "???";
@@ -35,12 +36,13 @@ export const DistributeUI = ({ portfolio, allPortfolios = [] }) => {
     // Step 1: Extract the saved distribution slots from the engine instance cache
     const rawCache = typeof portfolio?.getDistribution === 'function' ? portfolio.getDistribution() : [];
     
-    // Explicitly reconstruct the 2 comparison slots to prevent layout pop/shifting
+    // Explicitly reconstruct the 2 comparison slots, sanitizing any name that no longer exists in the session
     const compNames = Array.from({ length: 2 }).map((_, i) => {
-        return rawCache[i] || null;
+        const candidate = rawCache[i];
+        return candidate && portfolioNames.includes(candidate) ? candidate : null;
     });
 
-    // Step 2: Commit these slots back to lock them down natively
+    // Step 2: Ensure the base portfolio tracks these sanitized slots natively
     if (typeof portfolio?.setDistribution === 'function') {
         portfolio.setDistribution(compNames);
     }

@@ -1,5 +1,9 @@
 import React from 'react';
-import { useHelp } from '../Help/HelpContext';
+import { useState, useEffect } from 'react';
+import { useHelp  } from '../Help/HelpContext';
+
+import '../Styles/Global/Subscription.css';
+
 
 const PASS_NAMES = {
     '1_year': { title: '1-Year Unlimited Pass', term: '365 Days Access' },
@@ -14,6 +18,15 @@ export const CheckoutModal = ({
     selectedPass = '30_day',
     amount = 30
 }) => {
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+        if (isOpen) {
+            setIsSubmitting(false);
+        }
+    }, [isOpen]);
+
     const { openHelp } = useHelp();
 
     if (!isOpen) return null;
@@ -80,8 +93,8 @@ export const CheckoutModal = ({
                     <div className="subscription-panel-item">
                         <span className="subscription-highlight-label">Secure Payment Processing</span>
                         <p>
-                        Financial Zone never stores or handles your payment credentials.
-                        All transactions are processed by an independent unaffiliated third party, Stripe.
+                        Payments are processed by an independent third-party processor.
+                        FZ stores your billing address solely for tax reporting. Your email address is never sold or shared, and no promotional emails will be sent to you.
                         </p>
                     </div>
 
@@ -132,8 +145,12 @@ export const CheckoutModal = ({
                         <div className="button-group-right">
                             <button 
                                 type="button"
-                                className="basic-3d-button" 
-                                onClick={() => onProceedToPayment?.()}
+                                className="basic-3d-button proceed-payment-button" 
+                                disabled={isSubmitting}
+                                onClick={() => {
+                                    setIsSubmitting(true);
+                                    onProceedToPayment?.();
+                                }}
                                 style={{
                                     backgroundColor: '#2e7d32',
                                     color: '#ffffff',
@@ -141,7 +158,6 @@ export const CheckoutModal = ({
                                     fontWeight: 'bold',
                                     padding: '6px 20px',
                                     border: '1px solid #1b5e20',
-                                    cursor: 'pointer'
                                 }}
                             >
                                 Proceed to Payment ({displayPrice})

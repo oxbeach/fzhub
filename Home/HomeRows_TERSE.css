@@ -1,0 +1,65 @@
+
+
+.fz-feature-row {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 24px;
+  width: 1000px;
+  padding: 16px;
+  box-sizing: border-box;
+  /*background-color: #f7f3df;  Replace with your panel/row surface color */
+  background-color: #122b59;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.fz-feature-text {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  box-sizing: border-box;
+  background-color: #fffde7; /* Replace with your left panel color */
+  color: #122b59;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.fz-feature-media {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.fz-feature-thumb-box {
+  width: 180px;  /* Exact same width across all rows */
+  height: 120px; /* Exact same height across all rows */
+  background-color: #0b0b0b;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fz-feature-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.fz-feature-caption {
+  width: 180px;
+  padding: 6px 10px;
+  box-sizing: border-box;
+  background-color: #fffde7;
+  color: black;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 10px;
+}

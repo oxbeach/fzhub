@@ -21,8 +21,15 @@ export const ChartUI_Compare = ({ Type: inType = "compare", portfolio, allPortfo
 
   // Step 1: Extract the saved portfolio names exactly as they are without filtering.
   // This prevents the matrix layout from losing its state if a portfolio is briefly uncomputed.
+  /*
   const slots = Array.from({ length: 4 }).map((_, i) => {
     return rawCache[i] || null;
+  });
+  */
+  //              check for bad names in Compare array
+  const slots = Array.from({ length: 4 }).map((_, i) => {
+    const candidate = rawCache[i];
+    return candidate && portfolioNames.includes(candidate) ? candidate : null;
   });
 
   // Step 2: Ensure the base portfolio tracks these saved slots natively.

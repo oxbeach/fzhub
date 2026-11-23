@@ -16,7 +16,21 @@ import { initialSettings, subscribeToSettingsChange } from './GlobalSettings';
 
 import '../Styles/Global/Help.css';
 
-export default function LibraryUI({ showLibrary, setShowLibrary, onGoHome, repository, updateRepository, symbolList, isGuest }) {
+import { GuestSession } from './page.js';
+
+export default function LibraryUI({
+        showLibrary, 
+        setShowLibrary, 
+        onGoHome, 
+        repository, 
+        updateRepository, 
+        symbolList, 
+        isGuest
+    }) {
+    
+        //alert(" we are in libraryUI with showLibaray " + showLibrary);
+        //alert(`GuestSession.processed: ${GuestSession.processed}`);
+
     const [portfolios, setPortfolios] = useState([]);
     //const [refreshTick, setRefreshTick] = useState(0);
 
@@ -30,8 +44,12 @@ export default function LibraryUI({ showLibrary, setShowLibrary, onGoHome, repos
 
     // Form tracking states
     const [newPortfolioName, setNewPortfolioName] = useState("");
-    const [createError, setCreateError]           = useState("");
-    const [selectedId, setSelectedId]             = useState("");
+    const [createError,      setCreateError]      = useState("");
+    const [selectedId,       setSelectedId]       = useState("");
+
+    const [showButton, setShowButton] = useState(false);
+
+    const { openHelp } = useHelp();
 
     useEffect(() => {
         subscribeToSettingsChange(() => {
@@ -39,7 +57,10 @@ export default function LibraryUI({ showLibrary, setShowLibrary, onGoHome, repos
         });
     }, []);
 
-    const { openHelp } = useHelp();
+    
+    if (!showLibrary) {
+        return;
+    }
 
     // Phase 1: Initialize form and open the Create Modal
     const handleOpenCreateModal = () => {
@@ -48,51 +69,51 @@ export default function LibraryUI({ showLibrary, setShowLibrary, onGoHome, repos
         setShowCreateModal(true);
     };
 
-  // Phase 2: Process validation and construct the new portfolio
-const handleConfirmCreate = (submittedName) => {
-    // Standardize input from local modal state
-    const rawName = typeof submittedName === 'string' ? submittedName : newPortfolioName;
-    const trimmedName = rawName.trim();
+    // Phase 2: Process validation and construct the new portfolio
+    const handleConfirmCreate = (submittedName) => {
+        // Standardize input from local modal state
+        const rawName = typeof submittedName === 'string' ? submittedName : newPortfolioName;
+        const trimmedName = rawName.trim();
 
-    if (!trimmedName) {
-        setCreateError("Portfolio name cannot be empty.");
-        return;
-    }
+        if (!trimmedName) {
+            setCreateError("Portfolio name cannot be empty.");
+            return;
+        }
 
-    const exists = portfolios.some(p => 
-        p.name.toLowerCase() === trimmedName.toLowerCase()
-    );
-
-    if (exists) {
-        setCreateError(`Portfolio '${trimmedName}' already exists.`);
-        return;
-    }
-
-    const generatedId = Date.now();
-    const settingsSnapshot = JSON.parse(JSON.stringify(initialSettings));
-    
-    const newInstance = new Portfolio(generatedId, trimmedName, settingsSnapshot);
-
-    setPortfolios(currentPortfolios => {
-        const updatedList = [...currentPortfolios, { 
-            id:       generatedId, 
-            name:     trimmedName, 
-            instance: newInstance, 
-            settings: settingsSnapshot,
-            visible:  true,
-            isStale:  false,
-            color:    '#f9f9f9'
-        }];
-
-        return updatedList.sort((a, b) => 
-            a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+        const exists = portfolios.some(p => 
+            p.name.toLowerCase() === trimmedName.toLowerCase()
         );
-    });
 
-    setNewPortfolioName("");
-    setCreateError("");
-    setShowCreateModal(false);
-};
+        if (exists) {
+            setCreateError(`Portfolio '${trimmedName}' already exists.`);
+            return;
+        }
+
+        const generatedId = Date.now();
+        const settingsSnapshot = JSON.parse(JSON.stringify(initialSettings));
+        
+        const newInstance = new Portfolio(generatedId, trimmedName, settingsSnapshot);
+
+        setPortfolios(currentPortfolios => {
+            const updatedList = [...currentPortfolios, { 
+                id:       generatedId, 
+                name:     trimmedName, 
+                instance: newInstance, 
+                settings: settingsSnapshot,
+                visible:  true,
+                isStale:  false,
+                color:    '#f9f9f9'
+            }];
+
+            return updatedList.sort((a, b) => 
+                a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+            );
+        });
+
+        setNewPortfolioName("");
+        setCreateError("");
+        setShowCreateModal(false);
+    };
 
 
     const handleCancelCreate = () => {
@@ -228,6 +249,9 @@ const handleConfirmCreate = (submittedName) => {
         setShowDeleteModal(false);
     };
 
+
+   
+
    /**
      * Accepts portfolio raw data from DB, rebuilds portfolio instances,
      * and replaces the active session in LibraryUI.
@@ -275,13 +299,26 @@ const handleConfirmCreate = (submittedName) => {
         );
     };
 
+    if (!GuestSession.processed && GuestSession.rawData !== null && Array.isArray(GuestSession.rawData) && GuestSession.rawData.length > 0
+    ) {
+        const guestPayload = GuestSession.rawData;
+        GuestSession.processed = true;
+        GuestSession.firstView = true;
+        setTimeout(() => {
+            handleLoad(guestPayload);
+            //openHelp('guest-introduction');
+            openHelp("guest-introduction", true, false, false, true);  // "centers" the card
+        }, 0);
+    }
+
+
     return (
         <div className="home-library-wrapper">
 
             {/* Show Button: Always available when showLibrary is false */}
-            {!showLibrary && (
+            {showButton && (
                 <button 
-                    onClick={() => setShowLibrary(true)}
+                    onClick={() => setShowButton(false)}
                     className="basic-3d-button"
                     style={{ marginTop: '15px', marginRight: '15px', padding: '10px 20px', fontWeight: 'bold' }}
                 >
@@ -290,7 +327,7 @@ const handleConfirmCreate = (submittedName) => {
             )}
 
             {/* Library Dock Header Panel */}
-            <div className={`library-dock ${showLibrary ? 'dock-visible' : 'dock-hidden'}`}>
+            <div className={`library-dock ${!showButton ? 'dock-visible' : 'dock-hidden'}`}>
 
               {/* External Controls Container (Stacked Vertically) */}
                 <div style={{ 
@@ -314,7 +351,7 @@ const handleConfirmCreate = (submittedName) => {
                     {/* Minimize Button */}
                     <Hint text="Minimize Library" position="left">
                         <button 
-                            onClick={() => setShowLibrary(false)}
+                            onClick={() => setShowButton(true)}
                             className="basic-3d-button" 
                             style={{ width: '70px', fontSize: '10px' }}
                         >
@@ -426,18 +463,20 @@ const handleConfirmCreate = (submittedName) => {
             {isGuest && (
                 <div 
                     style={{
-                    width: "fit-content",
-                    margin: "0px auto",
-                    textAlign: "center",
-                    fontSize: "16px",
-                    fontStyle: "italic",
-                    color: "black",
-                    backgroundColor: "rgba(247, 227, 227, 0.9)",
-                    padding: "8px 16px", 
-                    boxSizing: "border-box"
+                        width: "fit-content",
+                        margin: "10px auto",
+                        textAlign: "center",
+                        fontSize: "16px",
+                        fontStyle: "italic",
+                        color: "black",
+                        backgroundColor: "rgba(247, 227, 227, 0.9)",
+                        border: "1px solid red",
+                        borderRadius: "6px",
+                        padding: "8px 16px", 
+                        boxSizing: "border-box",
                     }}
                 >
-                    Guests are restricted to historical data up to 2020 and cannot save any of their work.
+                    Guest access excludes the last 5 years of historical data, and work cannot be saved.
                 </div>
             )}
             
@@ -498,23 +537,29 @@ const handleConfirmCreate = (submittedName) => {
 
             {/* Active Workspace Portfolios */}
             <div className="workspace-container">
-                {portfolios.map(p => (
-                    p.visible && (
-                        <PortfolioUI 
-                            key={p.id} 
-                            name={p.name} 
-                            color={p.color}
-                            settings={p.settings} 
-                            portfolioLogic={p.instance}
-                            allPortfolios={portfolios}
-                            symbolList={symbolList}
-                            repository={repository}
-                            updateRepository={updateRepository}
-                            handleComputeCleanup={handleComputeCleanup}
-                            setPortfolios={setPortfolios}
-                        />
-                    )
-                ))}
+                {portfolios.map((p, index) => {
+                    const isLastPortfolio = index === portfolios.length - 1;
+                    const useGuestView = Boolean(GuestSession.firstView && isLastPortfolio);
+
+                    return (
+                        p.visible && (
+                            <PortfolioUI 
+                                key={p.id} 
+                                name={p.name} 
+                                color={p.color}
+                                settings={p.settings} 
+                                portfolioLogic={p.instance}
+                                allPortfolios={portfolios}
+                                symbolList={symbolList}
+                                repository={repository}
+                                updateRepository={updateRepository}
+                                handleComputeCleanup={handleComputeCleanup}
+                                setPortfolios={setPortfolios}
+                                useGuestView={useGuestView}
+                            />
+                        )
+                    );
+                })}
             </div>
         </div>
     );

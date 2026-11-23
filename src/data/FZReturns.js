@@ -44,7 +44,7 @@ export class FZReturns {
             report += `... (+${this.returns.length - 10} more years)\n`;
         }
 
-        alert(report);
+        //alert(report);
     }
 }
 

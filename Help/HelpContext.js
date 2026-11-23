@@ -14,7 +14,7 @@ export function HelpProvider({ children, initialTopics = {} }) {
     topicsRef.current = initialTopics;
   }, [initialTopics]);
 
-  const openHelp = useCallback((key, showGlossary = true, fixedPosition = false, errorCard = false) => {
+  const openHelp = useCallback((key, showGlossary = true, fixedPosition = false, errorCard = false, center = false) => {
       setActiveCards(prevCards => {
         const highestZ = prevCards.length > 0 
           ? Math.max(...prevCards.map(c => c.zIndex)) 
@@ -40,12 +40,26 @@ export function HelpProvider({ children, initialTopics = {} }) {
         let posX;
         let posY;
 
+        /*
         // --- FIXED / CENTERED POSITIONING BRANCH ---
         if (fixedPosition) {
           // Center horizontally in viewport, pin near top (e.g., 60px)
           posX = Math.max(20, Math.round((screenWidth - actualWidth) / 2));
           posY = 60; 
         } else {
+        */
+
+          if (fixedPosition || center) {
+            posX = Math.max(20, Math.round((screenWidth - actualWidth) / 2));
+
+            if (center) {
+              const estimatedHeight = topicData.height || 420;
+              posY = Math.max(20, Math.round((screenHeight - estimatedHeight) / 2));
+            } else {
+              posY = 60;
+            }
+          } else {
+
           // --- EXISTING CASCADE LOGIC ---
           const BASE_TOP = 60;
           const OFFSET_X = 20;

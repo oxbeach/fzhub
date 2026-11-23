@@ -19,6 +19,12 @@ export function SaveTaskView({ dbSessions, portfolios, onClose, onComplete, onOp
     const [hoveredIdx, setHoveredIdx]     = useState(null);
 
     const handleConfirmSave = async () => {
+
+
+        //alert(" handleConfirmSave in SaveTaskView.js ")
+
+
+
         const trimmedName = sessionInput.trim().slice(0, 35);
         if (!trimmedName) {
             setMessage('Please enter a valid session name.');
@@ -50,9 +56,18 @@ export function SaveTaskView({ dbSessions, portfolios, onClose, onComplete, onOp
 
         const failedCount = serializeResults.length - successfulPayloads.length;
 
+        //alert("  in SaveTaskView with failedCount " + failedCount);
+
         // 2. Abort if no valid portfolios are ready to save
         if (successfulPayloads.length === 0) {
             setMessage('No valid portfolio data ready to save. Please compute portfolios first.');
+            return;
+        }
+
+        // 2b. Abort if ANY portfolio failed so we don't partially overwrite a saved session  11/21/2026
+        if (failedCount > 0) {
+            setMessage(`${failedCount} portfolio(s) could not be saved. Please compute or remove them before saving.`);
+            //openHelp("ERR_SERIALIZE_PARTIAL_SAVE"); // optional, if you still want the error card
             return;
         }
 
@@ -67,13 +82,17 @@ export function SaveTaskView({ dbSessions, portfolios, onClose, onComplete, onOp
 
         // 4. Handle post-save messaging based on total success vs. partial success vs. DB error
         if (success) {
-            if (failedCount > 0) {
+
+
+            if (failedCount > 0) {  ///////////// will never use this branch...we are checking for this up higher and aborting.
                 // Partial save: Trigger persistent Help Card
                 setMessage(`Saved ${successfulPayloads.length} portfolio(s). ${failedCount} failed.`);
-                openHelp("ERR_SERIALIZE_PARTIAL_SAVE");
+                /////////openHelp("ERR_SERIALIZE_PARTIAL_SAVE");
             } else {
                 setMessage('Operation successful!');
             }
+
+
 
             // Always complete and close on success (full or partial)
             setTimeout(() => {

@@ -14,6 +14,8 @@ import { useHelp } from '../Help/HelpContext';
 import { RetrieveReturns } from '../src/data/RetrieveReturns';
 import { ProgressBar, ProgressCountdown } from '../Utils/ProgressBar';
 
+import { GuestSession } from './page.js';
+
 // CSS Imports
 import '../Styles/Buttons/PrimaryActions.css'; 
 import '../Styles/Containers/Portfolio.css';
@@ -31,7 +33,8 @@ function PortfolioUI({
   repository, 
   updateRepository, 
   handleComputeCleanup,
-  setPortfolios
+  setPortfolios,
+  useGuestView
 }) {
   const { openHelp } = useHelp();
   const [assetCount, setAssetCount]     = useState(portfolioLogic?.assets?.length || 0);
@@ -39,15 +42,26 @@ function PortfolioUI({
   const [refreshTick, setRefreshTick]   = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const [views, setViews] = useState({
+
+  const defaultViews = {
     rrTable: false,
     plot: false,
     distribution: false,
     compare: false,
     buysell: false,
     analyze: false
-  });
+  };
 
+  const [views, setViews] = useState(() => {
+    if (useGuestView && GuestSession.view && typeof GuestSession.view === 'object') {
+      GuestSession.firstView = false;
+      return {
+        ...defaultViews,
+        ...GuestSession.view
+      };
+    }
+    return defaultViews;
+  });
 
 
   const cleanUpPortfolios = (targetName) => {
@@ -121,7 +135,10 @@ function PortfolioUI({
         });
       });
 
+
       setViews({ rrTable: true, plot: false, distribution: false, compare: false, buysell: false, analyze: false });
+
+
     } finally {
       setIsProcessing(false); // <--- Guarantees the overlay clears out when done
     }

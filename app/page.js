@@ -25,11 +25,14 @@ import { ManageAccountModal } from '../Home/ManageAccountModal'; // <-- Added Im
 import { ProgressBar, ProgressCountdown } from '../Utils/ProgressBar';
 import { updateSubscription } from '../Utils/Math';
 
-import { ActionPanelsRow, BannerRow, ShowcaseRow, ShowcaseStage, QuoteRow } from '../Home/HomeRows';
+import { ActionPanelsRow, BannerRow, ShowcaseRow, ShowcaseStage, QuoteRow } from '../Home/HomeRows_TERSE';
 import { IntroductionRow_1, IntroductionRow_2, IntroductionRow_3, IntroductionRow_4, IntroductionRow_5, 
          IntroductionRow_6, IntroductionRow_7, IntroductionRow_8, IntroductionRow_9,
          IntroductionRow_10, IntroductionRow_11, IntroductionRow_12, IntroductionRow_13,
-         IntroductionRow_14, IntroductionRow_15, IntroductionRow_16, IntroductionRow_17 } from '../Home/HomeRows';
+         IntroductionRow_14, IntroductionRow_15, IntroductionRow_16, IntroductionRow_17 } from '../Home/HomeRows_TERSE';
+
+import { NewHome_1, NewHomeGuestRow, NewHomePrivacy, NewHomeDisclosures, NewHomeContact, NewHomeQuotes } from '../Home/HomeRows_TERSE';
+         
 
 // Help System Hook (provider is now in layout.js)
 import { useHelp } from '../Help/HelpContext';
@@ -55,6 +58,24 @@ import '../Styles/Login.css';
 
 const monthPrice = 30;
 const yearPrice = 150;
+
+//export const GuestSession = { processed: false, rawData: null };
+
+export const GuestSession = {
+  processed: false,
+  rawData:   null,
+  firstView: false,
+  view:      {
+    rrTable:      true,
+    plot:         true,
+    distribution: true,
+    compare:      true,
+    buysell:      true,
+    analyze:      true
+  }
+};
+
+
 
 const calculateSubPricing = (dbPassType) => {
     const isMonthPass = dbPassType === 'month' || dbPassType === '30_day';
@@ -83,26 +104,28 @@ const SHOWCASE_KEYS = [
 export default function Home() {
     const { openHelp, helpTopics } = useHelp();
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [loginEmail, setLoginEmail] = useState('Guest');
-    const [loginPassword, setLoginPassword] = useState('');
+    const [isLoggedIn, setIsLoggedIn]                 = useState(false);
+    const [loginEmail, setLoginEmail]                 = useState('Guest');
+    const [loginPassword, setLoginPassword]           = useState('');
     const [loginDaysRemaining, setLoginDaysRemaining] = useState('unlimited');
 
     const [subUseExistingAccount, setSubUseExistingAccount] = useState(false);
-    const [subNewEmail, setSubNewEmail] = useState('');
-    const [subNewPassword, setSubNewPassword] = useState('');
-    const [subNewPassType, setSubNewPassType] = useState('guest');
-    const [subNewAmount, setSubNewAmount] = useState('0');
+    const [subNewEmail, setSubNewEmail]                     = useState('');
+    const [subNewPassword, setSubNewPassword]               = useState('');
+    const [subNewPassType, setSubNewPassType]               = useState('guest');
+    const [subNewAmount, setSubNewAmount]                   = useState('0');
 
-    const [dbStartDate, setDbStartDate] = useState(null);
-    const [dbEndDate, setDbEndDate] = useState(null);
-    const [dbPassType, setDbPassType] = useState('guest');
+    const [dbStartDate, setDbStartDate]                     = useState(null);
+    const [dbEndDate, setDbEndDate]                         = useState(null);
+    const [dbPassType, setDbPassType]                       = useState('guest');
 
     const [isProcessing, setIsProcessing] = useState(false);
-    const subPricing = calculateSubPricing(dbPassType);
+    const subPricing                      = calculateSubPricing(dbPassType);
 
-    const [isUnlocked, setIsUnlocked] = useState(false);
+    const [isUnlocked, setIsUnlocked]  = useState(false);
     const [passcode,   setPasscode]    = useState('');
+
+   
 
     const handlePasscodeSubmit = (e) => {
         e.preventDefault();
@@ -166,6 +189,12 @@ export default function Home() {
     const handleLoginSuccess = async (success, userAuthData) => {
         if (!success || !userAuthData) return;
 
+        GuestSession.processed = false;
+        GuestSession.rawData   = null;
+        GuestSession.firstView = false;
+        GuestSession.view      = null;
+        
+
         const { 
             email, 
             password, 
@@ -194,6 +223,92 @@ export default function Home() {
 
     };
 
+
+
+const handleProceedToPayment_new_final_version = async (checkoutParams, closeCheckoutModal) => {
+        const {
+            subUseExistingAccount,
+            subNewEmail,
+            subNewPassword,
+            subNewPassType,
+            subNewAmount,
+            simulateSuccess = true
+        } = checkoutParams;
+
+        //setIsProcessing(true);  // this will show the progress bar
+
+        //setIsProcessing(false);     // turn on/off progress bar, turn on Pending card
+
+        //openHelp("payment-processing");
+
+        try {
+            const { data: { session } } = await supabase.auth.getSession();
+            const accessToken = session?.access_token || '';
+
+            const res = await fetch('/api/payment', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    ...(accessToken ? { 'Authorization': `Bearer ${accessToken}` } : {})
+                },
+                body: JSON.stringify({                        
+                    subUseExistingAccount,
+                    subNewEmail,
+                    subNewPassword,
+                    subNewPassType,
+                    subNewAmount,
+                    simulateSuccess
+                })
+            });
+
+            const data = await res.json();
+            if (!res.ok) {
+                const errorCode = data?.code || 'ERR_ACCOUNT_PROCESSING';
+                openHelp(errorCode, false, false, true);
+                return;
+            }
+
+            /********************************************************************************
+            if (data.isSelfRenewal) {
+                setDbStartDate(data.newStart);
+                setDbEndDate(data.newEnd);
+                setDbPassType(subNewPassType);
+                setLoginDaysRemaining(data.updatedDaysRemaining);
+            }
+            ****************************************************************************************/
+
+
+            if (data.checkoutUrl) {
+                window.open(data.checkoutUrl, '_blank', 'noopener,noreferrer');
+
+                // Pause execution right here until the user brings focus back to this FZ tab
+                await new Promise((resolve) => {
+                    const handleFocus = () => {
+                        window.removeEventListener('focus', handleFocus);
+                        resolve();
+                    };
+                    window.addEventListener('focus', handleFocus);
+                });
+
+                // Now start the progress bar and 10-second countdown
+                setIsProcessing(true);
+                await new Promise(resolve => setTimeout(resolve, 10000));
+            }
+
+            openHelp(data.code, false, false, false);
+            closeCheckoutModal?.();
+
+        } catch (error) {
+            openHelp('ERR_ACCOUNT_PROCESSING', false, false, true);
+        } finally {
+            setIsProcessing(false);
+        }
+    };
+
+
+
+
+
     const handleProceedToPayment = async (checkoutParams, closeCheckoutModal) => {
         const {
             subUseExistingAccount,
@@ -204,17 +319,13 @@ export default function Home() {
             simulateSuccess = true
         } = checkoutParams;
 
-
-        //const checkoutUrl = 'https://www.google.com';
-        //window.open(checkoutUrl, '_blank', 'noopener,noreferrer');
-
-        //setIsProcessing(true);  // this will show the progress bar
-
-        //setIsProcessing(false);     // turn off progress bar, turn on Pending card
-
-        openHelp("payment-processing");
+        setIsProcessing(true);  // show the 10s progress bar
 
         try {
+
+            //throw new Error('Forced test failure');
+
+
             const { data: { session } } = await supabase.auth.getSession();
             const accessToken = session?.access_token || '';
 
@@ -241,6 +352,9 @@ export default function Home() {
                 return;
             }
 
+            // Hold progress bar for 10 seconds to simulate external payment processing
+            await new Promise((resolve) => setTimeout(resolve, 10000));
+
             if (data.isSelfRenewal) {
                 setDbStartDate(data.newStart);
                 setDbEndDate(data.newEnd);
@@ -249,12 +363,13 @@ export default function Home() {
             }
 
             openHelp(data.code, false, false, false);
-            closeCheckoutModal?.();
+            //closeCheckoutModal?.();
 
         } catch (error) {
             openHelp('ERR_ACCOUNT_PROCESSING', false, false, true);
         } finally {
-            setIsProcessing(false);
+            setIsProcessing(false);  // turn off progress bar after delay (or immediately on error)
+            closeCheckoutModal?.();
         }
     };
 
@@ -340,7 +455,7 @@ function HomeContent({
     const [activeShowcaseKey, setActiveShowcaseKey] = useState(null);
     const [isHomeActive, setIsHomeActive]           = useState(true);
     const [isGuest, setIsGuest]                     = useState(true);
-    const [showLibrary, setShowLibrary]             = useState(true);
+    const [showLibrary, setShowLibrary]             = useState(false);
     const [isLoginModalOpen, setIsLoginModalOpen]   = useState(false);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
@@ -376,14 +491,40 @@ function HomeContent({
     const handleManageAccount = () => setIsManageAccountModalOpen(true);
 
   
-   
-    const handleEnterClick = () => {
+    const loadGuestSessionData = async () => {
+        try {
+            const response = await fetch('/api/guest-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            const result = await response.json();
+
+            if (result.success && Array.isArray(result.data)) {
+                GuestSession.rawData = result.data;
+                return true;
+            }
+
+            throw new Error(result.error || 'Invalid guest session payload');
+        } catch (err) {
+            //alert(' error in guestSession ');
+            openHelp('ERR_GUEST_LOAD_FAILURE', false, false, true);
+            return false;
+        }
+        };
+        
+    const handleEnterClick = async () => {
         if (typeof loginDaysRemaining === 'number' && loginDaysRemaining < 1) {
             return; 
         }
 
         const guestStatus = !isLoggedIn;
-        setIsGuest(guestStatus);
+
+        if (guestStatus && !GuestSession.processed && !Array.isArray(GuestSession.rawData)) {
+            const loaded = await loadGuestSessionData();
+            //if (!loaded) return;   // will get an error inside loadGuest... and put up error there.
+        } else {
+            //alert(" Enter Click...already processed or not a guest");
+        }
 
         const minYear = FIRST_FULL_YEAR; 
         const maxYear = guestStatus ? LAST_RESTRICTED_YEAR : LAST_FULL_YEAR;
@@ -392,17 +533,16 @@ function HomeContent({
             { length: maxYear - minYear + 1 }, 
             (_, i) => maxYear - i
         );
-
         
-        //alert(' handle enter click');
-
         repository.setYearData({ allYears, minYear, maxYear });
         GlobalSettingsInitialize(minYear, maxYear);
+
+        setIsGuest(guestStatus);
+        setShowLibrary(true);
         setIsHomeActive(false);
 
-
         // Inspect the global singleton state in console
-        console.log("Home - initialSettings snapshot:", { ...initialSettings });
+        //console.log("Home - initialSettings snapshot:", { ...initialSettings });
     };
  
     const handleCreateAccount = () => setIsCreateModalOpen(true);
@@ -417,18 +557,20 @@ function HomeContent({
                 <BannerRow />
                 
                 <ActionPanelsRow 
-                    isLoggedIn={isLoggedIn}
-                    loginEmail={loginEmail}
-                    daysRemaining={loginDaysRemaining}
-                    handleLogin={handleLogin}
-                    handleLogout={handleLogout}
-                    handleManageAccount={handleManageAccount}
-                    handleSubscriptions={handleSubscriptions}
-                    handleCreateAccount={handleCreateAccount}
-                    handleEnterClick={handleEnterClick}
-                    openHelp={openHelp}
+                    isLoggedIn          ={isLoggedIn}
+                    loginEmail          ={loginEmail}
+                    daysRemaining       ={loginDaysRemaining}
+                    handleLogin         ={handleLogin}
+                    handleLogout        ={handleLogout}
+                    handleManageAccount ={handleManageAccount}
+                    handleSubscriptions ={handleSubscriptions}
+                    handleCreateAccount ={handleCreateAccount}
+                    handleEnterClick    ={handleEnterClick}
+                    openHelp            ={openHelp}
                 />
 
+                
+                {/*
                 <ShowcaseRow 
                     showcaseKeys={SHOWCASE_KEYS}
                     helpTopics={helpTopics}
@@ -449,6 +591,60 @@ function HomeContent({
                 <IntroductionRow_4 />
                 <IntroductionRow_17 />   
                 <IntroductionRow_8 />    
+                */}
+                
+
+                <NewHome_1
+                    topic      = 'rolling-matrix'
+                    text       = "THE ROLLING MATRIX \u2122 calculates all possible combinations of rolling returns using up to 30 years of a portfolio's CAGR (Compound Annual Growth Rate)."
+                    helpTopics ={helpTopics}
+                    setActiveShowcaseKey={setActiveShowcaseKey}
+                />
+                <NewHome_1
+                    topic      = 'distribution-plot'
+                    text       = "DISTRIBUTION AND CUMULATION HISTOGRAMS show two views of Rolling Matrix values.  Up to three portfolios can be compared simultaneously."
+                    helpTopics ={helpTopics}
+                    setActiveShowcaseKey={setActiveShowcaseKey}
+                />
+
+                <NewHomeGuestRow
+                    isLoggedIn={isLoggedIn}
+                    handleEnterClick={handleEnterClick}
+                />
+
+                 <NewHome_1
+                    topic      = 'buysell-matrix'
+                    text       = "THE BUY/SELL MATRIX calculates all possible combinations of buying and selling a portfolio using up to 30 years of CAGR."
+                    helpTopics ={helpTopics}
+                    setActiveShowcaseKey={setActiveShowcaseKey}
+                />
+
+
+                <NewHome_1
+                    topic      = 'comparison-plot'
+                    text       = "COMPARE creates a scatter plot of CAGR pairs across all years and rolling periods of two portfolios.  Up to four plots are produced to show 4 portfolio pairings simultaneously."
+                    helpTopics ={helpTopics}
+                    setActiveShowcaseKey={setActiveShowcaseKey}
+                />
+                <NewHome_1
+                    topic      = 'rank'
+                    text       = "RANK compares Rolling Matrix statistics across multiple portfolios. FZ FACTOR™ is a custom weighted average that combines user-selected statistics."
+                    helpTopics ={helpTopics}
+                    setActiveShowcaseKey={setActiveShowcaseKey}
+                />
+                <NewHome_1
+                    topic      = 'analyze-plot'
+                    text       = "PLOT AND ANALYZE graph Rolling Matrix CAGR, statistics, and risk metrics across all years and rolling return periods."
+                    helpTopics ={helpTopics}
+                    setActiveShowcaseKey={setActiveShowcaseKey}
+                />
+                
+                <NewHomePrivacy />
+                <NewHomeDisclosures />
+                <NewHomeContact />   
+                <NewHomeQuotes />
+          
+                
 
                 <ShowcaseStage 
                     activeShowcaseKey={activeShowcaseKey}
@@ -460,14 +656,18 @@ function HomeContent({
                 <LibraryUI 
                     showLibrary={showLibrary}
                     setShowLibrary={setShowLibrary}
-                    onGoHome={() => setIsHomeActive(true)}
-                    repository={repository}
-                    updateRepository={updateRepository}
-                    symbolList={symbolList}
-                    isGuest={isGuest}
+                    onGoHome={() => {
+                        setShowLibrary(false);
+                        setIsHomeActive(true);
+                    }}
+                    repository          ={repository}
+                    updateRepository    ={updateRepository}
+                    symbolList          ={symbolList}
+                    isGuest             ={isGuest}
                 />
             </div>
 
+            
             <LoginModal 
                 isOpen={isLoginModalOpen}
                 onClose={() => setIsLoginModalOpen(false)}

@@ -361,7 +361,7 @@ export default class Portfolio {
         // Tolerance check synced with _Define: 0.01
         if (Math.abs(total - 100.0) > 0.1) {
             if (this.DEBUG) {
-                alert(`Portfolio Validation Failed\nSum: ${total.toFixed(4)}%\nRequired: 100% (+/- 0.01)`);
+                //alert(`Portfolio Validation Failed\nSum: ${total.toFixed(4)}%\nRequired: 100% (+/- 0.01)`);
             }
             return null;
         }
@@ -930,6 +930,11 @@ export default class Portfolio {
      * @returns {Object} Structured response object containing operation status, data payload, or error context.
      */
     Serialize() {
+
+        //alert("  inside serialize of Portfolio with " + this.name + "  isComputed " + this.isComputed + "  isStale " + this.isStale);
+
+
+
         // Guard 1: Prevent saving uncomputed portfolios
         if (!this.isComputed) {
             return {
@@ -943,6 +948,16 @@ export default class Portfolio {
             };
         }
 
+        //alert("  inside serialize about to mark as success  ");
+
+
+        /************************    11/21/2026    ************************************************
+        //
+        //   we are saving minimal parameters.  things can change, e.g. Compare, that set to stale.
+        //   this causes a failure.
+        //   let it thru
+
+
         // Guard 2: Prevent saving stale portfolios (modified parameters awaiting recomputation)
         if (this.isComputed && this.isStale) {
             return {
@@ -955,6 +970,7 @@ export default class Portfolio {
                 }
             };
         }
+        **********************************************************************************************/
 
         // Extract Period 1 row data
         const rawRow1 = this.getRow(1, this.firstYear, this.lastYear) || [];
@@ -972,7 +988,12 @@ export default class Portfolio {
                 defineMode: this.defineMode,
                 DEBUG: this.DEBUG,
                 GlobalEssentials: JSON.parse(JSON.stringify(this.GlobalEssentials)),
-                topRowReturns: returnsArray
+                topRowReturns: returnsArray,
+
+                // 11-22-2026  for guest demo
+                Comparison: JSON.parse(JSON.stringify(this.Comparison || [null, null, null, null])),
+                Distribution: JSON.parse(JSON.stringify(this.Distribution || [null, null])),
+
             },
             error: null
         };
@@ -999,6 +1020,10 @@ export default class Portfolio {
         this.defineMode    = archiveData.defineMode ?? false;
         this.DEBUG         = archiveData.DEBUG ?? false;
 
+        // 11-22-2026  for guest demo
+        this.Comparison    = Array.from({ length: 4 }, (_, i) => archiveData.Comparison?.[i] ?? null);
+        this.Distribution  = Array.from({ length: 2 }, (_, i) => archiveData.Distribution?.[i] ?? null);
+
         // 2. Re-hydrate GlobalEssentials into a real class instance
         this.GlobalEssentials = new GlobalEssentials(archiveData.GlobalEssentials);
 
@@ -1020,6 +1045,30 @@ export default class Portfolio {
         this.chartLibrary = [];
         this.isComputed   = false;
         this.isStale      = false;
+
+
+
+//////////////////////////////  11/21/2026       /////////////////////////////////
+
+        this.plotState = {
+            currentYear: null,       // Tracks slider year (used ONLY by Age subtype)
+            viewMode: "Period"       // Active subtype: "Period", "Year", "Rolling", or "Age"
+        };
+
+       // Persistent state block dedicated to the Analyze view
+        this.analyzeState = {
+            currentYear: null,      // Tracks user-selected slider year for AnalyzeUI
+            sharpeThreshold: 4.0,   // Stored as a clean UI percentage number (4.0%)
+            sortinoThreshold: 7.0,  // Stored as a clean UI percentage number (7.0%)
+            viewMode: "Analyze",    // Unified major view identifier
+            subType: "hi/lo"         // Tracks active sub-view diagnostic metric button
+        };
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
 
         // 5. Reconstruct FZReturns instance expected by buildMatrix
         const firstRow = new FZReturns(
