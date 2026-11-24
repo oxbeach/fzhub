@@ -125,7 +125,7 @@
 
 .proceed-payment-button:disabled {
     opacity: 0.5;
-    cursor: not-allowed
+    cursor: not-allowed;
 }
 
 .basic-3d-button.btn-cancel-3d:not(:disabled):hover {   /* Modifier for Cancel / Destructive buttons */

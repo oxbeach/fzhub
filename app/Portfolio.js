@@ -25,6 +25,7 @@ export default class Portfolio {
         this.isEqualWeight = false;
         this.isComputed    = false;
         this.defineMode    = false;
+        this.isFirstTime   = true;
         this.DEBUG         = false; 
 
         //this.baselineSettings  = JSON.parse(JSON.stringify(globalSettings));         // immutable, goes with this portfolio forever
@@ -78,11 +79,14 @@ export default class Portfolio {
         /***************************************  End of persistent data *****************************************/
     }
 
+    
+   setIsFirstTime(first) {
+    this.isFirstTime = Boolean(first);
+   }
+
     /***************************************************************************
      * Persistent Data Helpers (Plot / Age Controls)
      ***************************************************************************/
-
-   
 
     /**
      * Updates the persistent state variables safely.
@@ -1019,6 +1023,8 @@ export default class Portfolio {
         this.isEqualWeight = archiveData.isEqualWeight ?? false;
         this.defineMode    = archiveData.defineMode ?? false;
         this.DEBUG         = archiveData.DEBUG ?? false;
+
+        this.isFirstTime   = false;
 
         // 11-22-2026  for guest demo
         this.Comparison    = Array.from({ length: 4 }, (_, i) => archiveData.Comparison?.[i] ?? null);

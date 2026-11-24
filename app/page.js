@@ -544,9 +544,17 @@ function HomeContent({
         // Inspect the global singleton state in console
         //console.log("Home - initialSettings snapshot:", { ...initialSettings });
     };
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            handleEnterClick();
+        }
+    }, []);
  
     const handleCreateAccount = () => setIsCreateModalOpen(true);
     const handleSubscriptions = () => setIsSubscriptionModalOpen(true);
+
+
 
     return (
         <div className="home-root-container" style={{ position: 'relative' }}>
@@ -690,9 +698,10 @@ function HomeContent({
             />
            
             <SubscriptionModal 
-                isOpen={isSubscriptionModalOpen}
-                onClose={() => setIsSubscriptionModalOpen(false)}
-                subPricing={subPricing}
+                isOpen     ={isSubscriptionModalOpen}
+                isLoggedIn ={isLoggedIn}
+                onClose    ={() => setIsSubscriptionModalOpen(false)}
+                subPricing ={subPricing}
                 onEnterGuestMode={() => {
                     setIsSubscriptionModalOpen(false);
                     handleEnterClick();

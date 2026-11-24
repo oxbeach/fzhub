@@ -3,6 +3,7 @@ import { useHelp } from '../Help/HelpContext';
 
 export const SubscriptionModal = ({ 
     isOpen, 
+    isLoggedIn,
     onClose, 
     onEnterGuestMode,
     subPricing = {}
@@ -145,10 +146,12 @@ export const SubscriptionModal = ({
                                     type="button"
                                     className="basic-3d-button" 
                                     onClick={onEnterGuestMode}
+                                    disabled={isLoggedIn}
                                     style={{
                                         fontSize: '0.88rem',
-                                        padding: '6px 14px',
-                                        cursor: 'pointer'
+                                        padding:  '6px 14px',
+                                        cursor:   isLoggedIn ? 'not-allowed' : 'pointer',
+                                        opacity:  isLoggedIn ? 0.55 : 1
                                     }}
                                 >
                                     Try Guest Mode

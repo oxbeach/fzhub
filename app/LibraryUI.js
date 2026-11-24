@@ -93,6 +93,7 @@ export default function LibraryUI({
         const settingsSnapshot = JSON.parse(JSON.stringify(initialSettings));
         
         const newInstance = new Portfolio(generatedId, trimmedName, settingsSnapshot);
+        newInstance.setIsFirstTime(true);
 
         setPortfolios(currentPortfolios => {
             const updatedList = [...currentPortfolios, { 

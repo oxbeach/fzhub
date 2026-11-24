@@ -38,9 +38,20 @@ function PortfolioUI({
 }) {
   const { openHelp } = useHelp();
   const [assetCount, setAssetCount]     = useState(portfolioLogic?.assets?.length || 0);
-  const [isDefining, setIsDefining]     = useState(false);
+  //const [isDefining, setIsDefining]     = useState(Boolean(autoOpenDefine));
   const [refreshTick, setRefreshTick]   = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const [isDefining, setIsDefining] = useState(() => {
+    if (portfolioLogic?.isFirstTime) {
+      portfolioLogic.setIsFirstTime(false);
+      return true;
+    }
+    return false;
+  });
+
+
+
 
 
   const defaultViews = {
