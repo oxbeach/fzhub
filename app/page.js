@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../Utils/supabase';
 
 import { LAST_FULL_YEAR, LAST_RESTRICTED_YEAR, FIRST_FULL_YEAR } from '../app/api/utils/constants';
@@ -18,6 +18,7 @@ import GlobalSettingsInitialize from './GlobalSettingsInitialize';
 import LibraryUI from './LibraryUI';
 import { GlobalRepository } from '../Utils/GlobalRepository';
 import { LoginModal } from '../Home/LoginModal';
+import { LogoutModal } from '../Home/LogoutModal';
 import { AccountModal } from '../Home/AccountModal';
 import { SubscriptionModal } from '../Home/SubscriptionModal';
 import { CheckoutModal } from '../Home/CheckoutModal';
@@ -456,7 +457,8 @@ function HomeContent({
     const [isHomeActive, setIsHomeActive]           = useState(true);
     const [isGuest, setIsGuest]                     = useState(true);
     const [showLibrary, setShowLibrary]             = useState(false);
-    const [isLoginModalOpen, setIsLoginModalOpen]   = useState(false);
+    const [isLoginModalOpen,  setIsLoginModalOpen]  = useState(false);
+    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
     const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
@@ -475,6 +477,8 @@ function HomeContent({
         });
     };
 
+    const portfolioCountRef = useRef(0);
+
     const handleLogin = () => setIsLoginModalOpen(true);
 
     const handleRenewalLogin = () => {
@@ -483,10 +487,25 @@ function HomeContent({
     }
         
 
-    const handleLogout = async () => {
+    const xxxxhandleLogout = async () => {
         await supabase.auth.signOut();
         window.location.href = '/'; 
     };
+
+    const executeLogout = async () => {
+        await supabase.auth.signOut();
+        window.location.href = '/';
+    };
+
+    const handleLogout = async () => {
+        if (portfolioCountRef.current > 0) {
+            setIsLogoutModalOpen(true);
+        } else {
+            await executeLogout();
+        }
+    };
+
+
 
     const handleManageAccount = () => setIsManageAccountModalOpen(true);
 
@@ -664,7 +683,8 @@ function HomeContent({
                 <LibraryUI 
                     showLibrary={showLibrary}
                     setShowLibrary={setShowLibrary}
-                    onGoHome={() => {
+                    onGoHome={(count = 0) => {
+                        portfolioCountRef.current = count;
                         setShowLibrary(false);
                         setIsHomeActive(true);
                     }}
@@ -680,6 +700,16 @@ function HomeContent({
                 isOpen={isLoginModalOpen}
                 onClose={() => setIsLoginModalOpen(false)}
                 onSuccess={handleLoginSuccess}
+            />
+
+            <LogoutModal
+                isOpen={isLogoutModalOpen}
+                onConfirmLogout={executeLogout}
+                onReturnToWorkspace={() => {
+                    setIsLogoutModalOpen(false);
+                    setIsHomeActive(false);
+                    setShowLibrary(true);
+                }}
             />
 
             <AccountModal 

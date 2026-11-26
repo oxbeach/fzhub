@@ -7,7 +7,7 @@ import '../Styles/Global/Help.css';
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
 // Update this list with active letters in your glossary as you add terms
-const ACTIVE_LETTERS = new Set(['A', 'B', 'C', 'D', 'F', 'H', 'L', 'M', 'P', 'R', 'S', 'T', 'W']);
+const ACTIVE_LETTERS = new Set(['A', 'B', 'C', 'D', 'E', 'F', 'H', 'L', 'M', 'P', 'R', 'S', 'T', 'W']);
 
 export function HelpCard({ card }) {
   const { closeHelp, bringToFront, updatePosition, openHelp } = useHelp();

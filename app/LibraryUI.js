@@ -341,7 +341,7 @@ export default function LibraryUI({
                     {/* HOME Button */}
                     <Hint text="Return to home page" position="left">
                         <button 
-                            onClick={onGoHome}
+                            onClick={() => onGoHome(portfolios?.length ?? 0)}
                             className="basic-3d-button"
                             style={{ width: '70px', fontSize: '10px' }}
                         >
@@ -383,14 +383,17 @@ export default function LibraryUI({
                                 </button>
                             </Hint>
 
-                            <Hint text="Modify default settings" position="bottom">
+                             <Hint text="Create a portfolio and place in Library" position="bottom">
                                 <button 
-                                    onClick={() => setShowSettingsModal(true)}
+                                    onClick={handleOpenCreateModal} 
                                     className="basic-3d-button"
+                                    onKeyDown={(e) => { if (e.key === 'Tab') { e.preventDefault(); } }}
                                 >
-                                    Settings
+                                    Create
                                 </button>
                             </Hint>
+
+                            
 
                             <Hint text="Rename a portfolio" position="bottom">
                                 <button 
@@ -398,6 +401,15 @@ export default function LibraryUI({
                                     className="basic-3d-button"
                                 >
                                     Rename
+                                </button>
+                            </Hint>
+
+                             <Hint text="Permanently remove a portfolio" position="bottom">
+                                <button 
+                                    onClick={() => setShowDeleteModal(true)} 
+                                    className="basic-3d-button"
+                                >
+                                    Delete
                                 </button>
                             </Hint>
 
@@ -410,22 +422,12 @@ export default function LibraryUI({
                                 </button>
                             </Hint>
                             
-                            <Hint text="Permanently remove a portfolio" position="bottom">
+                            <Hint text="Modify default settings" position="bottom">
                                 <button 
-                                    onClick={() => setShowDeleteModal(true)} 
+                                    onClick={() => setShowSettingsModal(true)}
                                     className="basic-3d-button"
                                 >
-                                    Delete
-                                </button>
-                            </Hint>
-
-                            <Hint text="Create a portfolio and place in Library" position="bottom">
-                                <button 
-                                    onClick={handleOpenCreateModal} 
-                                    className="basic-3d-button"
-                                    onKeyDown={(e) => { if (e.key === 'Tab') { e.preventDefault(); } }}
-                                >
-                                    Create
+                                    Settings
                                 </button>
                             </Hint>
 

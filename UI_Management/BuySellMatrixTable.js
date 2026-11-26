@@ -7,6 +7,7 @@ export const BuySellMatrixTable = ({ thisPortfolio }) => {
   const rollingMatrix = thisPortfolio.RollingMatrix;
 
   const hoverTimer = React.useRef(null);
+  const containerRef = React.useRef(null);
 
   const [hovered, setHovered] = useState(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 }); 
@@ -86,7 +87,7 @@ export const BuySellMatrixTable = ({ thisPortfolio }) => {
     : (activeCellObj ?? "");
 
   return (
-    <div style={{ position: 'relative' }}> 
+    <div ref={containerRef} style={{ position: 'relative' }}> 
       <table className="rm-table">
         <tbody onMouseLeave={() => setHovered(null)}>
           {rollingMatrix.matrix.map((row, rIdx) => {
@@ -142,6 +143,12 @@ export const BuySellMatrixTable = ({ thisPortfolio }) => {
                   } else if (cIdx === rollingMatrix.idxPeriod_1 && rIdx > 0) {
                     type = "label-cell axis-buy-cell";
                   }
+
+                  const isStatCell =
+                    !type.includes("label-cell") &&
+                    type !== "header-cell" &&
+                                  ((rIdx >= rollingMatrix.idxColStats && cIdx > 0) ||
+                                    (rIdx > 0 && cIdx > rollingMatrix.idxPeriod_2));
 
                   // --- 2. DATA LOOKUP (TRANSPOSED VS BOTTOM COL STATS) ---
                   if (type === "matrix-data-cell" && isDataColumn) {
@@ -250,9 +257,16 @@ export const BuySellMatrixTable = ({ thisPortfolio }) => {
                       key={cIdx} 
                       onMouseEnter={() => setHovered({ r: rIdx, c: cIdx, type })}
                       onMouseMove={(e) => {
+                        const el = containerRef.current;
+                        if (!el) return;
+
+                        const rect = el.getBoundingClientRect();
+                        const scaleX = rect.width / (el.offsetWidth || 1);
+                        const scaleY = rect.height / (el.offsetHeight || 1);
+
                         setTooltipPos({
-                          x: e.clientX + 15,  // 170
-                          y: e.clientY + 15   // 170
+                          x: (e.clientX - rect.left) / scaleX + 15,
+                          y: (e.clientY - rect.top) / scaleY + 15
                         });
                       }}
                       onMouseLeave={() => {
@@ -260,7 +274,7 @@ export const BuySellMatrixTable = ({ thisPortfolio }) => {
                         setHovered(null);
                       }}
                       onClick={() => onCellClick(rIdx, cIdx, type)}
-                      className={`${type} ${finalHighlightClass} ${showTriggerBold ? 'is-bold' : ''} ${isTriggerActive ? 'axis-active' : ''} ${floorClass}`}
+                      className={`${type} ${isStatCell ? 'stat-cell' : ''} ${finalHighlightClass} ${showTriggerBold ? 'is-bold' : ''} ${isTriggerActive ? 'axis-active' : ''} ${floorClass}`}
                       style={{ 
                            backgroundColor: type === "matrix-data-cell" 
                              ? (isDataColumn ? (cell?.c || 'transparent') : (isSummaryColumn ? summaryCellColor : undefined)) 
@@ -277,12 +291,12 @@ export const BuySellMatrixTable = ({ thisPortfolio }) => {
         </tbody>
       </table>
 
-      {/* --- FLOATING VIEWPORT TOOLTIP CONTAINER --- */}
+      {/* --- FLOATING CONTAINER TOOLTIP CONTAINER --- */}
       {activeCellObj && typeof activeCellObj === 'object' && (
         <div 
-          className="chart-tooltip-summary"
+          className="chart-tooltip-summary-absolute"
           style={{ 
-            position: 'fixed', 
+            position: 'absolute', 
             left: `${tooltipPos.x}px`,
             top: `${tooltipPos.y}px`,
             backgroundColor: activeCellObj.c || '#333', 

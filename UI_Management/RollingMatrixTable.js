@@ -4,6 +4,7 @@ import '../Styles/RollingReturnMatrix/RollingMatrix.css';
 export const RollingMatrixTable = ({ rollingMatrix }) => {
 
   const hoverTimer = React.useRef(null);
+  const containerRef = React.useRef(null);
 
   const [hovered, setHovered] = useState(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 }); // 🎯 Track real-time mouse position
@@ -44,7 +45,7 @@ export const RollingMatrixTable = ({ rollingMatrix }) => {
     : (activeCellObj ?? "");
 
   return (
-    <div style={{ position: 'relative' }}> {/* Boundary container for coordinate safety */}
+    <div ref={containerRef} style={{ position: 'relative' }}> {/* Boundary container for coordinate safety */}
       <table className="rm-table">
         <tbody onMouseLeave={() => setHovered(null)}>
           {rollingMatrix.matrix.map((row, rIdx) => {
@@ -70,9 +71,16 @@ export const RollingMatrixTable = ({ rollingMatrix }) => {
                   const cellValue = cell && typeof cell === 'object' ? cell.d : (cell ?? "");
                   
                   let type = "matrix-data-cell";
+
                   if (rIdx === 0) type = "header-cell";
                   else if (cIdx === rollingMatrix.idxPeriod_1 || cIdx === rollingMatrix.idxPeriod_2) type = "label-cell";
                   else if (!cell || cellValue === "") type = "empty-cell";
+
+                  const isStatCell =
+                    type !== "label-cell" &&
+                    type !== "header-cell" &&
+                                           ((rIdx >= rollingMatrix.idxColStats && cIdx > 0) ||
+                                           (rIdx > 0 && cIdx > rollingMatrix.idxPeriod_2));
 
                   const currentDiag = cIdx - rIdx;
                   const isDataColumn = cIdx > rollingMatrix.idxPeriod_1 && cIdx < rollingMatrix.idxPeriod_2;
@@ -83,7 +91,12 @@ export const RollingMatrixTable = ({ rollingMatrix }) => {
                   const isDiagHit = (clickedDiagonals.has(currentDiag) || 
                                     (hovered?.r === 1 && hovered?.type === "matrix-data-cell" && (hovered.c - hovered.r) === currentDiag))
                                     && isDataColumn && rIdx > 0;
-                  const isHoveredTarget = hovered?.r === rIdx && hovered?.c === cIdx && (type === "matrix-data-cell" || type === "empty-cell");
+
+                  const isHoveredTarget =
+                                hovered?.r === rIdx &&
+                                hovered?.c === cIdx &&
+                                type === "matrix-data-cell" &&
+                                type !== "empty-cell";
 
                   // --- 3. THE WINNER'S CIRCLE ---
                   let finalHighlightClass = "";
@@ -116,22 +129,31 @@ export const RollingMatrixTable = ({ rollingMatrix }) => {
 
                   const floorClass = isStatFloorStart ? "stat-floor-delimiter" : "";
 
+                  let finalClassName = `${type} ${isStatCell ? 'stat-cell' : ''} ${finalHighlightClass} ${showTriggerBold ? 'is-bold' : ''} ${isTriggerActive ? 'axis-active' : ''} ${floorClass}`;
+
                   return (
                     <td 
                       key={cIdx} 
                       onMouseEnter={() => setHovered({ r: rIdx, c: cIdx, type })}
                       onMouseMove={(e) => {
+                        const el = containerRef.current;
+                        if (!el) return;
+
+                        const rect = el.getBoundingClientRect();
+                        const scaleX = rect.width / (el.offsetWidth || 1);
+                        const scaleY = rect.height / (el.offsetHeight || 1);
+
                         setTooltipPos({
-                          x: e.clientX + 15, //170
-                          y: e.clientY + 15  //170
+                          x: (e.clientX - rect.left) / scaleX + 20,
+                          y: (e.clientY - rect.top) / scaleY + 20 
                         });
                       }}
                       onMouseLeave={() => {
                         if (hoverTimer.current) clearTimeout(hoverTimer.current);
                         setHovered(null);
                       }}
-                      onClick={() => onCellClick(rIdx, cIdx, type)}
-                      className={`${type} ${finalHighlightClass} ${showTriggerBold ? 'is-bold' : ''} ${isTriggerActive ? 'axis-active' : ''} ${floorClass}`}
+                      onClick={() => { if (!isStatCell) onCellClick(rIdx, cIdx, type); }}
+                      className={finalClassName}
                       style={{ backgroundColor: type === "matrix-data-cell" ? (cell?.c || 'transparent') : undefined }}
                     >
                       {cellValue}
@@ -147,9 +169,9 @@ export const RollingMatrixTable = ({ rollingMatrix }) => {
       {/* 🎯 SINGLE CENTRALIZED TOOLTIP COMPONENT */}
       {activeCellObj && typeof activeCellObj === 'object' && (
         <div 
-          className="chart-tooltip-summary"
+          className="chart-tooltip-summary-absolute"
           style={{ 
-            position: 'fixed',
+            position: 'absolute',
             left: `${tooltipPos.x}px`,
             top: `${tooltipPos.y}px`,
             backgroundColor: activeCellObj.c || '#333', 
