@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useHelp } from '../Help/HelpContext';
+import { Hint }    from '../Help/Hint';
+
+import '../Styles/Global/Home.css';
 
 export const SubscriptionModal = ({ 
     isOpen, 
@@ -138,6 +141,21 @@ export const SubscriptionModal = ({
                                 Cancel
                             </button>
                         </div>
+
+                        <Hint text="Terms of Service" position="bottom">
+                            <button 
+                                className="basic-3d-button home-card-btn"
+                                style={{
+                                    fontSize: '1.0rem',
+                                    fontWeight: 'bold',
+                                    padding: '6px 24px',
+                                    cursor: 'pointer'
+                                }}
+                                onClick={() => openHelp('terms-service', false, true)} 
+                            >
+                                Terms of Service
+                            </button>
+                        </Hint>
 
                         <div className="button-group-right" style={{ display: 'flex', gap: '8px' }}>
                             

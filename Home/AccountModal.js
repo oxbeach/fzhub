@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useHelp } from '../Help/HelpContext';
+import { Hint }    from '../Help/Hint';
+
+import { isReal }  from '../Utils/appMode';
 
 import '../Styles/Global/Account.css';
+import '../Styles/Global/Home.css';
 
 export const AccountModal = ({ 
     isOpen, 
@@ -79,6 +83,21 @@ export const AccountModal = ({
         if (e) e.preventDefault();
         setErrorMessage('');
 
+        if (!isReal) {
+        const selectedAmount = selectedPass === '30_day' ? monthPrice : yearPrice;
+
+        if (onProceedToCheckout) {
+            onProceedToCheckout({
+                email: email || '',
+                password: '',
+                passType: selectedPass,
+                amount: selectedAmount,
+                useExistingAccount: false
+            });
+        }
+        return;
+    }
+
         if (!email) {
             setErrorMessage('Please enter a valid email address.');
             return;
@@ -115,6 +134,12 @@ export const AccountModal = ({
         }
     };
 
+    const handleInputFocus = () => {
+        if (errorMessage) {
+            setErrorMessage(""); // or null / setError("") depending on your state
+        }
+        };
+
     
 
     return (
@@ -123,7 +148,11 @@ export const AccountModal = ({
 
                 {/* --- HEADER TITLE PILL --- */}
                 <div className="header-region-title-2">
-                    {useExistingAccount ? 'Account & Access Pass' : 'Create Account'}
+                    {!isReal
+                        ? 'Subscriptions'
+                        : useExistingAccount
+                            ? 'Account & Access Pass'
+                            : 'Create Account'}
                 </div>
 
                 {/* --- TOP-RIGHT EXIT BUTTON --- */}
@@ -211,165 +240,154 @@ export const AccountModal = ({
                             Full Details
                         </button>
                     </div>
-                </div>       
-
-                {!useExistingAccount && (
-                    <div className="define-globals-panel" style={{ position: 'relative' }}>
-
-                        <div className="panel-section-title">
-                            Existing Subscriber: First Log In for Renewal
-                        </div>
-
-                        <div className="button-group-right" style={{width: '100%'} }>
-                            <button 
-                                type="button"
-                                className="basic-3d-button" 
-                                style={{ minHeight: '22px', minWidth: '85px', marginRight: '20px' }}
-                                onKeyDown={(e) => { if (e.key === 'Tab') { e.preventDefault(); } }}
-                                onClick={handleRenewalLogin}
-                                
-                            >
-                                LOG IN
-                            </button>
-                        </div>      
-
-                    </div>
-                )}
+                </div>    
 
 
+                   
 
-                <div className="define-globals-panel" style={{ position: 'relative' }}>
-                    {/* SECTION 2: ACCOUNT & CREDENTIALS */}
-                    <div className="account-subtitle" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                {isReal && (
+                    <>
+                        {!useExistingAccount && (
+                            <div className="define-globals-panel" style={{ position: 'relative' }}>
 
-                        <div className="panel-section-title">
-                            {useExistingAccount ? 'Log In Account Information' : 'Guest: Create an Account'}
-                        </div>
+                                <div className="panel-section-title">
+                                    Existing Subscriber: First Log In for Renewal
+                                </div>
 
-                        {/*{isLoggedIn && (          this allow gift subscription from current user to a new account user*/}
-                        {false && (
-                            <div className="account-type-toggle">
-                                <label className="radio-label">
-                                    <input 
-                                        type="radio"
-                                        name="accountChoice"
-                                        checked={useExistingAccount}
-                                        onChange={() => handleToggleExistingAccount(true)}
-                                    />
-                                    <span>Use current account (<span className="account-login-name" title={currentUserEmail}>{currentUserEmail}</span>)</span>
-                                </label>
+                                <div className="button-group-right" style={{ width: '100%' }}>
+                                    <button 
+                                        type="button"
+                                        className="basic-3d-button" 
+                                        style={{ minHeight: '22px', minWidth: '85px', marginRight: '20px' }}
+                                        onKeyDown={(e) => { if (e.key === 'Tab') { e.preventDefault(); } }}
+                                        onClick={handleRenewalLogin}
+                                    >
+                                        LOG IN
+                                    </button>
+                                </div>      
 
-                                <label className="radio-label">
-                                    <input 
-                                        type="radio"
-                                        name="accountChoice"
-                                        checked={!useExistingAccount}
-                                        onChange={() => handleToggleExistingAccount(false)}
-                                    />
-                                    Create new account
-                                </label>
                             </div>
                         )}
-                    </div>
 
-                    <div className="account-form-credentials-group">
+                        <div className="define-globals-panel" style={{ position: 'relative' }}>
+                            {/* SECTION 2: ACCOUNT & CREDENTIALS */}
+                            <div className="account-subtitle" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
-                        {/* Email Row */}
-                        <div className="credentials-row">
-                            <label className="cred-col-label">Email:</label>
-                            <input 
-                                autoFocus
-                                type="email" 
-                                placeholder="user@example.com"
-                                value={email}
-                                readOnly={useExistingAccount && isLoggedIn}
-                                maxLength={254}
-                                onChange={(e) => setEmail(e.target.value)}
-                                style={{ 
-                                    width: '310px', 
-                                    height: '32px', 
-                                    boxSizing: 'border-box',
-                                    backgroundColor: (useExistingAccount && isLoggedIn) ? '#f0f0f0' : '#ffffff'
-                                }}
-                            />
-
-                            {/* Empty dummy placeholder div matching button column width */}
-                            <div className="cred-col-action-placeholder" />
-
-                        </div>
-
-                        {/* Conditionally Render Passwords only when creating a new account */}
-                        {!useExistingAccount && (
-                            <>
-                                {/* Password Row */}
-                                <div className="credentials-row">
-
-                                    <label className="cred-col-label">
-                                        Password:
-                                    </label>
-
-                                    <div className="cred-col-input">
-                                        <input 
-                                            style={{ 
-                                                width: '100%', 
-                                                height: '32px', 
-                                                boxSizing: 'border-box',
-                                                backgroundColor: '#ffffff'
-                                            }}
-                                            type={showPassword ? "text" : "password"} 
-                                            placeholder="••••••••"
-                                            value={password}
-                                            maxLength={128}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                        />
-                                    </div>
-
-                                    <div className="cred-col-action">
-                                        <button 
-                                            type="button" 
-                                            className="basic-3d-button"
-                                            onClick={() => setShowPassword(!showPassword)}
-                                        >
-                                            {showPassword ? 'HIDE' : 'SHOW'}
-                                        </button>
-                                    </div>
-                                   
+                                <div className="panel-section-title">
+                                    {useExistingAccount ? 'Log In Account Information' : 'Guest: Create an Account'}
                                 </div>
 
+                                {false && (
+                                    <div className="account-type-toggle">
+                                        <label className="radio-label">
+                                            <input 
+                                                type="radio"
+                                                name="accountChoice"
+                                                checked={useExistingAccount}
+                                                onChange={() => handleToggleExistingAccount(true)}
+                                            />
+                                            <span>Use current account (<span className="account-login-name" title={currentUserEmail}>{currentUserEmail}</span>)</span>
+                                        </label>
 
-                                <div className="credentials-row">
-                                    <label className="cred-col-label">
-                                        Confirm Password:
-                                    </label>
-                                    <div className="cred-col-input">
-                                        <input 
-                                            maxLength={128}
-                                            placeholder="••••••••"
-                                            type={showPassword ? 'text' : 'password'}
-                                            value={confirmPassword}
-                                            onChange={(e) => setConfirmPassword(e.target.value)}
-                                            style={{ 
-                                                width: '100%', 
-                                                height: '32px', 
-                                                boxSizing: 'border-box',
-                                                backgroundColor: '#ffffff'
-                                            }}
-                                        />
+                                        <label className="radio-label">
+                                            <input 
+                                                type="radio"
+                                                name="accountChoice"
+                                                checked={!useExistingAccount}
+                                                onChange={() => handleToggleExistingAccount(false)}
+                                            />
+                                            Create new account
+                                        </label>
                                     </div>
+                                )}
+                            </div>
 
-                                      {/* Empty dummy placeholder div matching button column width */}
+                            <div className="account-form-credentials-group">
+                                {/* Email Row */}
+                                <div className="credentials-row">
+                                    <label className="cred-col-label">Email:</label>
+                                    <input 
+                                        autoFocus
+                                        type="email" 
+                                        placeholder="user@example.com"
+                                        value={email}
+                                        readOnly={useExistingAccount && isLoggedIn}
+                                        maxLength={254}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        onFocus={handleInputFocus}
+                                        style={{ 
+                                            width: '310px', 
+                                            height: '32px', 
+                                            boxSizing: 'border-box',
+                                            backgroundColor: (useExistingAccount && isLoggedIn) ? '#f0f0f0' : '#ffffff'
+                                        }}
+                                    />
                                     <div className="cred-col-action-placeholder" />
-
                                 </div>
 
+                                {/* Conditionally Render Passwords only when creating a new account */}
+                                {!useExistingAccount && (
+                                    <>
+                                        {/* Password Row */}
+                                        <div className="credentials-row">
+                                            <label className="cred-col-label">
+                                                Password:
+                                            </label>
+                                            <div className="cred-col-input">
+                                                <input 
+                                                    style={{ 
+                                                        width: '100%', 
+                                                        height: '32px', 
+                                                        boxSizing: 'border-box',
+                                                        backgroundColor: '#ffffff'
+                                                    }}
+                                                    type={showPassword ? "text" : "password"} 
+                                                    placeholder="••••••••"
+                                                    value={password}
+                                                    maxLength={128}
+                                                    onChange={(e) => setPassword(e.target.value)}
+                                                    onFocus={handleInputFocus}
+                                                />
+                                            </div>
+                                            <div className="cred-col-action">
+                                                <button 
+                                                    type="button" 
+                                                    className="basic-3d-button"
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                >
+                                                    {showPassword ? 'HIDE' : 'SHOW'}
+                                                </button>
+                                            </div>
+                                        </div>
 
-                            </>
-                        )}
-
-                    </div>
-
-                    
-                </div>
+                                        <div className="credentials-row">
+                                            <label className="cred-col-label">
+                                                Confirm Password:
+                                            </label>
+                                            <div className="cred-col-input">
+                                                <input 
+                                                    maxLength={128}
+                                                    placeholder="••••••••"
+                                                    type={showPassword ? 'text' : 'password'}
+                                                    value={confirmPassword}
+                                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                                    onFocus={handleInputFocus}
+                                                    style={{ 
+                                                        width: '100%', 
+                                                        height: '32px', 
+                                                        boxSizing: 'border-box',
+                                                        backgroundColor: '#ffffff'
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className="cred-col-action-placeholder" />
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </>
+                )}
 
                 {/* --- FOOTER PANEL --- */}
                 <div className="define-assets-panel">
@@ -383,6 +401,21 @@ export const AccountModal = ({
                                 Cancel
                             </button>
                         </div>
+
+                        <Hint text="Terms of Service" position="bottom">
+                            <button 
+                                className="basic-3d-button home-card-btn"
+                                style={{
+                                    fontSize: '1.0rem',
+                                    fontWeight: 'bold',
+                                    padding: '6px 24px',
+                                    cursor: 'pointer'
+                                }}
+                                onClick={() => openHelp('terms-service', false, true)} 
+                            >
+                                Terms of Service
+                            </button>
+                        </Hint>
 
                         <div className="button-group-right">
                             <button 

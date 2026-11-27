@@ -156,12 +156,15 @@
     text-align: center;
 }
 
+/*
 .home-card-button-group {
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 100%;
 }
+
+
 
 .home-card-btn {
     width: 100%;
@@ -177,10 +180,11 @@
     background-color: green;
 }
 
-/* Combining classes on the same element gives a specificity boost */
+
 button.basic-3d-button.home-card-btn {
-  font-size: 13px; /* Set your target font size here */
+  font-size: 13px; 
 }
+*/
 
 
 

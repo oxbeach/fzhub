@@ -266,17 +266,21 @@ function PortfolioUI({
           </strong>
         </div>
 
+
+
         <div className="fz-rbl-action">
           <Hint text={"Initial definition or edit parameters of this portfolio"} position="bottom">
-            <button 
-              onClick={() => setIsDefining(!isDefining)} 
-              className="fz-btn-compute" 
+            <button
+              onClick={() => setIsDefining(!isDefining)}
+              className="fz-btn-compute"
             >
-              DEFINE Portfolio
+              {portfolioLogic?.isComputed ? "Edit Portfolio" : "Define Portfolio"}
             </button>
           </Hint>
-          <HelpTrigger keyName="portfolio" size="sm" /> 
+          <HelpTrigger keyName="portfolio" size="sm" />
         </div>
+
+
 
         {portfolioLogic?.scoreRM_Total?.isPopulated > 0 && (
           <>

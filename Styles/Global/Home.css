@@ -32,10 +32,11 @@
 }
 
 /* Base Full-Width Button Overrides */
-.home-card-btn {
+.basic-3d-button.home-card-btn {
     width: 100%;
-    padding: 10px 0;
+    padding: 10px 10px;
     font-weight: bold;
+     font-size: 13px; 
 }
 
 /* Button Variants */
@@ -48,9 +49,9 @@
 }
 
 .home-card-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 .processing-overlay {

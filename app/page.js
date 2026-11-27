@@ -5,6 +5,7 @@ import { supabase } from '../Utils/supabase';
 
 import { LAST_FULL_YEAR, LAST_RESTRICTED_YEAR, FIRST_FULL_YEAR } from '../app/api/utils/constants';
 import { daysRemaining } from '../app/api/utils/general';
+import { isReal } from '../Utils/appMode';
 
 import { processDummyPayment } from '../Home/Payment/ProcessPayment_Dummy';
 
@@ -319,6 +320,13 @@ const handleProceedToPayment_new_final_version = async (checkoutParams, closeChe
             subNewAmount,
             simulateSuccess = true
         } = checkoutParams;
+
+        if (!isReal) {
+             openHelp('payment-processing-unfinished', false, false, true, true);
+             //closeCheckoutModal?.();
+             return;
+        }
+               
 
         setIsProcessing(true);  // show the 10s progress bar
 

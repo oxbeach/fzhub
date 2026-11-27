@@ -158,6 +158,19 @@ export function ActionPanelsRow({
               Details
             </button>
           </Hint>
+
+        
+          <Hint text="Terms of Service" position="bottom">
+            <button 
+              className="basic-3d-button home-card-btn"
+              onClick={() => openHelp('terms-service', false, true)} 
+            >
+              Terms of Service
+            </button>
+          </Hint>
+        
+
+
         </div>
       </div>
 

@@ -367,21 +367,21 @@ export default function LibraryUI({
                     <div className="dock-header">
                         <div className="dock-controls">
 
-                            <div className="header-region-title-2">
-                                Portfolio Library
-                                <HelpTrigger keyName="portfolio-library" size="sm" />
-                            </div>
-
                             <Hint text={isGuest ? "File operations prohibited" : "File operations"} position="bottom">
                                 <button 
                                     onClick={() => setShowFileModal(true)}
                                     className="basic-3d-button"
-                                    style={{ paddingLeft: '24px', paddingRight: '24px', minWidth: '70px',minHeight: '28px', marginRight: '20px' }}
+                                    style={{ paddingLeft: '24px', paddingRight: '24px', minWidth: '70px',minHeight: '28px', marginRight: '10px' }}
                                     disabled={isGuest}
                                 >
                                     File
                                 </button>
                             </Hint>
+
+                            <div className="header-region-title-2">
+                                Library
+                                <HelpTrigger keyName="portfolio-library" size="sm" />
+                            </div>
 
                              <Hint text="Create a portfolio and place in Library" position="bottom">
                                 <button 
